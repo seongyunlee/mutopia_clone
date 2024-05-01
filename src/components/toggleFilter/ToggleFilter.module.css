@@ -1,0 +1,27 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    padding: 0 10px;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    font-size: 16px;
+    color: #A0A1A4;
+}
+
+.focus {
+    color: black;
+}
+
+.focus::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 3px;
+    background-color: var(--color-primary);
+    border-radius: 100px;
+    margin-top: 1px;
+}

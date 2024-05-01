@@ -1,0 +1,71 @@
+.frameGroup,
+.frameParent {
+    display: flex;
+    justify-content: flex-start;
+    box-sizing: border-box;
+}
+
+.frameGroup {
+    flex: 1;
+    flex-direction: column;
+    align-items: flex-end;
+    padding: 0 0 var(--padding-8xl);
+    gap: var(--gap-xs);
+}
+
+h1 {
+    position: relative;
+    display: inline-block;
+    margin: 0;
+    font-size: inherit;
+    font-weight: 600;
+    font-family: inherit;
+    min-width: 73px;
+}
+
+.div1 {
+    min-width: 30px;
+    z-index: 1;
+}
+
+.frameItem {
+    width: 30px;
+    height: 3px;
+    position: relative;
+    border-radius: var(--br-8xs);
+    background-color: var(--color-mediumslateblue);
+}
+
+.sectionTitle {
+    font-weight: 600;
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end
+}
+
+.homeSection {
+    margin-top: 12px;
+    margin-bottom: 12px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.home {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    width: 100%;
+    position: relative;
+    flex-direction: column;
+    gap: 14px;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    font-size: var(--font-size-5xl);
+    color: var(--color-black);
+    font-family: var(--font-roboto);
+    padding: 0px 24px
+}

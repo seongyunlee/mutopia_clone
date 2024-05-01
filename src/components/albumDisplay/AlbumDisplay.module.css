@@ -1,0 +1,29 @@
+.frameChild {
+  width: 100px;
+  height: 100px;
+  position: relative;
+  border-radius: var(--br-3xs);
+  object-fit: cover;
+}
+.ditto,
+.div {
+  position: relative;
+  font-weight: 600;
+}
+.div {
+  align-self: stretch;
+  font-size: var(--font-size-3xs);
+  color: var(--color-darkgray);
+}
+.rectangleParent {
+  width: 109px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-6xs);
+  text-align: center;
+  font-size: var(--font-size-xs);
+  color: var(--color-black);
+  font-family: var(--font-roboto);
+}

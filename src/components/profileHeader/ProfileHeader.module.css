@@ -1,0 +1,79 @@
+.userName{
+    color: #383838;
+    font-family: Roboto;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.btnProfileEdit {
+    /** font **/
+    color: #898989;
+    text-align: center;
+    font-family: Roboto;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+
+    display: flex;
+    width: 64px;
+    padding: 5px 15px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    
+    border-radius: 12px;
+    border: none;
+    background: var(--Schemes-Primary-Container, #EADDFF);
+    transition: all 0.2s ;
+  }
+
+.btnProfileEdit:hover {
+    background: #7B61FF;
+}
+
+.profileContainerFirst{
+    margin-top: 20px;
+    display: flex; /* Flexbox 레이아웃 사용 */
+    justify-content: space-between; /* 컴포넌트를 양쪽 끝에 배치 */
+    align-items: center; /* 수직 중심 정렬 */
+    padding: 10px 20px;
+}
+
+.profilePhoto{
+    width: 70px;
+    height: 70px;
+    flex-shrink: 0;
+    border-radius: 70px;
+    border: 1px solid #C1C1C1;
+    background: url('/public/circleprofile.svg') lightgray 50% / cover no-repeat;
+}
+
+.profileContainerSecond{
+    display: flex; /* Flexbox 레이아웃 사용 */
+    justify-content: space-between; /* 컴포넌트를 양쪽 끝에 배치 */
+    align-items: center; /* 수직 중심 정렬 */
+    padding: 10px 20px;
+}
+
+.profileContainerThird{
+    display: flex; /* Flexbox 레이아웃 사용 */
+    justify-content: space-between; /* 컴포넌트를 양쪽 끝에 배치 */
+    align-items: center; /* 수직 중심 정렬 */
+    padding: 10px 20px;
+
+    color: #383838;
+    font-family: Roboto;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px; /* 114.286% */
+}
+
+.profileContainer{
+    display: flex; /* Flexbox 레이아웃 사용 */
+    flex-direction: column;
+    gap: 10px;
+}

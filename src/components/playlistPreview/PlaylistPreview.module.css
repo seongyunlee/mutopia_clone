@@ -1,0 +1,159 @@
+.container {
+    min-width: 340px !important;
+    flex-direction: column;
+    padding: 16px 20px;
+    text-align: left;
+    font-size: 14px;
+    border-radius: 10px;
+    background-color: white;
+    border: 1px solid #d9d9d9;
+    box-sizing: border-box;
+}
+
+.playlistDesc {
+    font-size: 14px;
+    color: #A0A1A4;
+
+}
+
+.infoContainer {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 12px;
+}
+
+.infoDetailContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-self: center;
+}
+
+.albumImg {
+    height: 100px;
+    width: 100px;
+    border-radius: 4px;
+}
+
+.authorContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 7px;
+    font-size: 14px;
+    align-items: center;
+}
+
+.authorProfileImg {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.albumName {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.albumArtist {
+    font-size: 14px;
+    color: #A0A1A4;
+}
+
+.playlistTitle {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 9px;
+}
+
+.likeContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    align-items: center;
+    font-size: 12px;
+}
+
+.likeContainer > img {
+    width: 20px;
+    height: 20px;
+}
+
+.headerContainer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.footerContainer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 10px;
+    margin-top: 18px;
+}
+
+.reviewContent {
+    font-size: 20px;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.reviewDate {
+    font-size: 12px;
+    color: #A0A1A4;
+}
+
+.cover {
+    position: absolute;
+    height: 100%;
+    top: 0;
+    bottom: 0;
+    left: 225px;
+    border-radius: var(--br-8xs);
+    max-height: 100%;
+    width: 90px;
+    object-fit: cover;
+}
+
+.coverContainer > .cover:nth-child(1) {
+    left: 0;
+    z-index: 10;
+}
+
+.coverContainer > .cover:nth-child(2) {
+    left: 45px;
+    z-index: 9;
+}
+
+.coverContainer > .cover:nth-child(3) {
+    left: 90px;
+    z-index: 8;
+}
+
+.coverContainer > .cover:nth-child(4) {
+    left: 135px;
+    z-index: 7;
+}
+
+.coverContainer > .cover:nth-child(5) {
+    left: 180px;
+    z-index: 6;
+}
+
+.coverContainer > .cover:nth-child(6) {
+    left: 225px;
+    z-index: 5;
+}
+
+
+.coverContainer {
+    height: 90px;
+    flex: 1;
+    position: relative;
+    margin-bottom: 20px;
+
+}

@@ -1,0 +1,80 @@
+.container {
+    min-width: 340px !important;
+    flex-direction: column;
+    padding: 10px;
+    text-align: left;
+    font-size: 14px;
+    border-radius: 10px;
+    background-color: white;
+    border: 1px solid #d9d9d9;
+    box-sizing: border-box;
+}
+
+.infoContainer {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 12px;
+}
+
+.infoDetailContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-self: center;
+}
+
+.albumImg {
+    height: 100px;
+    width: 100px;
+    border-radius: 4px;
+}
+
+.authorContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 7px;
+    font-size: 14px;
+    align-items: center;
+}
+
+.authorProfileImg {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.albumName {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.albumArtist {
+    font-size: 14px;
+    color: #A0A1A4;
+}
+
+.playlistTitle {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.spaceAroundContainer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.reviewContent {
+    font-size: 16px;
+    margin-bottom: 8px;
+    font-weight: 300;
+}
+
+.reviewDate {
+    font-size: 14px;
+    color: #A0A1A4;
+}

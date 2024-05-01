@@ -1,0 +1,116 @@
+.h1 {
+    margin: 0;
+    height: 41px;
+    flex: 1;
+    position: relative;
+    font-size: inherit;
+    font-weight: 600;
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    min-width: 90px;
+}
+
+.div,
+.frameChild {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+}
+
+.frameChild {
+    top: 0;
+    left: 0;
+    background-color: var(--color-gold);
+}
+
+.div {
+    top: 1px;
+    left: 6px;
+    display: inline-block;
+    z-index: 1;
+}
+
+.rectangleParent {
+    align-self: stretch;
+    height: 26px;
+    position: relative;
+}
+
+.frameDiv {
+    width: 31px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: var(--padding-10xs) 0 0;
+    box-sizing: border-box;
+    font-size: var(--font-size-xl);
+    font-family: var(--font-inter);
+}
+
+.parent {
+    flex-direction: row;
+    max-width: 100%;
+}
+
+.parent {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: var(--gap-40xl);
+}
+
+.frameGroup,
+.frameWrapper1 {
+
+}
+
+.frameGroup {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 11px 7px;
+    min-height: 291px;
+}
+
+.frameWrapper1 {
+    border-radius: var(--br-3xs);
+    background-color: var(--color-white);
+    overflow: hidden;
+    flex-direction: column;
+    padding: var(--padding-xs) var(--padding-mid);
+    text-align: center;
+    font-size: var(--font-size-xs);
+}
+
+.frameWrapper {
+    display: flex;
+    align-items: flex-start;
+    max-width: 100%;
+}
+
+.frameWrapper {
+
+}
+
+
+.container {
+    box-sizing: border-box;
+    width: 100%;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 8px;
+    align-items: flex-start;
+    max-width: 100%;
+    align-self: stretch;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    box-sizing: border-box;
+    text-align: left;
+    font-size: var(--font-size-5xl);
+    color: var(--color-black);
+    font-family: var(--font-roboto);
+}
