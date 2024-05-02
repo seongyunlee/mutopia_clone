@@ -1,83 +1,51 @@
 import AlbumWall from "../../components/albumWall/AlbumWall";
-import styles from "./Home.module.css";
+import styles from "./Home.module2.css";
 import ReviewPreview from "../../components/reviewPreview/ReviewPreview";
 import PlaylistPreview from "../../components/playlistPreview/PlaylistPreview";
 import ToggleFilter from "../../components/toggleFilter/ToggleFilter";
 import TrackReview from "../../components/trackReview/TrackReview";
-import {useContext, useEffect} from "react";
-import {UserContext} from "../../context/UserContext";
-
-const Home = () => {
-    const onContainerClick = () => {
-    };
-
-    const userInfo = {};
-
-    const {user, setUser} = useContext(UserContext);
+import {useState} from "react";
 
 
-    const getJWT = () => {
-        // get token from query string "accessToken"
-        const query = window.location.search;
-        const urlParams = new URLSearchParams(query);
-        const token = urlParams.get('accessToken');
-        return token;
-    }
-
-    const saveJWT = (token) => {
-        localStorage.setItem('accessToken', token);
-    }
-
-    useEffect(() => {
-        handleLoginCallback();
-    }, []);
-
-    const handleLoginCallback = () => {
-        if (window.location.search.includes('accessToken')) {
-            const token = getJWT();
-            saveJWT(token);
-            location.href = '/';
-            return true;
-        }
-        return false;
-    }
-
+const HomeLogOut = () => {
+    const [showLoginModal, setShowLoginModal] = useState(false);
+    const [showSignUpModal, setShowSignUpModal] = useState(false);
 
     const handleLogin = () => {
-
-    }
+        setShowLoginModal(true);
+    };
 
     const handleSignUp = () => {
-
-    }
-
+        setShowSignUpModal(true);
+    };
 
     return (
         <div className={styles.home}>
-            {user.id ? (
-                    <section className={styles.homeSection}>
-                        <div className={styles.sectionTitle}>팔로워들의 최근 업로드</div>
-                        <div className="verticalScroll">
-                            <ReviewPreview
-                                ellipse85="/ellipse-85@2x.png"
-                                iFeel="I feel"
-                                rectangle1480="/rectangle-1480@2x.png"
-                                prop="아이들 리뷰 제목"
-                                onContainerClick={onContainerClick}
-                            />
-                            <ReviewPreview
-                                ellipse85="/ellipse-85@2x.png"
-                                iFeel="I feel"
-                                rectangle1480="/rectangle-1480@2x.png"
-                                prop="아이들 리뷰 제목"
-                                onContainerClick={onContainerClick}/>
-                        </div>
-                    </section>) :
-                <div className={styles.mutopiaInfo}>
-                    <p>Mutopia는 모든 음악 애호가들이 음악에 대한 경험을 기록하고 공유할 수 있는 공간입니다.</p>
-                    <p>여러분만의 플레이리스트를 만들고, 좋아하는 앨범에 대한 리뷰를 남기며 음악의 세계를 더 깊이 탐험할 수 있습니다. </p>
-                    <p>지금 가입하고, 음악적 여정을 함께 할 커뮤니티를 만나보세요.</p>
-                </div>}
+            <div className={styles.mutopiaInfo}>
+                <p>Mutopia는 모든 음악 애호가들이 음악에 대한 경험을 기록하고 공유할 수 있는 공간입니다.</p>
+                <p>여러분만의 플레이리스트를 만들고, 좋아하는 앨범에 대한 리뷰를 남기며 음악의 세계를 더 깊이 탐험할 수 있습니다. </p>
+                <p>지금 가입하고, 음악적 여정을 함께 할 커뮤니티를 만나보세요.</p>
+                <button onClick={handleLogin}>Log In</button>
+                <button onClick={handleSignUp}>Sign Up</button>
+            </div>
+            <section className={styles.homeSection}>
+                <div className={styles.sectionTitle}>팔로워들의 최근 업로드</div>
+                <div className="verticalScroll">
+                    <ReviewPreview
+                        ellipse85="/ellipse-85@2x.png"
+                        iFeel="I feel"
+                        rectangle1480="/rectangle-1480@2x.png"
+                        prop="아이들 리뷰 제목"
+                        onContainerClick={onContainerClick}
+                    />
+                    <ReviewPreview
+                        ellipse85="/ellipse-85@2x.png"
+                        iFeel="I feel"
+                        rectangle1480="/rectangle-1480@2x.png"
+                        prop="아이들 리뷰 제목"
+                        onContainerClick={onContainerClick}/>
+                </div>
+            </section>
             <section>
                 <div className={styles.sectionTitle}>트렌딩 앨범</div>
                 <AlbumWall/>
@@ -135,4 +103,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default HomeLogOut;
