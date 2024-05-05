@@ -6,6 +6,8 @@ import FooterNav from "./components/footer/FooterNav";
 import Profile from "./pages/profile/Profile";
 import EditProfile from "./pages/editProfile/EditProfile";
 import UserContextProvider from "./context/UserContext";
+import Search from "./pages/search/Search";
+import AlbumDetail from "./pages/albumDetail/AlbumDetail";
 
 function App() {
 
@@ -18,6 +20,8 @@ function App() {
                         <Route path="/" element={<Home/>}/>
                         <Route path="/profile" element={<Profile/>}/>
                         <Route path="/editProfile" element={<EditProfile/>}/>
+                        <Route path="/search" element={<Search/>}/>
+                        <Route path="/albumDetail" element={<AlbumDetail/>}/>
                     </Routes>
                 </div>
                 <FooterNav/>

@@ -16,7 +16,11 @@ const FooterNav = ({}) => {
     }
 
     function navigateeditProfile() {
-        navigate("/editProfile");
+        navigate("/albumDetail");
+    }
+
+    function navigateSearch() {
+        navigate("/search");
     }
 
     return (
@@ -28,9 +32,8 @@ const FooterNav = ({}) => {
             <div className={styles.footerItemContainer} onClick={navigateeditProfile}>
                 <img loading="lazy" alt="" src="/menuIcon.svg"/>
                 <span className={styles.footerItemDesc}>메뉴</span>
-
             </div>
-            <div className={styles.footerItemContainer}>
+            <div className={styles.footerItemContainer} onClick={navigateSearch}>
                 <img loading="lazy" alt="" src="/findIcon.svg"/>
                 <span className={styles.footerItemDesc}>찾기</span>
             </div>
@@ -39,6 +42,7 @@ const FooterNav = ({}) => {
                 <span className={styles.footerItemDesc}>프로필</span>
             </div>
         </nav>
+    
     );
 };
 
