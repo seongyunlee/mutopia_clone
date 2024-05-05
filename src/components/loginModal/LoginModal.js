@@ -1,4 +1,5 @@
 import styles from './LoginModal.module.css';
+import {useEffect, useRef} from "react";
 
 const LoginModal = () => {
 
@@ -10,10 +11,21 @@ const LoginModal = () => {
         document.location.href = `${process.env.REACT_APP_API_HOST}/oauth2/authorization/google`
     }
 
+    const modal = useRef();
+
+    const handleBackdropClick = (event) => {
+        if (event.target === modal.current) {
+            modal.current.close();
+        }
+    }
+
+    useEffect(() => {
+        document.addEventListener('click', handleBackdropClick);
+    }, []);
 
     return (
         <div>
-            <dialog id="loginModal" className={styles.loginModal}>
+            <dialog id="loginModal" className={styles.loginModal} ref={modal}>
                 <div className={styles.loginHeader}>
                     로그인하기
                 </div>
@@ -23,7 +35,7 @@ const LoginModal = () => {
                         <div>카카오로 로그인하기</div>
                     </div>
                     <div className={styles.loginItemIcon} className={styles.loginItem} onClick={moveToGoogleLogin}>
-                        <img alt="구글" src="/google-icon.svg" className={styles.loginItemIcon}></img>
+                        <img alt="구글" src="/google-icon.png" className={styles.loginItemIcon}></img>
                         <div>구글로 로그인하기</div>
                     </div>
                 </div>

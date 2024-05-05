@@ -10,10 +10,10 @@ const ProfileHeader = () => {
                 </button>
             </div>
             <div className={styles.profileContainerSecond}>
-                <img src="/circleprofile.svg" alt="profile" className={styles.profilePhoto}/>
+                <img src="/defaultProfile.svg" alt="profile" className={styles.profilePhoto}/>
             </div>
             <div className={styles.profileContainerThird}>이름과 바이오</div>
-            
+
         </header>
     );
 };
