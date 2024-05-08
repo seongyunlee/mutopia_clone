@@ -112,7 +112,8 @@ const AlbumDetailsPage = (props) => {
     console.log(props.albumId)
     const [reviewWriteModalOpen, setReviewWriteModalOpen] = useState(false);
     const reviewWriteModalBackground = useRef();
-        
+
+    return (        
       <div className={styles.albumPage}>
         <div className={styles.albumArtContainer}>
           <img src="/path/to/your/image.png" alt="Album Art" className={styles.albumArt} />
