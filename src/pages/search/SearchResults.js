@@ -1,6 +1,9 @@
 import styles from "./Search.module.css";
+import axios from "axios";
 import {useState, useContext, useEffect} from "react";
+import {useNavigate} from "react-router-dom";
 
+const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiIiLCJpYXQiOjE3MTUxNTgwNzksImV4cCI6MTc0NjY5NDA3OSwiYXVkIjoiIiwic3ViIjoidGVzdHVzZXIifQ._zVQhiluqkNvElvU45WPH2gaoPB7J_c_ZvTOU3zqvD0"
 const SearchBox = ({value, onChange}) => {
     return (
         <input
@@ -13,6 +16,12 @@ const SearchBox = ({value, onChange}) => {
 }
 
 const SearchResults = ({results, searching}) => {
+
+    const navigate = useNavigate(); // navigate 함수 사용
+
+    const handleItemClick = (id) => {
+        navigate(`/albumDetail/${id}`); // 페이지 이동
+    };
     // 우선 앨범 결과만 온다고 가정
     return (
         <article aria-busy={searching}>
@@ -20,11 +29,10 @@ const SearchResults = ({results, searching}) => {
                 "Loading..."
             ) : (
                 <>
-                <header>검색 완료</header>
                 <ul>
                     {results.map((result) => (
-                        <li key={result.albumId}>
-                            <h3>{result.albumNmae}</h3>
+                        <li key={result.id} onClick={() => handleItemClick(result.id)}>
+                            <h3>{result.name}</h3>
                             <p>{result.artistName}</p>
                         </li>
                     ))}                    
@@ -36,14 +44,19 @@ const SearchResults = ({results, searching}) => {
     );
 }
 
-const fetchResults = ({query}) => {
-    return (
-        // copliot 작성 코드
-        fetch(`https://api.spotify.com/v1/search?q=${query}&type=album`)
-        .then((res) => res.json())
-        .then((data) => data.albums.items)
-    );
-}
+const fetchResults = async ({query}) => {
+    if (!query) return [];
+    try {
+        
+        const response = await axios.get(`${process.env.REACT_APP_API_HOST}/album/search?keyword=${query}`, {
+        });
+      // console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
+  };
 
 const useDebouncedState = (value, delay = 500) => {
     const [debouncedValue, setDebouncedValue] = useState(value);
@@ -64,10 +77,18 @@ const Search = () => {
   
     useEffect(() => {
       setSearching(true);
-      fetchResults(debouncedQuery).then((results) => {
+      // console.log(debouncedQuery);
+
+      (async () => {
+        let results = await fetchResults({query: debouncedQuery});
+        while (results.length === 0) {
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+            //console.log(results)
+            results = await fetchResults({query: debouncedQuery});
+        }
         setResults(results);
         setSearching(false);
-      });
+    })();
     }, [debouncedQuery]);
   
     return (

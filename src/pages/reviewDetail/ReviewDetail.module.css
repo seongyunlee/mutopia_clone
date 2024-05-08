@@ -1,0 +1,140 @@
+.reviewContainer{
+    width: 342px;
+    margin-top: 21px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 29px;
+}
+
+.writerName{
+    color: #383838;
+    text-align: right;
+    font-family: Roboto;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.writerPhoto{
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+    border-radius: 30px;
+    background: url("/public/defaultProfile.svg") lightgray 50% / cover no-repeat;
+}
+.reviewWriter{
+    align-self: flex-end;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end; /* 컴포넌트를 오른쪽 정렬합니다 */
+    align-items: center; /* 수직축에서 컴포넌트를 중앙에 놓습니다 */
+    gap: 15px; /* 컴포넌트 사이에 15px의 간격을 둡니다 */
+}
+
+.albumCover{
+    margin-top: 5px;
+    width: 120px;
+    height: 120px;
+}
+
+.albumTitle{
+    max-width: 240px;
+    color: #383838;
+    font-family: Roboto;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.artist{
+    color: #787878;
+    font-family: Roboto;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+
+.dates{
+    align-self: flex-end;
+    margin-right: 5px;
+    color: #A0A1A4;
+    text-align: right;
+    font-family: Roboto;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.reviewInfo{
+    margin-left: 19px;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+
+}
+
+.reviewCover{
+    width: 100%;
+    height: 130px;
+    margin-top: 17px;
+    display: flex;
+    flex-direction: row;
+    
+}
+
+.reviewTitle{
+    width: 100%;
+    margin-top: 9px;
+    min-height: 52px;
+    color: #383838;
+    font-family: Roboto;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+
+}
+
+.reviewContent{
+    margin-top: 10px;
+    width: 342px;
+    color: #383838;
+    text-align: justify;
+    font-family: Roboto;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 23px; /* 143.75% */
+}
+
+.reivewNav{
+    margin-top: 25px;
+    margin-left: 7px;
+    width: 380px;
+    height: 51px;
+    flex-shrink: 0;
+
+}
+
+.btnWrite{
+    width: 360px;
+    height: 51px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: #7B61FF;
+    color: #FFF;
+    text-align: center;
+    font-family: Roboto;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin-left: 15px;
+}
+

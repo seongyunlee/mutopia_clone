@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
-import styles from './AlbumDetail.module.css';
+
+import { createPortal } from "react-dom";
+import styles from "./AlbumDetail.module.css";
+import {useEffect, useState, useRef} from "react";
+import {useParams} from "react-router-dom";
+import AlbumReviewWrite from "../../components/albumReviewModal/AlbumReviewWrite";
 import ReviewPreview from "../../components/reviewPreview/ReviewPreview";
 import PlaylistPreview from "../../components/playlistPreview/PlaylistPreview";
 import ToggleFilter from "../../components/toggleFilter/ToggleFilter";
 import TrackReview from "../../components/trackReview/TrackReview";
 
-
-// 각 페이지 컴포넌트 정의
 const MainPage = () => {
     return (
         <div className="mainPage">
@@ -43,7 +45,6 @@ const MainPage = () => {
         </div>
     );
 };
-
 
 const ReviewPage = () => {
     const onContainerClick = () => {
@@ -106,39 +107,50 @@ const ListPage = () => {
     </section>
     );
 };
-
 // 앨범 상세페이지 컴포넌트
-const AlbumDetailsPage = () => {
-  return (
-    <div className={styles.albumPage}>
-      <div className={styles.albumArtContainer}>
-        <img src="/path/to/your/image.png" alt="Album Art" className={styles.albumArt} />
-      </div>
-      <div className={styles.albumInfo}>
-        <h1>I feel</h1>
-        <p>2023.05.15 | KR | 6곡 1시간 17분 소요</p>
-        <p>(여자)아이들</p>
-      </div>
-      <div className={styles.ratingInfo}>
-        <div className={styles.totalReviews}>Total Reviews 2414</div>
-        <div className={styles.averageRating}>Average Ratings 4.2 / 5</div>
-        <div className={styles.yourRating}>Your Ratings ? / 5</div>
-      </div>
-      <button className={styles.reviewButton}>이 앨범 리뷰하기 / 나의 리뷰 보기</button>
-      <div className={styles.socialButtons}>
-        <img src="/Vector.svg" alt="Vector" className={styles.socialIcon} />
-        <img src="/share.svg" alt="Share" className={styles.socialIcon} />
-        <img src="/bookmark_border.svg" alt="Bookmark" className={styles.socialIcon} />
-        <img src="/control_point.svg" alt="Control Point" className={styles.socialIcon} />
-        <img src="/open_in_new_off.svg" alt="Open in New" className={styles.socialIcon} />
-      </div>
-      {/* NavigationBar 컴포넌트 추가 */}
-      <NavigationBar />
-    </div>
-  );
-};
+const AlbumDetailsPage = (props) => {
+    console.log(props.albumId)
+    const [reviewWriteModalOpen, setReviewWriteModalOpen] = useState(false);
+    const reviewWriteModalBackground = useRef();
+        
+      <div className={styles.albumPage}>
+        <div className={styles.albumArtContainer}>
+          <img src="/path/to/your/image.png" alt="Album Art" className={styles.albumArt} />
+        </div>
+        <div className={styles.albumInfo}>
+          <h1>I feel</h1>
+          <p>2023.05.15 | KR | 6곡 1시간 17분 소요</p>
+          <p>(여자)아이들</p>
+        </div>
+        <div className={styles.ratingInfo}>
+          <div className={styles.totalReviews}>Total Reviews 2414</div>
+          <div className={styles.averageRating}>Average Ratings 4.2 / 5</div>
+          <div className={styles.yourRating}>Your Ratings ? / 5</div>
+        </div>
+        <button className={styles.reviewButton} onClick={() => setReviewWriteModalOpen(true)}>이 앨범 리뷰하기 / 나의 리뷰 보기</button>
+        <div className={styles.socialButtons}>
+          <img src="/Vector.svg" alt="Vector" className={styles.socialIcon} />
+          <img src="/share.svg" alt="Share" className={styles.socialIcon} />
+          <img src="/bookmark_border.svg" alt="Bookmark" className={styles.socialIcon} />
+          <img src="/control_point.svg" alt="Control Point" className={styles.socialIcon} />
+          <img src="/open_in_new_off.svg" alt="Open in New" className={styles.socialIcon} />
+        </div>
+        {/* NavigationBar 컴포넌트 추가 */}
+        <NavigationBar />
+        
+        {reviewWriteModalOpen &&            
+               <AlbumReviewWrite 
+                    reviewWriteModalOpen={reviewWriteModalOpen}
+                    setReviewWriteModalOpen={setReviewWriteModalOpen}
+                    reviewWriteModalBackground={reviewWriteModalBackground}
+               />
+        }
 
-// NavigationBar 컴포넌트
+      </div>
+    );
+  };
+
+  // NavigationBar 컴포넌트
 const NavigationBar = () => {
     const [tab, setTab] = useState('main');
   
@@ -158,23 +170,17 @@ const NavigationBar = () => {
     );
   };
 
-// 메인 AlbumDetail 컴포넌트
-const AlbumDetail = () => {
-  const [page, setPage] = useState('detail');
+const AlbumDetail = () =>{
+    const { id } = useParams(); // id 파라미터 추출
 
-  return (
-    <div>
-      {page === 'detail' ? (
-        <div className={styles.reviewBtn}>
-          <button className={styles.writeReview} onClick={() => setPage('review')}>
-            이 앨범 리뷰하기
-          </button>
-        </div>
-      ) : (
-        <AlbumDetailsPage />
-      )}
-    </div>
-  );
-};
+    return (
+        <>
+         <h1>Album ID: {id}</h1> {/* ID 출력 */}
+
+        <AlbumDetailsPage albumId={id} />
+
+        </>
+    );
+}
 
 export default AlbumDetail;
