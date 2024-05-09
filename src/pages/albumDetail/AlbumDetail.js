@@ -112,6 +112,7 @@ const AlbumDetailsPage = (props) => {
     console.log(props.albumId)
     const [reviewWriteModalOpen, setReviewWriteModalOpen] = useState(false);
     const reviewWriteModalBackground = useRef();
+    //const [] = useState(false);
 
     return (        
       <div className={styles.albumPage}>

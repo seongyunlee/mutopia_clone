@@ -39,17 +39,18 @@
     display: flex;
     justify-content: center;
     margin-top: 20px;
+    padding-left: 50px;  /* 왼쪽 패딩 추가 */
   }
   
   .socialButtons span {
-    margin-right: 10px;
+    margin-right: 20px;
     font-size: 1.5em;
   }
 
   .socialIcon {
     width: 24px;  /* 아이콘 크기 조절 */
     height: 24px;
-    margin-right: 30px; /* 아이콘 간의 간격 조절 */
+    margin-right: 45px; /* 아이콘 간의 간격 조절 */
 
   }
   
@@ -59,6 +60,7 @@
     justify-content: center; /* 탭들을 중앙에 위치시키기 */
     padding: 10px 0;
     box-shadow: 0px 3px 6px #00000029; /* 상단의 그림자 효과 */
+    border-radius: 10px; /* 모서리를 둥글게 만듬 */
 }
 
 .tab {
@@ -66,6 +68,7 @@
     border: none;
     outline: none; /* 호버시 생기는 아웃라인 제거 */
     color: #000; /* 탭의 텍스트 색상을 검정색으로 변경 */
+    margin: 0 20px;
     cursor: pointer;
     font-size: 16px; /* 탭 텍스트의 크기를 설정 */
     font-weight: 500; /* 모든 탭에 일관된 폰트 두께 적용 */
@@ -74,9 +77,13 @@
 }
 
 .activeTab {
+    text-transform: none; /* 텍스트 변형 없음 */
     color: #6200EA; /* 활성 탭의 텍스트 색상을 보라색으로 설정 */
     background-color: #F0E5FF; /* 활성 탭의 배경색 추가 */
     position: relative; /* 하단 표시줄을 위한 위치 설정 */
+    padding: 10px 15px; /* 패딩 고정 */
+    border: solid 1px transparent; /* 클릭 시 테두리 변화 방지를 위해 투명 테두리 설정 */
+    box-sizing: border-box; /* 패딩과 테두리가 너비에 포함되도록 설정 */
 }
 
 .activeTab::after {
@@ -89,6 +96,7 @@
     background-color: #6200EA; /* 표시줄의 배경색 */
     transform: translateX(-50%); /* 표시줄을 가운데로 정렬 */
 }
+
 
 /* 호버 효과 추가 */
 .tab:hover {
