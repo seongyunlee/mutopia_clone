@@ -1,6 +1,7 @@
 import styles from './ReviewDetail.module.css';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import StarRating from '../../components/starRating/StarRating';
 
 const ReviewDetail = () => {
     return (
@@ -13,9 +14,11 @@ const ReviewDetail = () => {
             <div className={styles.reviewCover}>
                 <img className={styles.albumCover} src="/ive.png"/>
                 <div className={styles.reviewInfo}>
-                    <divp className={styles.albumTitle}>9자넘으면...</divp>
+                    <div className={styles.albumTitle}>9자넘으면...</div>
                     <div className={styles.artist}>아티스트</div>  
-                    <div className={styles.rating}>별점</div>
+                    <div className={styles.rating}>
+                        <StarRating score={10}/>
+                    </div>
                     <div className={styles.dates}>2024.04.01 작성 (수정됨)</div>
                 </div>
             </div>

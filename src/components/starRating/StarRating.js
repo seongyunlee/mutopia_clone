@@ -13,7 +13,7 @@ const Star = ({type}) => {
         )
     }
     return (
-        <img src="/BlankStar.svg"/>
+        <img src="/BlankStarLarge.svg"/>
     )
 }
 
@@ -40,7 +40,7 @@ const StarRating = (props) => {
         <div className={styles.container}>
             {
                 starIndex.map((_, index) => (
-                    <Star type={score - index * 2}/>
+                    <Star key={index} type={score - index * 2}/>
                 ))
             }
         </div>

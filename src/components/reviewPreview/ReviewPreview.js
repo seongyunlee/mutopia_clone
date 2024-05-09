@@ -28,7 +28,7 @@ const ReviewPreview = (prop) => {
                     <div className={styles.reviewTitle}>
                         아이들 리뷰 제목
                     </div>
-                    <StarRating score={7}/>
+                    <StarRating score={10}/>
                 </div>
                 <div>
                     <div className={styles.reviewContent}>

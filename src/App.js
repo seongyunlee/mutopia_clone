@@ -10,6 +10,7 @@ import Search from "./pages/search/Search";
 import SearchResults from "./pages/search/SearchResults";
 import AlbumDetail from "./pages/albumDetail/AlbumDetail";
 import ReviewDetail from "./pages/reviewDetail/ReviewDetail";
+import StarRating3 from "./components/starRating2/StarRating3";
 
 function App() {
 
