@@ -5,6 +5,8 @@ import axios from 'axios';
 import StarRating from '../starRating2/StarRating3';
 
 const AlbumReviewWrite = ({ albumId, reviewWriteModalOpen, setReviewWriteModalOpen, reviewWriteModalBackground }) => {
+    const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiIiLCJpYXQiOjE3MTUxNTgwNzksImV4cCI6MTc0NjY5NDA3OSwiYXVkIjoiIiwic3ViIjoidGVzdHVzZXIifQ._zVQhiluqkNvElvU45WPH2gaoPB7J_c_ZvTOU3zqvD0"
+
     const [albumInfo, setAlbumInfo] = useState(null); // 앨범 정보를 저장할 상태
     const [score, setScoreFixed] = useState(0);  // 별점 상태 추가
     const reviewTitleRef = useRef(null);
@@ -28,22 +30,24 @@ const AlbumReviewWrite = ({ albumId, reviewWriteModalOpen, setReviewWriteModalOp
     const handleSubmit = async (event) => {
         event.preventDefault();  // 폼 기본 제출 방지
         const scoreDouble = score * 2;
-        console.log(albumId, scoreDouble, reviewTitleRef.current.value, reviewContentRef.current.value)
-        
-        /*
+        // console.log(albumId, scoreDouble, reviewTitleRef.current.value, reviewContentRef.current.value)
         try {
             const response = await axios.post(`${process.env.REACT_APP_API_HOST}/album/review`, {
                 albumId: albumId,
-                score: score, 
+                rating: scoreDouble, 
                 title: reviewTitleRef.current.value,
                 content: reviewContentRef.current.value
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
             });
             console.log(response.data);
             setReviewWriteModalOpen(false);  // 모달 닫기
         } catch (error) {
             console.error(error);
         }
-        */
+        
         
     };
     
