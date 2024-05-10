@@ -1,60 +1,93 @@
 /* 기존의 .reviewBtn, .writeReview 등의 스타일은 유지 */
-.albumPage {
-    font-family: 'Arial', sans-serif;
-    margin: 20px;
+
+.contentContainer {
+    background-color: #FFFFFF; 
     padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-  }
-  
-  .albumArtContainer {
+    margin: 20px auto; 
+    border-radius: 10px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}
+
+.albumArtContainer {
+    margin-top:30px;
     display: flex;
     justify-content: center;
     margin-bottom: 20px;
-  }
+}
   
-  .albumArt {
+.albumArt {
     width: 150px;
     height: 150px;
     object-fit: cover;
-  }
+}
   
-  .albumInfo, .ratingInfo {
+.albumInfo {
     text-align: center;
-    margin-bottom: 10px;
-  }
-  
-  .reviewButton {
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.ratingInfo {
+    display: flex;                
+    justify-content: space-around; 
+    align-items: center;           
+    text-align: center;            
+    color: rgb(0, 0, 0);                  
+    padding: 10px 0;               
+    width: 100%;                   
+    margin: 10px 0;                
+    margin-bottom: 25px;
+}
+
+.ratingItem {
+    flex: 1;                       /* 모든 항목이 동일한 너비를 가지도록 설정 */
+}
+
+.value {
+    font-size: 16px;               /* 숫자 크기 */
+    font-weight: bold;             /* 굵은 글씨 */
+}
+
+.label {
+    font-size: 12px;               /* 라벨 텍스트 크기 */
+    margin-top: 5px;               /* 라벨과 값 사이의 간격 */
+    color:#666
+}
+
+
+.reviewButton {
     display: block;
     width: 100%;
     padding: 10px;
     color: white;
-    background-color: #6200EA;
+    background-color: #673AB7;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-  }
-  
-  .socialButtons {
+}
+
+.socialButtons {
     display: flex;
     justify-content: center;
-    margin-top: 20px;
+    margin-top: 30px;  /* 간격을 50px로 설정 */
     padding-left: 50px;  /* 왼쪽 패딩 추가 */
-  }
+}
+
   
-  .socialButtons span {
+.socialButtons span {
     margin-right: 20px;
     font-size: 1.5em;
-  }
+}
 
-  .socialIcon {
-    width: 24px;  /* 아이콘 크기 조절 */
+.socialIcon {
+    width: 20px;  /* 아이콘 크기 조절 */
     height: 24px;
     margin-right: 45px; /* 아이콘 간의 간격 조절 */
 
-  }
+}
   
-  .navBar {
+.navBar {
+    margin-top:10px;
     background-color: #FFFFFF; /* 네비게이션 바의 배경색을 흰색으로 설정 */
     display: flex;
     justify-content: center; /* 탭들을 중앙에 위치시키기 */
@@ -98,7 +131,7 @@
 }
 
 
-/* 호버 효과 추가 */
+
 .tab:hover {
     color: #6200EA; /* 호버시 탭의 텍스트 색상을 보라색으로 변경 */
     background-color: #F0E5FF; /* 호버시 탭의 배경색 변경 */
@@ -106,73 +139,30 @@
 
 
 .mainPage {
-    background-color: #fff;
+    background-color: #ffffff;
     font-family: Arial, sans-serif;
-    padding: 20px;
+    margin-left:20px;
+    
+}
+.homeSection {
+    margin-left:20px;
+    
 }
 
-.trackList .track {
+.sectionTitle {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
+    justify-content: space-between; 
+    align-items: center; 
+    width: 100%; 
+    margin-top:20px;
+    margin-bottom:10px;
 }
 
-.userReview {
-    display: flex;
-    margin-top: 20px;
+.toggleContainer {
+    margin-left: auto;
+    margin-right: 20px;
 }
 
-.userImage {
-    width: 50px;
-    height: 50px;
-    border-radius: 25px;
-    margin-right: 10px;
+.arrow{
+    width: 25px; 
 }
-
-.reviewContent {
-    flex-grow: 1;
-}
-
-.userName, .reviewDate {
-    font-size: 14px;
-    color: #666;
-}
-
-.reviewText {
-    font-size: 16px;
-    color: #333;
-    margin: 5px 0;
-}
-
-.reviewLikes {
-    display: flex;
-    align-items: center;
-    font-size: 14px;
-}
-
-.heartIcon {
-    color: red;
-    margin-right: 5px;
-}
-
-.ratingSummary {
-    display: flex;
-    align-items: center;
-    font-size: 24px;
-}
-
-.ratingStars {
-    color: gold;
-    margin-right: 10px;
-}
-
-.ratingCount {
-    font-size: 18px;
-}
-
-h2 {
-    color: #333;
-    margin: 20px 0 10px;
-}
-
