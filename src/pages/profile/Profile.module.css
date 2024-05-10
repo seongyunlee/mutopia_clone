@@ -1,1 +1,29 @@
+.profileContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
 
+.topsterContainer {
+    width: auto;
+    padding: 4px 4px 0 4px;
+    box-sizing: content-box;
+}
+
+.sectionTitle {
+    font-size: 16px;
+    font-weight: 600;
+    color: #808080;
+    margin-right: 8px;
+}
+
+.sectionTitleContainer {
+    display: flex;
+    padding: 0 12px 16px;
+}
+
+.btnEditTopster {
+    width: 14px;
+    height: 14px;
+}

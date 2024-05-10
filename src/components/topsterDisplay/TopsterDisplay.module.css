@@ -1,0 +1,29 @@
+.topsterContainer {
+    width: 100%;
+    display: grid;
+    grid-template-rows: 1fr;
+    gap: 5px;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 100px), 1fr));
+}
+
+.albumCoverImg {
+    width: 100%;
+    aspect-ratio: 1/1;
+    border-radius: 5%;
+}
+
+.deleteIcon {
+    position: absolute;
+    right: 2px;
+    top: 2px;
+    width: 14px;
+    height: 14px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    padding: 2px;
+    background-size: 20%;
+}
+
+.albumContainer {
+    position: relative;
+}
