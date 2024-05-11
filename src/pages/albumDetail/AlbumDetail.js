@@ -166,7 +166,7 @@ const AlbumDetailsPage = (props) => {
                     </div>
                 </div>
                 
-                <button className={styles.reviewButton}>이 앨범 리뷰하기 / 나의 리뷰 보기</button>
+                <button className={styles.reviewButton} onClick={() => setReviewWriteModalOpen(true)}>이 앨범 리뷰하기 / 나의 리뷰 보기</button>
                 <div className={styles.socialButtons}>
                     <img src="/Vector.svg" alt="Vector" className={styles.socialIcon} />
                     <img src="/share.svg" alt="Share" className={styles.socialIcon} />

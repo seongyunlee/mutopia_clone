@@ -43,7 +43,14 @@ const AlbumReviewWrite = ({ albumId, reviewWriteModalOpen, setReviewWriteModalOp
                 }
             });
             console.log(response.data);
-            setReviewWriteModalOpen(false);  // 모달 닫기
+            setReviewWriteModalOpen(false);
+            /*
+            setMessage('저장이 완료되었습니다');  // 메시지 설정
+            setTimeout(() => {
+                setReviewWriteModalOpen(false); // 2초 후 모달 닫기
+                setMessage('');  // 메시지 초기화
+            }, 2000);
+            */
         } catch (error) {
             console.error(error);
         }
@@ -73,7 +80,7 @@ const AlbumReviewWrite = ({ albumId, reviewWriteModalOpen, setReviewWriteModalOp
                         <img src={albumInfo.albumImg} alt="albumCover" className={styles.albumCoverImg}></img>
                     </div>
                     <div className={styles.albumInfo}>
-                        <div className={styles.albumName}>{albumInfo.albumName}</div>
+                        <div className={styles.albumName}>{albumInfo.albumName.length < 12 ? albumInfo.albumName : albumInfo.albumName.slice(0, 12) + '...'}</div>
                         <div className={styles.albumArtist}>{albumInfo.artistName}</div>
                     </div>
                 </div>

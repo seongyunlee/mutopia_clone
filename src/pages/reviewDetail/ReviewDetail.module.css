@@ -51,6 +51,7 @@
 }
 
 .artist{
+    min-height: 16px;
     color: #787878;
     font-family: Roboto;
     font-size: 14px;
@@ -59,17 +60,8 @@
     line-height: normal;
 }
 
-
-.dates{
-    align-self: flex-end;
-    margin-right: 5px;
-    color: #A0A1A4;
-    text-align: right;
-    font-family: Roboto;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
+.rating{
+    margin-top: 20px;
 }
 
 .reviewInfo{
@@ -77,8 +69,20 @@
     margin-top: 5px;
     display: flex;
     flex-direction: column;
-    align-items: left;
+    align-items: flex-start;
 
+}
+
+.dates{
+    margin-top: 10px;
+    align-self: flex-end;
+    color: #A0A1A4;
+    text-align: right;
+    font-family: Roboto;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
 }
 
 .reviewCover{
@@ -116,19 +120,43 @@
 }
 
 .reivewNav{
-    margin-top: 25px;
+    margin-top: 20px;
     margin-left: 7px;
     width: 380px;
     height: 51px;
     flex-shrink: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
 
 }
+
+.likeIcon{
+    margin-left: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.socialCount{
+    color:#383838;
+    margin-left: 7px;
+    margin-top: -2px;
+}
+
+.shareIcon{
+    margin-right: 30px;
+}
+
 
 .btnWrite{
     width: 360px;
     height: 51px;
+    margin-top: 16px;
     flex-shrink: 0;
     border-radius: 10px;
+    border: none;
     background: #7B61FF;
     color: #FFF;
     text-align: center;
