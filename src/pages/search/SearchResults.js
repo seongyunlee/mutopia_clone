@@ -40,6 +40,7 @@ const SearchResults = ({results, searching}) => {
     const handleItemClick = (id) => {
         navigate(`/albumDetail/${id}`); // 페이지 이동
     };
+    // console.log(results);
     // 우선 앨범 결과만 온다고 가정
     return (
         <div className={styles.searchResults}>

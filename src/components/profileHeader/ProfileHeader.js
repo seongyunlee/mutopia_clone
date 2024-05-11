@@ -11,6 +11,25 @@ const ProfileHeader = () => {
             </div>
             <div className={styles.profileContainerSecond}>
                 <img src="/defaultProfile.svg" alt="profile" className={styles.profilePhoto}/>
+                <div className={styles.profileInfo}>
+                    <div className={styles.profileInfoElement}>
+                        <div className={styles.profileInfoElementNum}>94</div>
+                        <div className={styles.profileInfoElementText}>리뷰</div>
+                    </div>
+                    <div className={styles.profileInfoElement}>
+                        <div className={styles.profileInfoElementNum}>123</div>
+                        <div className={styles.profileInfoElementText}>평가</div>
+                    </div>
+                    <div className={styles.profileInfoElement}>
+                        <div className={styles.profileInfoElementNum}>123</div>
+                        <div className={styles.profileInfoElementText}>팔로워</div>
+                    </div>
+                    <div className={styles.profileInfoElement}>
+                        <div className={styles.profileInfoElementNum}>123</div>
+                        <div className={styles.profileInfoElementText}>팔로잉</div>
+                    </div>
+                    
+                </div>
             </div>
             <div className={styles.profileContainerThird}>이름과 바이오</div>
 

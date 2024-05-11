@@ -97,45 +97,48 @@
 }
 
 .tab {
-    background: none;
-    border: none;
-    outline: none; /* 호버시 생기는 아웃라인 제거 */
-    color: #000; /* 탭의 텍스트 색상을 검정색으로 변경 */
-    margin: 0 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     cursor: pointer;
-    font-size: 16px; /* 탭 텍스트의 크기를 설정 */
-    font-weight: 500; /* 모든 탭에 일관된 폰트 두께 적용 */
-    transition: color 0.3s, background-color 0.3s; /* 색상과 배경색 변경에 애니메이션 효과 추가 */
-    box-sizing: border-box; /* 패딩과 테두리를 포함한 총 너비를 고정 */
+    color: #383838;
+    text-align: center;
+    font-family: Roboto;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px; /* 100% */
+    letter-spacing: 0.32px;
 }
 
 .activeTab {
-    text-transform: none; /* 텍스트 변형 없음 */
-    color: #6200EA; /* 활성 탭의 텍스트 색상을 보라색으로 설정 */
-    background-color: #F0E5FF; /* 활성 탭의 배경색 추가 */
-    position: relative; /* 하단 표시줄을 위한 위치 설정 */
-    padding: 10px 15px; /* 패딩 고정 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    color: #383838;
+    text-align: center;
+    font-family: Roboto;
     font-size: 16px;
-    border: solid 1px transparent; /* 클릭 시 테두리 변화 방지를 위해 투명 테두리 설정 */
-    box-sizing: border-box; /* 패딩과 테두리가 너비에 포함되도록 설정 */
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px; /* 100% */
+    letter-spacing: 0.32px;
 }
 
-.activeTab::after {
-    content: "";
-    position: absolute;
-    bottom: -2px; /* 표시줄 위치를 조정 */
-    left: 50%;
-    width: 70%; /* 표시줄의 너비 */
-    height: 4px; /* 표시줄의 높이 */
-    background-color: #6200EA; /* 표시줄의 배경색 */
-    transform: translateX(-50%); /* 표시줄을 가운데로 정렬 */
+.indicator {
+    width: 0;
+    height: 0;
+    background: transparent;
+    border-radius: 5px;
+    transition: all 0.3s;
 }
 
-
-
-.tab:hover {
-    color: #6200EA; /* 호버시 탭의 텍스트 색상을 보라색으로 변경 */
-    background-color: #F0E5FF; /* 호버시 탭의 배경색 변경 */
+.activeTab .indicator {
+    width: 30px;
+    height: 3px;
+    background: #7B61FF; /* 보라색 */
+    border-radius: 5px;
 }
 
 

@@ -195,6 +195,18 @@ const NavigationBar = () => {
           <button className={tab === 'main' ? styles.activeTab : styles.tab} onClick={() => setTab('main')}>메인</button>
           <button className={tab === 'review' ? styles.activeTab : styles.tab} onClick={() => setTab('review')}>리뷰</button>
           <button className={tab === 'list' ? styles.activeTab : styles.tab} onClick={() => setTab('list')}>리스트</button>
+          <div className={tab === 'main' ? styles.activeTab : styles.tab} onClick={() => setTab('main')}>
+                <div>메인</div>
+                <div className={styles.indicator}></div>
+            </div>
+            <div className={tab === 'review' ? styles.activeTab : styles.tab} onClick={() => setTab('review')}>
+                <div>리뷰</div>
+                <div className={styles.indicator}></div>
+            </div>
+            <div className={tab === 'likes' ? styles.activeTab : styles.tab} onClick={() => setTab('list')}>
+                <div>리스트</div>
+                <div className={styles.indicator}></div>
+            </div>
         </div>
         <div>
           {tab === 'main' && <MainPage />}
