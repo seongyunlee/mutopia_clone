@@ -4,12 +4,34 @@ import styles from "./Profile.module.css";
 import {useContext, useState} from "react";
 import {UserContext} from "../../context/UserContext";
 
-const Profile = () => {
-    const [tab, setTab] = useState('main');
+
+const MainPage = () => {
+    const {user, setUser} = useContext(UserContext);
     const [isTopsterEraseMode, setIsTopsterEraseMode] = useState(false);
 
-    const {user, setUser} = useContext(UserContext);
+    return(
+        <>
+        <section className={styles.topsterContainer}>
+                <div className={styles.sectionTitleContainer}>
+                    <div className={styles.sectionTitle}>뮤직보드</div>
+                    {user?.id &&
+                        <img src="/pencil-grey.svg" className={styles.btnEditTopster} alt="edit"
+                             onClick={() => setIsTopsterEraseMode(!isTopsterEraseMode)}/>
+                    }
+                </div>
+            <TopsterDisplay isErasable={isTopsterEraseMode}/>
+        </section>
+        <section className={styles.profileMainReview}>
+        </section>
+        <section className={styles.profileMainComment}>
+        </section>
+        </>
+    )
+    
 
+};
+const Profile = () => {
+    const [tab, setTab] = useState('main');
 
     return (
         <div className={styles.profileContainer}>
@@ -28,16 +50,11 @@ const Profile = () => {
                     <div className={styles.indicator}></div>
                 </div>
             </div>
-            <section className={styles.topsterContainer}>
-                <div className={styles.sectionTitleContainer}>
-                    <div className={styles.sectionTitle}>뮤직보드</div>
-                    {user?.id &&
-                        <img src="/pencil-grey.svg" className={styles.btnEditTopster} alt="edit"
-                             onClick={() => setIsTopsterEraseMode(!isTopsterEraseMode)}/>
-                    }
-                </div>
-                <TopsterDisplay isErasable={isTopsterEraseMode}/>
-            </section>
+            <div>
+                {tab === 'main' && <MainPage />}
+                {tab === 'review' && <ReviewPage />}
+                {tab === 'list' && <ListPage />}
+            </div>
         </div>
     );
 }
