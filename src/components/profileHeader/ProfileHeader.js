@@ -1,12 +1,14 @@
 import styles from "./ProfileHeader.module.css";
 
-const ProfileHeader = () => {
+const ProfileHeader = (props) => {
+    const isMine = props.isMine;
+
     return (
         <header className={styles.profileContainer}>
             <div className={styles.profileContainerFirst}>
                 <div className={styles.userName}>바보랜드</div>
                 <button title="editProfile" className={styles.btnProfileEdit}>
-                    수정
+                    {isMine ? "수정" : "팔로우"}
                 </button>
             </div>
             <div className={styles.profileContainerSecond}>

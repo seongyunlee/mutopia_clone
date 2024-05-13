@@ -43,7 +43,7 @@
     border-radius: 5px;
 }
 
-.mainSection{
+.TabSection{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -52,38 +52,19 @@
     padding: 20px 25px;
 }
 
-.topsterContainer{
+.subSection{
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
 
-.profileMainReview{
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.profileMainComment{
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.sectionTitleMine{
+.sectionTitle{
     color: #808080;
     font-family: Roboto;
     font-size: 16px;
     font-style: normal;
     font-weight: 600;
     line-height: normal;
-}
-
-.sectionTitleOther{
-    font-size: 16px;
-    font-weight: 600;
-    color: #808080;
-    margin-right: 8px;
 }
 
 .sectionTitleContainer {
@@ -95,7 +76,7 @@
     height: 14px;
 }
 
-.albumReviewContainer{
+.previewContainer{
     display: flex;
     flex-direction: row;
     gap: 14px;

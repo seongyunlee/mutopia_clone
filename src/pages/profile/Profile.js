@@ -2,6 +2,7 @@ import ProfileHeader from "../../components/profileHeader/ProfileHeader";
 import TopsterDisplay from "../../components/topsterDisplay/TopsterDisplay";
 import ReviewPreview from "../../components/reviewPreview/ReviewPreview";
 import TrackReview from "../../components/trackReview/TrackReview";
+import PlaylistPreview from "../../components/playlistPreview/PlaylistPreview";
 import styles from "./Profile.module.css";
 import {useContext, useState} from "react";
 import {UserContext} from "../../context/UserContext";
@@ -11,12 +12,14 @@ const MainPage = () => {
     const {user, setUser} = useContext(UserContext);
     const [isTopsterEraseMode, setIsTopsterEraseMode] = useState(false);
     // 자신의 프로필이라고 가정
+    const [isMine, setIsMine] = useState(true);
     const titleMine = ["내 뮤직보드", "내가 리뷰한 앨범 💿", "내가 남긴 한줄평 ✍🏻"];
+    const titleOthers = ["의 뮤직보드", "의 인생 앨범 💿", "의 인생곡 ✍🏻"];
     return(
-        <div className={styles.mainSection}>
-        <section className={styles.topsterContainer}>
+        <div className={styles.TabSection}>
+        <section className={styles.subSection}>
             <div className={styles.sectionTitleContainer}>
-                <div className={styles.sectionTitleMine}>{titleMine[0]}</div>
+                <div className={styles.sectionTitle}>{isMine ? titleMine[0] : user.Name + titleOthers[0]}</div>
                 {user?.id &&
                     <img src="/pencil-grey.svg" className={styles.btnEditTopster} alt="edit"
                             onClick={() => setIsTopsterEraseMode(!isTopsterEraseMode)}/>
@@ -24,11 +27,11 @@ const MainPage = () => {
             </div>
             <TopsterDisplay isErasable={isTopsterEraseMode}/>
         </section>
-        <section className={styles.profileMainReview}>
+        <section className={styles.subSection}>
             <div className={styles.sectionTitleContainer}>
-                <div className={styles.sectionTitleMine}>{titleMine[1]}</div>
+                <div className={styles.sectionTitle}>{isMine ? titleMine[1] : user.Name + titleOthers[1]}</div>
             </div>
-            <div className={styles.albumReviewContainer}>
+            <div className={styles.previewContainer}>
                 <ReviewPreview/>
                 <ReviewPreview/>
                 <ReviewPreview/>
@@ -41,11 +44,11 @@ const MainPage = () => {
                 <ReviewPreview/>
             </div>
         </section>
-        <section className={styles.profileMainComment}>
+        <section className={styles.subSection}>
             <div className={styles.sectionTitleContainer}>
-                <div className={styles.sectionTitleMine}>{titleMine[2]}</div>
+                <div className={styles.sectionTitle}>{isMine ? titleMine[2] : user.Name + titleOthers[2]}</div>
             </div>
-            <div className={styles.songCommentContainer}>
+            <div className={styles.previewContainer}>
                 <TrackReview/>
                 <TrackReview/>
                 <TrackReview/>
@@ -64,28 +67,123 @@ const MainPage = () => {
 };
 
 const ReviewPage = () => {
+    const {user, setUser} = useContext(UserContext);
+    const [isTopsterEraseMode, setIsTopsterEraseMode] = useState(false);
+    // 자신의 프로필이라고 가정
+    const [isMine, setIsMine] = useState(true);
+    const titleMine = ["나의 리뷰 앨범 💿", "나의 한줄평 ✍🏻", "나의 플레이리스트 🎧"];
+    const titleOthers = ["의 리뷰 앨범 💿", "의 한줄평 ✍🏻", "의 플레이리스트 🎧"];
     return(
-        <div>
-            ReviewPage
+        <div className={styles.TabSection}>
+        <section className={styles.subSection}>
+            <div className={styles.sectionTitleContainer}>
+                <div className={styles.sectionTitle}>{isMine ? titleMine[0] : user.Name + titleOthers[0]}</div>
+            </div>
+            <div className={styles.previewContainer}>
+                <ReviewPreview/>
+                <ReviewPreview/>
+                <ReviewPreview/>
+                <ReviewPreview/>
+                <ReviewPreview/>
+                <ReviewPreview/>
+                <ReviewPreview/>
+                <ReviewPreview/>
+                <ReviewPreview/>
+                <ReviewPreview/>
+            </div>
+        </section>
+        <section className={styles.subSection}>
+            <div className={styles.sectionTitleContainer}>
+                <div className={styles.sectionTitle}>{isMine ? titleMine[1] : user.Name + titleOthers[1]}</div>
+            </div>
+            <div className={styles.previewContainer}>
+                <TrackReview/>
+                <TrackReview/>
+                <TrackReview/>
+                <TrackReview/>
+                <TrackReview/>
+                <TrackReview/>
+                <TrackReview/>
+                <TrackReview/>
+                <TrackReview/>
+                <TrackReview/>
+            </div>
+        </section>
+        <section className={styles.subSection}>
+            <div className={styles.sectionTitleContainer}>
+                <div className={styles.sectionTitle}>{isMine ? titleMine[2] : user.Name + titleOthers[2]}</div>
+            </div>
+            <div className={styles.previewContainer}>
+                <PlaylistPreview/>
+                <PlaylistPreview/>
+                <PlaylistPreview/>
+                <PlaylistPreview/>
+                <PlaylistPreview/>
+                <PlaylistPreview/>
+                <PlaylistPreview/>
+                <PlaylistPreview/>
+            </div>
+        </section>
         </div>
     )
 };
 
-const ListPage = () => {
+const LikesPage = () => {
+    const {user, setUser} = useContext(UserContext);
+    const [isTopsterEraseMode, setIsTopsterEraseMode] = useState(false);
+    // 자신의 프로필이라고 가정
+    const [isMine, setIsMine] = useState(true);
+    const titleMine = ["내 뮤직보드", "내가 리뷰한 앨범 💿", "내가 남긴 한줄평 ✍🏻"];
+    const titleOthers = ["의 뮤직보드", "의 인생 앨범 💿", "의 인생곡 ✍🏻"];
     return(
-        <div>
-            ListPage
+        <div className={styles.TabSection}>
+        <section className={styles.subSection}>
+            <div className={styles.sectionTitleContainer}>
+                <div className={styles.sectionTitle}>{isMine ? titleMine[1] : user.Name + titleOthers[1]}</div>
+            </div>
+            <div className={styles.previewContainer}>
+                <ReviewPreview/>
+                <ReviewPreview/>
+                <ReviewPreview/>
+                <ReviewPreview/>
+                <ReviewPreview/>
+                <ReviewPreview/>
+                <ReviewPreview/>
+                <ReviewPreview/>
+                <ReviewPreview/>
+                <ReviewPreview/>
+            </div>
+        </section>
+        <section className={styles.profileMainComment}>
+            <div className={styles.sectionTitleContainer}>
+                <div className={styles.sectionTitle}>{isMine ? titleMine[2] : user.Name + titleOthers[2]}</div>
+            </div>
+            <div className={styles.previewContainer}>
+                <TrackReview/>
+                <TrackReview/>
+                <TrackReview/>
+                <TrackReview/>
+                <TrackReview/>
+                <TrackReview/>
+                <TrackReview/>
+                <TrackReview/>
+                <TrackReview/>
+                <TrackReview/>
+            </div>
+        </section>
         </div>
-    )
+    )  
+
 };
 
 const Profile = () => {
     // const { id } = useParams(); // profile owner
     const [tab, setTab] = useState('main');
+    const [isMine, setIsMine] = useState(true);
 
     return (
         <div className={styles.profileContainer}>
-            <ProfileHeader/>
+            <ProfileHeader isMine={isMine}/>
             <div className={styles.profileNavBar}>
                 <div className={tab === 'main' ? styles.activeTab : styles.tab} onClick={() => setTab('main')}>
                     <img src="/profilemain.svg"/>
@@ -103,7 +201,7 @@ const Profile = () => {
             <div>
                 {tab === 'main' && <MainPage />}
                 {tab === 'review' && <ReviewPage />}
-                {tab === 'list' && <ListPage />}
+                {tab === 'likes' && <LikesPage />}
             </div>
         </div>
     );
