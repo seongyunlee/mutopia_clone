@@ -213,7 +213,7 @@ const AlbumDetailsPage = (props) => {
 
     const moveToMyReviewOrWrite = () => {
         console.log(user.id);
-        if (!user?.id && false) {
+        if (!user?.id) {
             alert('로그인이 필요합니다.');
             const loginDialog = document.getElementById("loginModal");
             loginDialog.showModal();
