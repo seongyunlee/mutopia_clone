@@ -93,7 +93,14 @@
     font-size: 20px;
     margin-bottom: 20px;
     font-weight: 600;
+    font-family: Roboto;
+    color: #383838;
+    position: relative;;
+    text-align: left;
+    display: flex;
+    align-items: center;
 }
+
 
 .reviewDate {
     font-size: 12px;

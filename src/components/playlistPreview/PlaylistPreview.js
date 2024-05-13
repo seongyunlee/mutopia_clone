@@ -35,7 +35,10 @@ const PlaylistPreview = () => {
                 K-pop 여름 플레이리스트
             </div>
             <div className={styles.reviewDesc}>
-                누군가 K-락의 미래를 묻거든 고개를 들어 ....더보기
+                <span className={styles.reviewContainer}>
+                    <span className={styles.content}>{` 누군가 K-락의 미래를 묻거든 고개를 들어 `}</span>
+                    <span className={styles.add}>....더보기</span>
+                </span>
             </div>
             <div className={styles.footerContainer}>
                 <div className={styles.likeContainer}>
