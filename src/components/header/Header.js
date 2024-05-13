@@ -15,7 +15,7 @@ const Header = (props) => {
 
     const getUserInfo = () => {
         const token = localStorage.getItem('accessToken');
-        axios.get(`${process.env.REACT_APP_API_HOST}/profile/me`, {
+        axios.get(`${process.env.REACT_APP_API_HOST}/user/profile/me`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }

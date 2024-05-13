@@ -23,7 +23,7 @@ const EditProfile = () => {
 
     const getUserInfo = () => {
         const token = localStorage.getItem('accessToken');
-        axios.get(`${process.env.REACT_APP_API_HOST}/profile/me`, {
+        axios.get(`${process.env.REACT_APP_API_HOST}/user/profile/me`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -54,7 +54,7 @@ const EditProfile = () => {
             formData.append('bio', bio);
         }
 
-        axios.post(`${process.env.REACT_APP_API_HOST}/profile/me/edit`, formData, {
+        axios.post(`${process.env.REACT_APP_API_HOST}/user/profile/me/edit`, formData, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
