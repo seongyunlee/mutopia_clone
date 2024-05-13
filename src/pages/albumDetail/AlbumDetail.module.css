@@ -1,99 +1,124 @@
 /* 기존의 .reviewBtn, .writeReview 등의 스타일은 유지 */
 
 .contentContainer {
-    background-color: #FFFFFF; 
+    background-color: #FFFFFF;
     padding: 20px;
-    margin: 20px auto; 
-    border-radius: 10px; 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    margin: 20px auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .albumArtContainer {
-    margin-top:30px;
+    margin-top: 30px;
     display: flex;
     justify-content: center;
     margin-bottom: 20px;
 }
-  
+
 .albumArt {
-    width: 150px;
-    height: 150px;
+    width: 160px;
+    height: 160px;
     object-fit: cover;
+    border-radius: 4px;
 }
-  
+
 .albumInfo {
-    text-align: center;
-    margin-top: 30px;
-    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 13px;
+    margin-bottom: 35px;
+}
+
+.albumInfo > h1 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.albumInfo > h2 {
+    font-size: 16px;
+    font-weight: 400;
+    color: #a0a1a4;
+    padding: 0;
+    margin: 0 0 10px 0;
+}
+
+.albumInfo > h3 {
+    font-size: 16px;
+    font-weight: 500;
+    padding: 0;
+    margin: 0;
 }
 
 .ratingInfo {
-    display: flex;                
-    justify-content: space-around; 
-    align-items: center;           
-    text-align: center;            
-    color: rgb(0, 0, 0);                  
-    padding: 10px 0;               
-    width: 100%;                   
-    margin: 10px 0;                
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+    color: rgb(0, 0, 0);
+    padding: 10px 0;
+    width: 100%;
+    margin: 10px 0;
     margin-bottom: 25px;
 }
 
 .ratingItem {
-    flex: 1;                       /* 모든 항목이 동일한 너비를 가지도록 설정 */
+    flex: 1; /* 모든 항목이 동일한 너비를 가지도록 설정 */
 }
 
 .value {
-    font-size: 16px;               /* 숫자 크기 */
-    font-weight: bold;             /* 굵은 글씨 */
+    font-size: 16px; /* 숫자 크기 */
+    font-weight: bold; /* 굵은 글씨 */
+    margin-bottom: 12px;
 }
 
 .label {
-    font-size: 12px;               /* 라벨 텍스트 크기 */
-    margin-top: 5px;               /* 라벨과 값 사이의 간격 */
-    color:#666
+    font-size: 12px; /* 라벨 텍스트 크기 */
+    color: #a0a1a4; /* 회색 */
 }
 
 
 .reviewButton {
     display: block;
     width: 100%;
-    padding: 10px;
+    height: 51px;
     color: white;
-    background-color: #673AB7;
+    background-color: #7B61FF;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
     cursor: pointer;
 }
 
 .socialButtons {
     display: flex;
     justify-content: center;
-    margin-top: 30px;  /* 간격을 50px로 설정 */
-    padding-left: 50px;  /* 왼쪽 패딩 추가 */
+    margin-top: 30px;
+    justify-content: space-around;
 }
 
-  
+
 .socialButtons span {
     margin-right: 20px;
     font-size: 1.5em;
 }
 
 .socialIcon {
-    width: 20px;  /* 아이콘 크기 조절 */
+    width: 20px; /* 아이콘 크기 조절 */
     height: 24px;
-    margin-right: 45px; /* 아이콘 간의 간격 조절 */
-
 }
-  
+
 .navBar {
-    margin-top:10px;
-    background-color: #FFFFFF; /* 네비게이션 바의 배경색을 흰색으로 설정 */
+    margin-top: 10px;
+    background-color: #FFFFFF;
     display: flex;
-    justify-content: center; /* 탭들을 중앙에 위치시키기 */
+    justify-content: center;
     padding: 10px 0;
-    box-shadow: 0px 3px 6px #00000029; /* 상단의 그림자 효과 */
-    border-radius: 10px; /* 모서리를 둥글게 만듬 */
+    box-shadow: 0px 3px 6px #00000029;
+    border-radius: 10px;
+    gap: 20px;
 }
 
 .tab {
@@ -103,12 +128,57 @@
     cursor: pointer;
     color: #383838;
     text-align: center;
-    font-family: Roboto;
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
     line-height: 16px; /* 100% */
     letter-spacing: 0.32px;
+}
+
+.trackItem {
+    display: flex;
+    flex-direction: row;
+    font-size: 12px;
+    padding: 0;
+    align-items: center;
+}
+
+.trackDuration {
+    margin-right: 16px;
+    color: #a0a1a4;
+    font-size: 12px;
+}
+
+.starIcon {
+    margin-right: 8px;
+}
+
+.trackRating {
+    display: flex;
+    align-items: center;
+
+}
+
+.trackListContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 0 24px 0 12px;
+}
+
+
+.trackNumber {
+    color: #a0a1a4;
+    margin-right: 26px;
+    font-size: 16px;
+    text-align: center;
+    width: 16px;
+}
+
+.trackTitle {
+    flex: 1;
+    margin-right: 12px;
+    font-size: 16px;
 }
 
 .activeTab {
@@ -131,6 +201,7 @@
     height: 0;
     background: transparent;
     border-radius: 5px;
+    margin-top: 5px;
     transition: all 0.3s;
 }
 
@@ -145,21 +216,22 @@
 .mainPage {
     background-color: #ffffff;
     font-family: Arial, sans-serif;
-    margin-left:20px;
-    
+    margin-left: 20px;
+
 }
+
 .homeSection {
-    margin-left:20px;
-    
+    margin-left: 20px;
+
 }
 
 .sectionTitle {
     display: flex;
-    justify-content: space-between; 
-    align-items: center; 
-    width: 100%; 
-    margin-top:20px;
-    margin-bottom:10px;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 10px;
 }
 
 .toggleContainer {
@@ -167,6 +239,6 @@
     margin-right: 20px;
 }
 
-.arrow{
-    width: 25px; 
+.arrow {
+    width: 25px;
 }

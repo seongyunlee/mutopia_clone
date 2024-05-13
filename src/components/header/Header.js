@@ -55,7 +55,7 @@ const Header = (props) => {
     }
 
     return (
-        <div>
+        <div className={styles.headerWrapper}>
             <LoginModal/>
             <header className={styles.headerContainer}>
                 <img className={styles.logo} src="/mutopia.svg" alt="MUTOPIA"></img>
