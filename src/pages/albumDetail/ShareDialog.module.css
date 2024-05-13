@@ -1,0 +1,55 @@
+.dialogContainer {
+    width: 90vw;
+    max-width: 300px;
+    background-color: white;
+    border-radius: 20px;
+    border: none;
+
+}
+
+.header {
+    display: flex;
+    font-size: 16px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.closeButton {
+    width: 20px;
+    height: 20px;
+    margin-left: auto;
+}
+
+.body {
+    display: flex;
+}
+
+.linkBox {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    font-size: 12px;
+    border: 1px solid grey;
+    align-items: center;
+    padding: 8px;
+    border-radius: 12px;
+}
+
+.linkText {
+    flex: 1;
+}
+
+.copyButton {
+    height: 24px;
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+    justify-self: flex-end;
+    background-color: var(--color-primary);
+    color: white;
+    border-radius: 12px;
+    box-sizing: border-box;
+}
+

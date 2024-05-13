@@ -1,5 +1,5 @@
 import styles from "./AlbumDetail.module.css";
-import {useEffect, useRef, useState} from "react";
+import {useContext, useEffect, useRef, useState} from "react";
 import {useParams} from "react-router-dom";
 import axios from "axios";
 import AlbumReviewWrite from "../../components/albumReviewModal/AlbumReviewWrite";
@@ -7,6 +7,8 @@ import ReviewPreview from "../../components/reviewPreview/ReviewPreview";
 import PlaylistPreview from "../../components/playlistPreview/PlaylistPreview";
 import ToggleFilter from "../../components/toggleFilter/ToggleFilter";
 import TrackReview from "../../components/trackReview/TrackReview";
+import ShareDialog from "./ShareDialog";
+import {UserContext} from "../../context/UserContext";
 
 const MainPage = (props) => {
 
@@ -142,10 +144,16 @@ const TrackItem = (props) => {
 // 앨범 상세페이지 컴포넌트
 const AlbumDetailsPage = (props) => {
     console.log(props.albumId)
+
+    const {user, setUser} = useContext(UserContext);
+
     const [reviewWriteModalOpen, setReviewWriteModalOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(true); // 로딩 상태 추가
     const reviewWriteModalBackground = useRef();
     const [albumInfo, setAlbumInfo] = useState(null);
+    const [myRating, setMyRating] = useState("-");
+    const [myReviewId, setMyReviewId] = useState(null);
+    const [isLiked, setIsLiked] = useState(false);
 
     const fetchAlbumInfo = async () => {
         try {
@@ -156,13 +164,102 @@ const AlbumDetailsPage = (props) => {
             setIsLoading(false); // 데이터를 불러온 후 로딩 상태를 false로 설정
         } catch (error) {
             console.error('Failed to fetch album information:', error);
-            alert('Failed to fetch album information');
-            setIsLoading(false); // 에러 발생 시 로딩 상태를 false로 설정
+            alert('잘못된 접근입니다.');
+            history.back();
         }
     };
 
+    const showShareDialog = () => {
+        const dialog = document.getElementById("shareDialog");
+        dialog.showModal();
+
+    }
+
+    const getMyReview = async () => {
+        const jwt = localStorage.getItem("accessToken");
+        if (jwt === null) {
+            return;
+        }
+        axios.get(`${process.env.REACT_APP_API_HOST}/album/review/check?albumId=${props.albumId}`, {
+            headers: {
+                Authorization: `Bearer ${jwt}`
+            }
+        }).then((response) => {
+            if (response.data.userHasReviewed && response.data.albumReviewId !== null) {
+                setMyReviewId(response.data.albumReviewId)
+            }
+        }).catch((error) => {
+            console.error('Failed to fetch my review:', error);
+        });
+    }
+
+    const getMyRating = async () => {
+        const jwt = localStorage.getItem("accessToken");
+        if (jwt === null) {
+            return;
+        }
+        axios.get(`${process.env.REACT_APP_API_HOST}/album/${props.albumId}/rating`, {
+            headers: {
+                Authorization: `Bearer ${jwt}`
+            }
+        }).then((response) => {
+            if (response.data.rating !== null) {
+                setMyRating(response.data.rating)
+            }
+        }).catch((error) => {
+            console.error('Failed to fetch my review:', error);
+        });
+    }
+
+    const moveToMyReviewOrWrite = () => {
+        console.log(user.id);
+        if (!user?.id && false) {
+            alert('로그인이 필요합니다.');
+            const loginDialog = document.getElementById("loginModal");
+            loginDialog.showModal();
+            return;
+        }
+        if (myReviewId) {
+            window.location.href = `/album/review/${myReviewId}`;
+        } else {
+            setReviewWriteModalOpen(true);
+        }
+
+    }
+
+    const toggleAlbumLike = () => {
+        const jwt = localStorage.getItem("accessToken");
+        if (jwt === null) {
+            alert('로그인이 필요합니다.');
+            const loginDialog = document.getElementById("loginModal");
+            loginDialog.showModal();
+            return;
+        }
+        axois.post(`${process.env.REACT_APP_API_HOST}/album/${props.albumId}/like/toggle`, {}, {
+            headers: {
+                Authorization: `Bearer ${jwt}`
+            }
+        }).then((response) => {
+            setIsLiked(response.data.likeStatus === "ON")
+        }).catch((error) => {
+            setIsLiked(!isLiked);
+        });
+    }
+
+    const onAlbumLikeClicked = () => {
+        setIsLiked(!isLiked);
+        toggleAlbumLike();
+    }
+
+    const onTopsterAddClicked = () => {
+
+    }
+
+
     useEffect(() => {
         fetchAlbumInfo();
+        getMyReview();
+        getMyRating();
     }, [props.albumId]);
 
     if (isLoading) {
@@ -185,29 +282,30 @@ const AlbumDetailsPage = (props) => {
                     <div className={styles.ratingItem}>
                         <div className={styles.value}>
                             {albumInfo.totalReviewCount ? albumInfo.totalReviewCount : 0}</div>
-                        <div className={styles.label}>Total Reviews</div>
+                        <div className={styles.label}>총 리뷰</div>
                     </div>
                     <div className={styles.ratingItem}>
                         <div className={styles.value}>
-                            {albumInfo.averageRating ? albumInfo.averageRating.toFixed(1) : 0} / 5
+                            {albumInfo.averageRating ? albumInfo.averageRating.toFixed(1) : 0} / 5.0
                         </div>
-                        <div className={styles.label}>Average Ratings</div>
+                        <div className={styles.label}>전체 평가</div>
                     </div>
                     <div className={styles.ratingItem}>
-                        <div className={styles.value}>? / 5</div>
-                        <div className={styles.label}>Your Ratings</div>
+                        <div className={styles.value}>{`${myRating} / 5.0`}</div>
+                        <div className={styles.label}>내 평가</div>
                     </div>
                 </div>
 
-                <button className={styles.reviewButton} onClick={() => setReviewWriteModalOpen(true)}>이 앨범 리뷰하기 / 나의 리뷰
-                    보기
+                <button className={styles.reviewButton} onClick={() => moveToMyReviewOrWrite()}>
+                    {myReviewId ? "나의 리뷰 보기" : "이 앨범 리뷰하기"}
                 </button>
                 <div className={styles.socialButtons}>
-                    <img src="/heart-icon.svg" alt="Vector" className={styles.socialIcon}/>
-                    <img src="/share.svg" alt="Share" className={styles.socialIcon}/>
-                    <img src="/add.svg" alt="Add" className={styles.socialIcon}/>
+                    <img src="/heart-icon.svg" alt="❤️" className={styles.socialIcon} onClick={onAlbumLikeClicked}/>
+                    <img src="/share.svg" alt="🔗" className={styles.socialIcon} onClick={showShareDialog}/>
+                    <img src="/add.svg" alt="🌠" className={styles.socialIcon}/>
                 </div>
             </div>
+            <ShareDialog dialogId="shareDialog" linkUrl="https://naver.com"/>
             <NavigationBar
                 data={albumInfo}
             /> {/* This remains outside the new container */}
