@@ -73,10 +73,13 @@ const Home = () => {
                                 onContainerClick={onContainerClick}/>
                         </div>
                     </section>) :
-                <div className={styles.mutopiaInfo}>
-                    <p>Mutopia는 모든 음악 애호가들이 음악에 대한 경험을 기록하고 공유할 수 있는 공간입니다.</p>
-                    <p>여러분만의 플레이리스트를 만들고, 좋아하는 앨범에 대한 리뷰를 남기며 음악의 세계를 더 깊이 탐험할 수 있습니다. </p>
-                    <p>지금 가입하고, 음악적 여정을 함께 할 커뮤니티를 만나보세요.</p>
+                <div className={styles.mutopiaInfo} style={{backgroundImage: `url(/intro-background.png)`}}>
+                    <img src="/mutopia.svg" alt="" className={styles.mutopiaLogo}/>
+                    <div className={styles.mutopiaDescription}>전 세계 음악 팬들과 함께 취향을 공유해 보세요.</div>
+                    <div className={styles.mutopiaDetail}>Mutopia는 여러분이 듣는 모든 음악을 기록하고 친구들과 음악에 대한 열정을 나눌 수 있는 소셜
+                        플랫폼입니다.
+                        <br/>나만의 취향을 마음껏 펼치며, 음악계에서 가장 빠르게 성장하는 커뮤니티에서 자신만의 리스트를 공유해보세요.
+                    </div>
                 </div>}
             <section>
                 <div className={styles.sectionTitle}>트렌딩 앨범</div>
