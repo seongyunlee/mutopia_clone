@@ -31,7 +31,7 @@ const ProfileHeader = () => {
                     
                 </div>
             </div>
-            <div className={styles.profileContainerThird}>이름과 바이오</div>
+            <div className={styles.profileContainerThird}>{"💿 청계산 댕이레코즈\n⛰ 서울특별시 강남구 학동로25길 27\n⏳ 영업시간 : AI 마음\n🐶 취향자브종\n🍯 당신의 고막은 책임져드리지 않습니다"}</div>
 
         </header>
     );

@@ -8,12 +8,10 @@
 .profileNavBar{
     margin-top: 15px;
     margin-bottom: 7px;
+    padding: 0 54px;
     flex-direction: row;
-    display: flex;
-    width: 390px;
-    padding: 0px 54px;
-    gap: 100px;
-
+    display: flex;    
+    justify-content: space-between;
 }
 
 .tab {
@@ -45,13 +43,43 @@
     border-radius: 5px;
 }
 
-.topsterContainer {
-    width: auto;
-    padding: 4px 4px 0 4px;
-    box-sizing: content-box;
+.mainSection{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    gap: 50px;
+    padding: 20px 25px;
 }
 
-.sectionTitle {
+.topsterContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.profileMainReview{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.profileMainComment{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.sectionTitleMine{
+    color: #808080;
+    font-family: Roboto;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.sectionTitleOther{
     font-size: 16px;
     font-weight: 600;
     color: #808080;
@@ -60,10 +88,21 @@
 
 .sectionTitleContainer {
     display: flex;
-    padding: 0 12px 16px;
 }
 
 .btnEditTopster {
     width: 14px;
     height: 14px;
+}
+
+.albumReviewContainer{
+    display: flex;
+    flex-direction: row;
+    gap: 14px;
+}
+
+.songCommentContainer{
+    display: flex;
+    flex-direction: row;
+    gap: 14px;
 }

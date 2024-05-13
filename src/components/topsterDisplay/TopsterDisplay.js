@@ -72,7 +72,20 @@ const TopsterDisplay = (props) => {
                 ))}
             </div>
             <div className={styles.smallerRow}>
-                {albums.slice(3).map((album, index) => (
+                {albums.slice(3, 7).map((album, index) => (
+                    <div className={styles.smallAlbum} key={index + 3}>
+                        <img 
+                            className={styles.albumsmallCoverImg} 
+                            src={album ? album.albumCoverImg : "/path/to/default-image.jpg"} 
+                            alt={album ? album.name : "Default Image"}
+                            onClick={() => onAlbumClick(album)}
+                        />
+                        {isErasable && <img className={styles.deleteIcon} src="/cross-circle.svg" alt="delete" />}
+                    </div>
+                ))}
+            </div>
+            <div className={styles.smallerRow}>
+                {albums.slice(7, 11).map((album, index) => (
                     <div className={styles.smallAlbum} key={index + 3}>
                         <img 
                             className={styles.albumsmallCoverImg} 

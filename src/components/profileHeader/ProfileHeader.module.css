@@ -56,7 +56,6 @@
     display: flex;
     flex-direction: row;
     gap: 30px;
-    margin-left: 40px;
 }
 
 .profileInfoElement{
@@ -86,7 +85,8 @@
 
 .profileContainerSecond {
     display: flex; /* Flexbox 레이아웃 사용 */
-     /* 컴포넌트를 양쪽 끝에 배치 */
+    flex-direction: row;
+    gap: 60px;
     align-items: center; /* 수직 중심 정렬 */
     padding: 10px 23px;
 }
@@ -96,7 +96,7 @@
     justify-content: space-between; /* 컴포넌트를 양쪽 끝에 배치 */
     align-items: center; /* 수직 중심 정렬 */
     padding: 10px 23px;
-    min-height: 100px;
+    white-space: pre-wrap;
     color: #383838;
     font-family: Roboto;
     font-size: 14px;
