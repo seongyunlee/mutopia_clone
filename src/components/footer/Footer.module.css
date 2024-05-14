@@ -2,6 +2,13 @@
     display: flex;
     flex-direction: row;
     text-align: center;
+    color: #383838;
+    text-align: center;
+    font-family: Roboto;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
 }
 
 .footerItemContainer {
@@ -12,9 +19,9 @@
 }
 
 .footerItemContainer > img {
-    width: 20px;
-    height: 20px;
-    padding: 5px;
+    width: 24px;
+    height: 24px;
+    padding: 3px;
 }
 
 
