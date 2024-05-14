@@ -77,9 +77,3 @@
     height: 14px;
 }
 
-.previewContainer{
-    display: flex;
-    flex-direction: row;
-    gap: 14px;
-    width: 100%;
-}

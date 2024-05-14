@@ -31,7 +31,7 @@ const MainPage = () => {
             <div className={styles.sectionTitleContainer}>
                 <div className={styles.sectionTitle}>{isMine ? titleMine[1] : user.Name + titleOthers[1]}</div>
             </div>
-            <div className={styles.previewContainer}>
+            <div className="verticalScroll">
                 <ReviewPreview/>
                 <ReviewPreview/>
                 <ReviewPreview/>
@@ -48,7 +48,7 @@ const MainPage = () => {
             <div className={styles.sectionTitleContainer}>
                 <div className={styles.sectionTitle}>{isMine ? titleMine[2] : user.Name + titleOthers[2]}</div>
             </div>
-            <div className={styles.previewContainer}>
+            <div className="verticalScroll">
                 <TrackReview/>
                 <TrackReview/>
                 <TrackReview/>
@@ -79,7 +79,7 @@ const ReviewPage = () => {
             <div className={styles.sectionTitleContainer}>
                 <div className={styles.sectionTitle}>{isMine ? titleMine[0] : user.Name + titleOthers[0]}</div>
             </div>
-            <div className={styles.previewContainer}>
+            <div className="verticalScroll">
                 <ReviewPreview/>
                 <ReviewPreview/>
                 <ReviewPreview/>
@@ -96,7 +96,7 @@ const ReviewPage = () => {
             <div className={styles.sectionTitleContainer}>
                 <div className={styles.sectionTitle}>{isMine ? titleMine[1] : user.Name + titleOthers[1]}</div>
             </div>
-            <div className={styles.previewContainer}>
+            <div className="verticalScroll">
                 <TrackReview/>
                 <TrackReview/>
                 <TrackReview/>
@@ -113,7 +113,7 @@ const ReviewPage = () => {
             <div className={styles.sectionTitleContainer}>
                 <div className={styles.sectionTitle}>{isMine ? titleMine[2] : user.Name + titleOthers[2]}</div>
             </div>
-            <div className={styles.previewContainer}>
+            <div className="verticalScroll">
                 <PlaylistPreview/>
                 <PlaylistPreview/>
                 <PlaylistPreview/>
@@ -141,7 +141,7 @@ const LikesPage = () => {
             <div className={styles.sectionTitleContainer}>
                 <div className={styles.sectionTitle}>{isMine ? titleMine[1] : user.Name + titleOthers[1]}</div>
             </div>
-            <div className={styles.previewContainer}>
+            <div className="verticalScroll">
                 <ReviewPreview/>
                 <ReviewPreview/>
                 <ReviewPreview/>
@@ -158,7 +158,7 @@ const LikesPage = () => {
             <div className={styles.sectionTitleContainer}>
                 <div className={styles.sectionTitle}>{isMine ? titleMine[2] : user.Name + titleOthers[2]}</div>
             </div>
-            <div className={styles.previewContainer}>
+            <div className="verticalScroll">
                 <TrackReview/>
                 <TrackReview/>
                 <TrackReview/>

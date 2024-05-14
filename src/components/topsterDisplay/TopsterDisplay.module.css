@@ -3,10 +3,10 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: auto;
+    width: 100%;
 }
 
-.largerRow{
+.largerRow {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -16,7 +16,13 @@
     gap: 4px;
 }
 
-.smallerRow{
+.largerRow > .largeAlbum {
+    flex: 1; /* 모든 largeAlbum 요소가 같은 크기를 갖도록 설정 */
+    min-width: 0; /* flex-basis가 0%가 되도록 설정, 필요한 경우 줄어드는 것을 방지 */
+    max-width: 33%; /* 한 줄에 4개가 최대로 나오도록 설정 (100% / 4) */
+}
+
+.smallerRow {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -24,20 +30,32 @@
     width: 100%;
     margin: 0;
     padding: 1px;
-    flex-wrap: wrap;
     gap: 8px;
+    flex-wrap: wrap;
+}
+
+.smallerRow > .smallAlbum {
+    flex: 1; /* 모든 smallAlbum 요소가 같은 크기를 갖도록 설정 */
+    min-width: 0; /* flex-basis가 0%가 되도록 설정, 필요한 경우 줄어드는 것을 방지 */
+    max-width: 25%; /* 한 줄에 4개가 최대로 나오도록 설정 (100% / 4) */
 }
 
 .albumlargeCoverImg {
-    width: 126px;
-    height: 126px;
+    width: 100%; /* 이미지 너비를 컨테이너에 맞춤 */
+    height: auto; /* 이미지 높이를 자동으로 조정하여 비율 유지 */
+    max-width: 100%; /* 최대 너비 제한 */
+    max-height: 100%; /* 최대 높이 제한 */
+    object-fit: cover; /* 컨테이너를 꽉 채우면서 이미지 비율 유지 */
     border-radius: 10px;
 }
 
 .albumsmallCoverImg {
-    width: 92px;
-    height: 96px;
-    border-radius: 5px;
+    width: 100%; /* 이미지 너비를 컨테이너에 맞춤 */
+    height: auto; /* 이미지 높이를 자동으로 조정하여 비율 유지 */
+    max-width: 100%; /* 최대 너비 제한 */
+    max-height: 100%; /* 최대 높이 제한 */
+    object-fit: cover; /* 컨테이너를 꽉 채우면서 이미지 비율 유지 */
+    border-radius: 5px; /* 모서리 둥글게 처리 */
 }
 
 .deleteIcon {
