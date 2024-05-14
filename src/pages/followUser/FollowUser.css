@@ -1,0 +1,128 @@
+.follow-page {
+    padding: 20px;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+}
+
+.header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.latest-section {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.latest-text {
+    font-size: 16px;
+    color: grey;
+    margin-right: 10px;
+}
+
+.latest-icon {
+    width: 24px;
+    height: 24px;
+}
+
+.tab-nav {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.tab-nav button {
+    background: none;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    color: grey;
+    transition: color 0.3s;
+}
+
+.tab-nav button.active {
+    color: black;
+    font-weight: bold;
+}
+
+.user-list {
+    list-style: none;
+    padding: 0;
+}
+
+.user-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: transparent;
+}
+
+.user-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.user-text {
+    flex-grow: 1; 
+}
+
+.user-name {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0;
+    margin-bottom: 4px; 
+}
+
+.user-bio {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+}
+
+.follow-btn {
+    padding: 8px 20px;
+    border: none;
+    border-radius: 20px;
+    background-color: #7B61FF;
+    color: white;
+    cursor: pointer;
+}
+
+
+
+.follow-btn.unfollow {
+    background-color: #7B61FF;
+}
+
+.follow-btn:hover {
+    background-color: #7B61FF;
+}
+
+.follow-btn.unfollow:hover {
+    background-color: #7B61FF;
+}
+
+.indicator {
+    height: 2px;
+    background-color: #7B61FF; 
+    width: 100%;
+    margin-top: 2px; 
+}
+
+.hidden {
+    display: none; 
+}
