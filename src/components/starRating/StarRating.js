@@ -4,7 +4,7 @@ const Star = ({type}) => {
 
     if (type === 1) {
         return (
-            <img src="/HalfStar.svg"/>
+            <img src="/HalfStarYellow.svg"/>
         )
     }
     if (type > 0) {
@@ -13,7 +13,7 @@ const Star = ({type}) => {
         )
     }
     return (
-        <img src="/BlankStarLarge.svg"/>
+        <img src="/BlankStar.svg"/>
     )
 }
 
