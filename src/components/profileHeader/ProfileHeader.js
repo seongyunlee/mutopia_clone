@@ -20,9 +20,13 @@ const ProfileHeader = (props) => {
             <div className={styles.profileContainerSecond}>
                 <img src="/defaultProfile.svg" alt="profile" className={styles.profilePhoto}/>
                 <div className={styles.profileInfo}>
-                    <div className={styles.profileInfoElement} onClick={() => handleButtonClick('/followUser', 'followers')}>
+                    <div className={styles.profileInfoElement} >
                         <div className={styles.profileInfoElementNum}>94</div>
                         <div className={styles.profileInfoElementText}>리뷰</div>
+                    </div>
+                    <div className={styles.profileInfoElement} >
+                        <div className={styles.profileInfoElementNum}>94</div>
+                        <div className={styles.profileInfoElementText}>평가</div>
                     </div>
                     <div className={styles.profileInfoElement} onClick={() => handleButtonClick('/followUser', 'followers')}>
                         <div className={styles.profileInfoElementNum}>123</div>
