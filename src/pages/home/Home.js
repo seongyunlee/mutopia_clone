@@ -1,11 +1,11 @@
 import AlbumWall from "../../components/albumWall/AlbumWall";
 import styles from "./Home.module.css";
-import ReviewPreview from "../../components/reviewPreview/ReviewPreview";
 import PlaylistPreview from "../../components/playlistPreview/PlaylistPreview";
 import ToggleFilter from "../../components/toggleFilter/ToggleFilter";
 import TrackReview from "../../components/trackReview/TrackReview";
 import {useContext, useEffect} from "react";
 import {UserContext} from "../../context/UserContext";
+import ReviewPreview from "../../components/reviewPreview/ReviewPreview";
 
 const Home = () => {
     const onContainerClick = () => {
@@ -15,6 +15,35 @@ const Home = () => {
 
     const {user, setUser} = useContext(UserContext);
 
+
+    const mockReview =
+        {
+            "review": {
+                "id": 1,
+                "title": "asdvc",
+                "content": "asdf",
+                "rating": 4,
+                "isLiked": false,
+                "likeCount": 0,
+                "createdAt": "1970-01-05"
+            },
+            "writer": {
+                "id": "testuser",
+                "username": "테스트유저",
+                "profileImageUrl": "https://icampus.skku.edu/customs/main/header_logo.png?v=123213"
+            },
+            "album": {
+                "id": "02vMw0MNNUbBxS6WeB1PR4",
+                "name": "Blink Twice If You’re Okay",
+                "artistName": "FARR",
+                "coverImageUrl": "https://i.scdn.co/image/ab67616d0000b27307d0d17f6fb756e66812f86a",
+                "releaseDate": "2024-05-10",
+                "length": null,
+                "totalReviewCount": 2,
+                "averageRating": null,
+                "totalLikeCount": 0
+            }
+        }
 
     const getJWT = () => {
         // get token from query string "accessToken"
@@ -59,18 +88,10 @@ const Home = () => {
                         <div className={styles.sectionTitle}>팔로워들의 최근 업로드</div>
                         <div className="verticalScroll">
                             <ReviewPreview
-                                ellipse85="/ellipse-85@2x.png"
-                                iFeel="I feel"
-                                rectangle1480="/rectangle-1480@2x.png"
-                                prop="아이들 리뷰 제목"
-                                onContainerClick={onContainerClick}
+                                content={mockReview}
                             />
                             <ReviewPreview
-                                ellipse85="/ellipse-85@2x.png"
-                                iFeel="I feel"
-                                rectangle1480="/rectangle-1480@2x.png"
-                                prop="아이들 리뷰 제목"
-                                onContainerClick={onContainerClick}/>
+                                content={mockReview}/>
                         </div>
                     </section>) :
                 <div className={styles.mutopiaInfo} style={{backgroundImage: `url(/intro-background.png)`}}>
@@ -94,18 +115,10 @@ const Home = () => {
                 </div>
                 <div className="verticalScroll">
                     <ReviewPreview
-                        ellipse85="/ellipse-85@2x.png"
-                        iFeel="I feel"
-                        rectangle1480="/rectangle-1480@2x.png"
-                        prop="아이들 리뷰 제목"
-                        onContainerClick={onContainerClick}
+                        content={mockReview}
                     />
                     <ReviewPreview
-                        ellipse85="/ellipse-85@2x.png"
-                        iFeel="I feel"
-                        rectangle1480="/rectangle-1480@2x.png"
-                        prop="아이들 리뷰 제목"
-                        onContainerClick={onContainerClick}/>
+                        content={mockReview}/>
                 </div>
             </section>
             <section className={styles.homeSection}>

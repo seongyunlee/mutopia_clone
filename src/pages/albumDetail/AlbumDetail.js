@@ -36,10 +36,22 @@ const MainPage = (props) => {
                     }
                 </div>
                 <div className={styles.sectionTitle}>
-                    <h2>탑리뷰</h2>
-                    <div className={styles.toggleContainer}>
-                        <img src="/arrow_up.svg" alt="arrow" className={styles.arrow}/>
+                    <h2>앨범 리뷰</h2>
+                </div>
+                {reviews?.length > 0 ?
+                    <div className="verticalScroll">
+                        {reviews?.map((review) => {
+                            return (<ReviewPreview
+                                key={review.id}
+                                content={review}
+                            />)
+                        })
+                        }
                     </div>
+                    : <div> 아직 작성된 리뷰가 없습니다. 첫 리뷰를 남겨주세요</div>
+                }
+                <div className={styles.sectionTitle}>
+                    <h2>곡 리뷰</h2>
                 </div>
                 <div className="verticalScroll">
                     <TrackReview/>
@@ -55,6 +67,7 @@ const MainPage = (props) => {
 };
 
 const ReviewPage = () => {
+
     const onContainerClick = () => {
     };
     return (
@@ -68,18 +81,8 @@ const ReviewPage = () => {
                 </div>
                 <div className="verticalScroll">
                     <ReviewPreview
-                        ellipse85="/ellipse-85@2x.png"
-                        iFeel="I feel"
-                        rectangle1480="/rectangle-1480@2x.png"
-                        prop="아이들 리뷰 제목"
-                        onContainerClick={onContainerClick}
                     />
-                    <ReviewPreview
-                        ellipse85="/ellipse-85@2x.png"
-                        iFeel="I feel"
-                        rectangle1480="/rectangle-1480@2x.png"
-                        prop="아이들 리뷰 제목"
-                        onContainerClick={onContainerClick}/>
+                    <ReviewPreview/>
                 </div>
 
                 <div className={styles.sectionTitle}>
@@ -154,6 +157,20 @@ const AlbumDetailsPage = (props) => {
     const [myRating, setMyRating] = useState("-");
     const [myReviewId, setMyReviewId] = useState(null);
     const [isLiked, setIsLiked] = useState(false);
+    const [reviewList, setReviewList] = useState([]);
+
+    const getRecentReviews = () => {
+        const jwt = localStorage.getItem("accessToken");
+        axios.get(`${process.env.REACT_APP_API_HOST}/album/${props.albumId}/review/recent`, {
+            headers: {
+                Authorization: `Bearer ${jwt}`
+            }
+        }).then((response) => {
+            setReviewList(response.data);
+        }).catch((error) => {
+        });
+    }
+
 
     const fetchAlbumInfo = async () => {
         try {
@@ -260,6 +277,8 @@ const AlbumDetailsPage = (props) => {
         fetchAlbumInfo();
         getMyReview();
         getMyRating();
+        getRecentReviews();
+
     }, [props.albumId]);
 
     if (isLoading) {
@@ -307,7 +326,7 @@ const AlbumDetailsPage = (props) => {
             </div>
             <ShareDialog dialogId="shareDialog" linkUrl="https://naver.com"/>
             <NavigationBar
-                data={albumInfo}
+                data={{albumInfo, reviewList}}
             /> {/* This remains outside the new container */}
             {reviewWriteModalOpen &&
                 <AlbumReviewWrite albumId={props.albumId}
@@ -324,7 +343,10 @@ const AlbumDetailsPage = (props) => {
 const NavigationBar = (props) => {
     const [tab, setTab] = useState('main');
 
+    console.log(props.data, "fff")
+
     const {data} = props;
+    const {albumInfo, reviewList} = data;
 
     return (
         <div>
@@ -344,7 +366,7 @@ const NavigationBar = (props) => {
             </div>
             <div>
                 {tab === 'main' &&
-                    <MainPage tracks={data.albumTrackList}/>}
+                    <MainPage tracks={albumInfo?.albumTrackList} reviews={reviewList}/>}
                 {tab === 'review' && <ReviewPage/>}
                 {tab === 'list' && <ListPage/>}
             </div>
