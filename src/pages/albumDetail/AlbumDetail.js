@@ -161,10 +161,12 @@ const AlbumDetailsPage = (props) => {
 
     const getRecentReviews = () => {
         const jwt = localStorage.getItem("accessToken");
+        const headers = {}
+        if (jwt !== null) {
+            headers.Authorization = `Bearer ${jwt}`;
+        }
         axios.get(`${process.env.REACT_APP_API_HOST}/album/${props.albumId}/review/recent`, {
-            headers: {
-                Authorization: `Bearer ${jwt}`
-            }
+            headers: headers
         }).then((response) => {
             setReviewList(response.data);
         }).catch((error) => {

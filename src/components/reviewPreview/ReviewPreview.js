@@ -53,13 +53,13 @@ const ReviewPreview = (props) => {
                     <StarRating score={review?.rating}/>
                 </div>
                 <div className={styles.authorContainer}>
-                    <div>{writer?.name}</div>
+                    <div>{writer?.username}</div>
                     <img className={styles.authorProfileImg} alt="" src={writer?.profileImageUrl}/>
                 </div>
             </div>
             <div>
                 <div className={styles.reviewTitle}>
-                    {review?.name}
+                    {review?.title}
                 </div>
 
                 <div>
