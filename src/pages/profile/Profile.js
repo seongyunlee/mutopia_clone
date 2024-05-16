@@ -213,7 +213,7 @@ const Profile = () => {
                     <div className={styles.indicator}></div>
                 </div>
                 <div className={tab === 'likes' ? styles.activeTab : styles.tab} onClick={() => setTab('likes')}>
-                    <img src="/profilefavorite.svg"/>
+                <img src="/profilefavorite.svg"/>
                     <div className={styles.indicator}></div>
                 </div>
             </div>
