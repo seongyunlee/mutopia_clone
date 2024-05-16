@@ -54,7 +54,7 @@ const EditProfile = () => {
             formData.append('bio', bio);
         }
 
-        axios.post(`${process.env.REACT_APP_API_HOST}/user/profile/me/edit`, formData, {
+        axios.patch(`${process.env.REACT_APP_API_HOST}/user/profile/me`, formData, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
