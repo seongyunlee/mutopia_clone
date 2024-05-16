@@ -4,6 +4,7 @@ import ReviewPreview from "../../components/reviewPreview/ReviewPreview";
 import TrackReview from "../../components/trackReview/TrackReview";
 import PlaylistPreview from "../../components/playlistPreview/PlaylistPreview";
 import LikedAlbumList from "../../components/likedAlbumList/LikedAlbumList";
+import LikedTrackList from "../../components/likedTrackList/LikedTrackList";
 import styles from "./Profile.module.css";
 import {useContext, useState} from "react";
 import {UserContext} from "../../context/UserContext";
@@ -142,9 +143,27 @@ const LikesPage = () => {
             </div>
             <LikedAlbumList/>
         </section>
-        <section className={styles.profileMainComment}>
+        <section className={styles.subSection}>
             <div className={styles.sectionTitleContainer}>
                 <div className={styles.sectionTitle}>{title[1]}</div>
+            </div>
+            <LikedTrackList/>
+        </section>
+        <section className={styles.subSection}>
+            <div className={styles.sectionTitleContainer}>
+                <div className={styles.sectionTitle}>{title[2]}</div>
+            </div>
+            <div className="verticalScroll">
+                <ReviewPreview/>
+                <ReviewPreview/>
+                <ReviewPreview/>
+                <ReviewPreview/>
+                <ReviewPreview/>
+                <ReviewPreview/>
+                <ReviewPreview/>
+                <ReviewPreview/>
+                <ReviewPreview/>
+                <ReviewPreview/>
             </div>
             <div className="verticalScroll">
                 <TrackReview/>
@@ -161,15 +180,9 @@ const LikesPage = () => {
         </section>
         <section className={styles.subSection}>
             <div className={styles.sectionTitleContainer}>
-                <div className={styles.sectionTitle}>{title[2]}</div>
-            </div>
-            <LikedAlbumList/>
-        </section>
-        <section className={styles.subSection}>
-            <div className={styles.sectionTitleContainer}>
                 <div className={styles.sectionTitle}>{title[3]}</div>
             </div>
-            <LikedAlbumList/>
+            <PlaylistPreview/>
         </section>
         </div>
     )  
