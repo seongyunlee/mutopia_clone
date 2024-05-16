@@ -13,8 +13,8 @@ const MainPage = () => {
     const [isTopsterEraseMode, setIsTopsterEraseMode] = useState(false);
     // 자신의 프로필이라고 가정
     const [isMine, setIsMine] = useState(true);
-    const titleMine = ["내 뮤직보드", "내가 리뷰한 앨범 💿", "내가 남긴 한줄평 ✍🏻"];
-    const titleOthers = ["의 뮤직보드", "의 인생 앨범 💿", "의 인생곡 ✍🏻"];
+    const titleMine = ["내 뮤직보드 🎵", "내가 리뷰한 앨범 💿", "내가 남긴 한줄평 ✍🏻"];
+    const titleOthers = ["의 뮤직보드 🎵", "의 인생 앨범 💿", "의 인생곡 ✍🏻"];
     return(
         <div className={styles.TabSection}>
         <section className={styles.subSection}>
