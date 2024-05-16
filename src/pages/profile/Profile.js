@@ -141,13 +141,19 @@ const LikesPage = () => {
             <div className={styles.sectionTitleContainer}>
                 <div className={styles.sectionTitle}>{title[0]}</div>
             </div>
-            <LikedAlbumList/>
+            <div className="verticalScroll">
+                <LikedAlbumList/>
+            </div>
+            
         </section>
         <section className={styles.subSection}>
             <div className={styles.sectionTitleContainer}>
                 <div className={styles.sectionTitle}>{title[1]}</div>
             </div>
-            <LikedTrackList/>
+            <div className="verticalScroll">
+                <LikedTrackList/>
+            </div>
+            
         </section>
         <section className={styles.subSection}>
             <div className={styles.sectionTitleContainer}>
