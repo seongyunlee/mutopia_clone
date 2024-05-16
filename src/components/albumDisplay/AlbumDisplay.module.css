@@ -13,7 +13,7 @@
 .div {
   align-self: stretch;
   font-size: var(--font-size-3xs);
-  color: var(--color-darkgray);
+  color: #A0A1A4;;
 }
 .rectangleParent {
   width: 109px;
@@ -24,6 +24,6 @@
   gap: var(--gap-6xs);
   text-align: center;
   font-size: var(--font-size-xs);
-  color: var(--color-black);
+  color: #383838;
   font-family: var(--font-roboto);
 }

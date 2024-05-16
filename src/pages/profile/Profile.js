@@ -3,6 +3,7 @@ import TopsterDisplay from "../../components/topsterDisplay/TopsterDisplay";
 import ReviewPreview from "../../components/reviewPreview/ReviewPreview";
 import TrackReview from "../../components/trackReview/TrackReview";
 import PlaylistPreview from "../../components/playlistPreview/PlaylistPreview";
+import LikedAlbumList from "../../components/likedAlbumList/LikedAlbumList";
 import styles from "./Profile.module.css";
 import {useContext, useState} from "react";
 import {UserContext} from "../../context/UserContext";
@@ -68,7 +69,6 @@ const MainPage = () => {
 
 const ReviewPage = () => {
     const {user, setUser} = useContext(UserContext);
-    const [isTopsterEraseMode, setIsTopsterEraseMode] = useState(false);
     // 자신의 프로필이라고 가정
     const [isMine, setIsMine] = useState(true);
     const titleMine = ["나의 리뷰 앨범 💿", "나의 한줄평 ✍🏻", "나의 플레이리스트 🎧"];
@@ -130,33 +130,21 @@ const ReviewPage = () => {
 
 const LikesPage = () => {
     const {user, setUser} = useContext(UserContext);
-    const [isTopsterEraseMode, setIsTopsterEraseMode] = useState(false);
     // 자신의 프로필이라고 가정
     const [isMine, setIsMine] = useState(true);
-    const titleMine = ["내 뮤직보드", "내가 리뷰한 앨범 💿", "내가 남긴 한줄평 ✍🏻"];
-    const titleOthers = ["의 뮤직보드", "의 인생 앨범 💿", "의 인생곡 ✍🏻"];
+    const title = ["좋아요한 앨범 💘", "좋아요한 곡 ❣️", "내가 좋아요한 리뷰 💜", "찜한 플레이리스트 🎧"];
+    
     return(
         <div className={styles.TabSection}>
         <section className={styles.subSection}>
             <div className={styles.sectionTitleContainer}>
-                <div className={styles.sectionTitle}>{isMine ? titleMine[1] : user.Name + titleOthers[1]}</div>
+                <div className={styles.sectionTitle}>{title[0]}</div>
             </div>
-            <div className="verticalScroll">
-                <ReviewPreview/>
-                <ReviewPreview/>
-                <ReviewPreview/>
-                <ReviewPreview/>
-                <ReviewPreview/>
-                <ReviewPreview/>
-                <ReviewPreview/>
-                <ReviewPreview/>
-                <ReviewPreview/>
-                <ReviewPreview/>
-            </div>
+            <LikedAlbumList/>
         </section>
         <section className={styles.profileMainComment}>
             <div className={styles.sectionTitleContainer}>
-                <div className={styles.sectionTitle}>{isMine ? titleMine[2] : user.Name + titleOthers[2]}</div>
+                <div className={styles.sectionTitle}>{title[1]}</div>
             </div>
             <div className="verticalScroll">
                 <TrackReview/>
@@ -170,6 +158,18 @@ const LikesPage = () => {
                 <TrackReview/>
                 <TrackReview/>
             </div>
+        </section>
+        <section className={styles.subSection}>
+            <div className={styles.sectionTitleContainer}>
+                <div className={styles.sectionTitle}>{title[2]}</div>
+            </div>
+            <LikedAlbumList/>
+        </section>
+        <section className={styles.subSection}>
+            <div className={styles.sectionTitleContainer}>
+                <div className={styles.sectionTitle}>{title[3]}</div>
+            </div>
+            <LikedAlbumList/>
         </section>
         </div>
     )  
