@@ -20,7 +20,7 @@ const AlbumWall = () => {
                 artist=" 소녀시대"
             />
             <AlbumDisplay
-                coverImg="/rectangle-1513-3@2x.png"
+                coverImg="/ive.png"
                 name="LOVE DIVE"
                 artist="아이브"
             />

@@ -85,7 +85,9 @@ const Home = () => {
         <div className={styles.home}>
             {user.id ? (
                     <section className={styles.homeSection}>
-                        <div className={styles.sectionTitle}>팔로워들의 최근 업로드</div>
+                        <div className={styles.sectionTitleContainer}>
+                            <div className={styles.sectionTitle}>팔로워들이 듣고있어요 🔍</div>
+                        </div>
                         <div className="verticalScroll">
                             <ReviewPreview
                                 content={mockReview}
@@ -102,15 +104,18 @@ const Home = () => {
                         <br/>나만의 취향을 마음껏 펼치며, 음악계에서 가장 빠르게 성장하는 커뮤니티에서 자신만의 리스트를 공유해보세요.
                     </div>
                 </div>}
-            <section>
-                <div className={styles.sectionTitle}>트렌딩 앨범</div>
+            
+            <section className={styles.homeSection}>
+                <div className={styles.sectionTitleContainer}>
+                    <div className={styles.sectionTitle}>오늘 이거 들을까요? 🎧</div>
+                </div>
                 <AlbumWall/>
             </section>
+
+                
             <section className={styles.homeSection}>
-                <div className={styles.sectionTitle}>
-                    <div>
-                        앨범리뷰
-                    </div>
+            <div className={styles.sectionTitleContainer}>                    
+                    <div className={styles.sectionTitle}>뮤토피안들의 인생앨범 엿보기 👀</div>
                     <ToggleFilter menu={["최근", "인기"]}/>
                 </div>
                 <div className="verticalScroll">
@@ -121,18 +126,24 @@ const Home = () => {
                         content={mockReview}/>
                 </div>
             </section>
+            
             <section className={styles.homeSection}>
-                <div className={styles.sectionTitle}>
-                    <div>곡 별점</div>
+            <div className={styles.sectionTitleContainer}>                    
+                    <div className={styles.sectionTitle}>뮤토피안들의 인생곡 엿듣기 🎠</div>
                     <ToggleFilter menu={["최근", "인기"]}/>
                 </div>
                 <div className="verticalScroll">
                     <TrackReview/>
+                    <TrackReview/>
+                    <TrackReview/>
                 </div>
             </section>
+            
+
             <section className={styles.homeSection}>
-                <div className={styles.sectionTitle}>
-                    <div>플레이리스트</div>
+                <div className={styles.sectionTitleContainer}>                    
+                    <div className={styles.sectionTitle}>뮤토피안이 사랑한 플레이리스트 💘</div>
+                    <ToggleFilter menu={["최근", "인기"]}/>
                 </div>
                 <div className="verticalScroll">
                     <PlaylistPreview
