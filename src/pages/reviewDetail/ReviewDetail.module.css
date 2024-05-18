@@ -1,13 +1,16 @@
-.reviewContainer{
-    width: 342px;
+.reviewContainer {
     margin-top: 21px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-left: 29px;
+    padding: 0 30px; /* Add padding for better spacing */
+    width: 100%; /* Ensure full width */
+    max-width: 800px; /* Set a max width for readability */
+    margin: 0 auto; /* Center the container */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
 }
 
-.writerName{
+.writerName {
     color: #383838;
     text-align: right;
     font-family: Roboto;
@@ -17,30 +20,32 @@
     line-height: normal;
 }
 
-.writerPhoto{
+.writerPhoto {
     width: 30px;
     height: 30px;
     flex-shrink: 0;
     border-radius: 30px;
     background: url("/public/defaultProfile.svg") lightgray 50% / cover no-repeat;
 }
-.reviewWriter{
+
+.reviewWriter {
     align-self: flex-end;
     display: flex;
     flex-direction: row;
-    justify-content: flex-end; /* 컴포넌트를 오른쪽 정렬합니다 */
-    align-items: center; /* 수직축에서 컴포넌트를 중앙에 놓습니다 */
-    gap: 15px; /* 컴포넌트 사이에 15px의 간격을 둡니다 */
+    justify-content: flex-end; /* Align components to the right */
+    align-items: center; /* Center vertically */
+    gap: 10px; /* Add a gap between components */
+    margin-top: 30px;
 }
 
-.albumCover{
+.albumArt {
     margin-top: 5px;
     width: 120px;
     height: 120px;
 }
 
-.albumTitle{
-    max-width: 240px;
+.albumTitle {
+    max-width: 100%;
     min-height: 40px;
     color: #383838;
     font-family: Roboto;
@@ -50,7 +55,7 @@
     line-height: normal;
 }
 
-.artist{
+.artist {
     min-height: 16px;
     color: #787878;
     font-family: Roboto;
@@ -60,20 +65,19 @@
     line-height: normal;
 }
 
-.rating{
+.rating {
     margin-top: 20px;
 }
 
-.reviewInfo{
-    margin-left: 19px;
+.reviewInfo {
+    margin-left: 20px; /* Remove left margin */
     margin-top: 5px;
-    display: flex;
     flex-direction: column;
     align-items: flex-start;
-
+    width: 100%;
 }
 
-.dates{
+.dates {
     margin-top: 10px;
     align-self: flex-end;
     color: #A0A1A4;
@@ -85,18 +89,17 @@
     line-height: normal;
 }
 
-.reviewCover{
+.reviewCover {
     width: 100%;
     height: 130px;
     margin-top: 17px;
     display: flex;
     flex-direction: row;
-    
 }
 
-.reviewTitle{
+.reviewTitle {
     width: 100%;
-    margin-top: 9px;
+    margin-top: 20px;
     min-height: 52px;
     color: #383838;
     font-family: Roboto;
@@ -104,12 +107,10 @@
     font-style: normal;
     font-weight: 600;
     line-height: normal;
-
 }
 
-.reviewContent{
-    margin-top: 10px;
-    width: 342px;
+.reviewContent {
+    margin-bottom: 30px;
     color: #383838;
     text-align: justify;
     font-family: Roboto;
@@ -117,61 +118,44 @@
     font-style: normal;
     font-weight: 300;
     line-height: 23px; /* 143.75% */
+    width: 100%;
+    max-width: 800px; /* Ensure content width does not exceed container */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
 }
 
-.reivewNav{
-    margin-top: 20px;
-    margin-left: 7px;
-    width: 380px;
-    height: 51px;
+.reviewNav {
+    margin-top: 30px;
     flex-shrink: 0;
-    display: flex;
+    display: inline-flex;
     flex-direction: row;
     justify-content: space-between;
-
-
+    width: 100%;
+    max-width: 800px; /* Optional: Set a max width for readability */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
 }
 
-.likeIcon{
-    margin-left: 20px;
-    display: flex;
+.likeIcon {
+    display: inline-flex;
     flex-direction: row;
     align-items: center;
+    margin-right: 450px;
 }
 
-.socialCount{
-    color:#383838;
+.socialCount {
+    color: #383838;
     margin-left: 7px;
     margin-top: -2px;
 }
 
-.shareIcon{
-    margin-right: 30px;
+.shareIcon {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
 }
 
-.socialButtons {
-    display: flex;
-    justify-content: center;
-    margin-top: 30px;
-    justify-content: space-around;
-}
-
-
-.socialButtons span {
-    margin-right: 20px;
-    font-size: 1.5em;
-}
-
-.socialIcon {
-    width: 20px; /* 아이콘 크기 조절 */
-    height: 24px;
-}
-
-
-.btnWrite{
-    width: 360px;
+.btnWrite {
+    display: block; /* 버튼이 전체 너비를 차지하게 하여 중앙 정렬이 가능하도록 설정 */
     height: 51px;
-    margin-top: 16px;
     flex-shrink: 0;
     border-radius: 10px;
     border: none;
@@ -183,6 +167,47 @@
     font-style: normal;
     font-weight: 600;
     line-height: normal;
-    margin-left: 15px;
+    width: 100%; /* 필요에 따라 너비 조절 */
+    max-width: 550px; /* 가독성을 위해 최대 너비 설정 */
+    margin: 30px auto; /* 버튼을 중앙에 배치하고 상단 마진 추가 */
+    box-sizing: border-box; /* 패딩과 테두리를 요소의 전체 너비와 높이에 포함시킴 */
 }
 
+
+.othersContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    width: 100%;
+    max-width: 800px; /* Optional: Set a max width for readability */
+    margin: 0 auto; /* Center the container */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+.headerContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 100%;
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+.verticalScroll {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    max-height: 500px; /* Adjust this as needed */
+    width: 100%;
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+/* Additional styling for better appearance */
+h2 {
+    margin: 0;
+}
+
+.toggleContainer .menu {
+    display: flex;
+    gap: 10px; /* Adjust this as needed */
+}
