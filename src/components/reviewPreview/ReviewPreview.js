@@ -56,7 +56,7 @@ const ReviewPreview = (props) => {
                 <img className={styles.albumImg} alt="" src={album?.coverImageUrl}/>
                 <div className={styles.infoDetailContainer}>
                     <div className={styles.authorContainer}> 
-                        <div className={styles.authorName}>{writer?.username > 12 ? `${writer?.username.substring(0, )}...` : writer?.username}</div>
+                        <div className={styles.authorName}>{writer?.username > 12 ? `${writer?.username.substring(0, 12)}...` : writer?.username}</div>
                         <img className={styles.authorProfileImg} alt="" src={writer?.profileImageUrl}/>
                     </div>
                     <div className={styles.albumName}>{album?.name.length > 20 ? `${album?.name.substring(0, 20)}...` : album?.name}</div>
@@ -70,8 +70,8 @@ const ReviewPreview = (props) => {
                     {review?.title}
                 </div>
                 <div className={styles.reviewContent}>        
-                    <span
-                        className={styles.content}>{review.content}</span>
+                    <span 
+                        className={styles.content}>{review.content.length > 75 ? review.content.substring(0, 75) : review.content}</span>
                     <span className={styles.add}>....더보기</span>                    
                 </div>
             </div>   
