@@ -2,24 +2,20 @@ import styles from "./TopsterDisplay.module.css";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
 
-/**
- *
- * @param props = {albums: {albumId: string, albumCoverUrl: string, topsterId: long}[]}
- * @returns {JSX.Element}
- * @constructor
- */
+
 const TopsterDisplay = (props) => {
 
-    var {albums, isErasable} = props;
+    const {topsterInfo, isErasable} = props;
+    console.log(topsterInfo);
 
     const navigate = useNavigate();
 
     const moveToAlbumDetail = (albumId) => {
         navigate(`/albumDetail/${albumId}`);
     }
+    const albums = [];
 
-    if (!albums) {
-        albums = [];
+    if (topsterInfo == null) {
         const sample =
             {
                 topsterId: "1",
@@ -30,6 +26,10 @@ const TopsterDisplay = (props) => {
             albums.push(sample);
         }
 
+    } else{
+        for (let i = 0; i < topsterInfo.topsterAlbums.length; i++) {
+            albums.push(topsterInfo.topsterAlbums[i]);
+        }
     }
 
     const removeAlbum = (topsterId) => {
@@ -52,7 +52,7 @@ const TopsterDisplay = (props) => {
             confirm("탑스터를 삭제하시겠습니까?") && removeAlbum(album.topsterId);
 
         } else {
-            moveToAlbumDetail(album.albumId)
+            moveToAlbumDetail(album.id)
         }
     }
 
@@ -63,7 +63,7 @@ const TopsterDisplay = (props) => {
                     <div className={styles.largeAlbum} key={index}>
                         <img 
                             className={styles.albumlargeCoverImg} 
-                            src={album ? album.albumCoverImg : "/path/to/default-image.jpg"} 
+                            src={album ? album.coverImageUrl : "/topsterdefault.jpg"} 
                             alt={album ? album.name : "Default Image"}
                             onClick={() => onAlbumClick(album)}
                         />
@@ -76,7 +76,7 @@ const TopsterDisplay = (props) => {
                     <div className={styles.smallAlbum} key={index + 3}>
                         <img 
                             className={styles.albumsmallCoverImg} 
-                            src={album ? album.albumCoverImg : "/path/to/default-image.jpg"} 
+                            src={album ? album.coverImageUrl : "/topsterdefault.jpg"} 
                             alt={album ? album.name : "Default Image"}
                             onClick={() => onAlbumClick(album)}
                         />
@@ -89,7 +89,7 @@ const TopsterDisplay = (props) => {
                     <div className={styles.smallAlbum} key={index + 3}>
                         <img 
                             className={styles.albumsmallCoverImg} 
-                            src={album ? album.albumCoverImg : "/path/to/default-image.jpg"} 
+                            src={album ? album.coverImageUrl : "/topsterdefault.jpg"} 
                             alt={album ? album.name : "Default Image"}
                             onClick={() => onAlbumClick(album)}
                         />
