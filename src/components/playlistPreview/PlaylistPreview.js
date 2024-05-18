@@ -1,16 +1,22 @@
 import styles from "./PlaylistPreview.module.css";
+import { useNavigate } from 'react-router-dom';
 
 const PlaylistPreview = () => {
+    const navigate = useNavigate();  // Using useNavigate instead of useHistory
+
+    const navigateToPlaylist = () => {
+        navigate('/playlist'); // Navigate to the Playlist page
+    };
 
     return (
-        <div className={styles.container}>
+        <div className={styles.container} onClick={navigateToPlaylist}>
             <div className={styles.headerContainer}>
                 <div className={styles.authorContainer}>
                     <img
                         src="/amusementpark-3@2x.png"
                         className={styles.authorProfileImg}
                         loading="lazy"
-                        alt=""
+                        alt="Author profile"
                     />
                     <div>무중력지대</div>
                 </div>
@@ -18,17 +24,12 @@ const PlaylistPreview = () => {
             </div>
 
             <div className={styles.coverContainer}>
-                <img
-                    className={styles.cover}
-                    loading="lazy"
-                    alt=""
-                    src="/rectangle-1513-5@2x.png"
-                />
-                <img className={styles.cover} alt="" src="/rectangle-1478@2x.png"/>
-                <img className={styles.cover} alt="" src="/rectangle-1477@2x.png"/>
-                <img className={styles.cover} alt="" src="/rectangle-1477@2x.png"/>
-                <img className={styles.cover} alt="" src="/rectangle-1479-1@2x.png"/>
-                <img className={styles.cover} alt="" src="/rectangle-1513-4@2x.png"/>
+                <img className={styles.cover} loading="lazy" alt="Cover" src="/rectangle-1513-5@2x.png"/>
+                <img className={styles.cover} alt="Cover" src="/rectangle-1478@2x.png"/>
+                <img className={styles.cover} alt="Cover" src="/rectangle-1477@2x.png"/>
+                <img className={styles.cover} alt="Cover" src="/rectangle-1477@2x.png"/>
+                <img className={styles.cover} alt="Cover" src="/rectangle-1479-1@2x.png"/>
+                <img className={styles.cover} alt="Cover" src="/rectangle-1513-4@2x.png"/>
             </div>
 
             <div className={styles.playlistTitle}>
@@ -42,11 +43,7 @@ const PlaylistPreview = () => {
             </div>
             <div className={styles.footerContainer}>
                 <div className={styles.likeContainer}>
-                    <img
-                        src="/heart-icon.svg"
-                        loading="lazy"
-                        alt=""
-                    />
+                    <img src="/heart-icon.svg" loading="lazy" alt="Like icon"/>
                     <div>76</div>
                 </div>
             </div>
@@ -55,3 +52,4 @@ const PlaylistPreview = () => {
 };
 
 export default PlaylistPreview;
+
