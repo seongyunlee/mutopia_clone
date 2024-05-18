@@ -1,7 +1,14 @@
 import styles from './ReviewPreview.module.css';
+import { useNavigate } from 'react-router-dom';
 import StarRating from "../starRating/StarRating";
 
 const ReviewPreview = (props) => {
+
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate("/reviewDetail"); 
+    };
 
     console.log(props)
 
@@ -44,46 +51,43 @@ const ReviewPreview = (props) => {
 
 
     return (
-        <div className={styles.container}>
+        <div className={styles.container} onClick={handleClick}>
             <div className={styles.infoContainer}>
                 <img className={styles.albumImg} alt="" src={album?.coverImageUrl}/>
                 <div className={styles.infoDetailContainer}>
-                    <div className={styles.albumName}>{album?.name}</div>
+                    <div className={styles.authorContainer}> 
+                        <div className={styles.authorName}>{writer?.username > 12 ? `${writer?.username.substring(0, )}...` : writer?.username}</div>
+                        <img className={styles.authorProfileImg} alt="" src={writer?.profileImageUrl}/>
+                    </div>
+                    <div className={styles.albumName}>{album?.name.length > 20 ? `${album?.name.substring(0, 20)}...` : album?.name}</div>
                     <div className={styles.albumArtist}>{album?.artistName}</div>
                     <StarRating score={review?.rating}/>
                 </div>
-                <div className={styles.authorContainer}>
-                    <div>{writer?.username}</div>
-                    <img className={styles.authorProfileImg} alt="" src={writer?.profileImageUrl}/>
-                </div>
             </div>
-            <div>
+
+            <div className={styles.reviewContainer}>
                 <div className={styles.reviewTitle}>
                     {review?.title}
                 </div>
-
-                <div>
-                    <div className={styles.reviewContent}>
-                        <span className={styles.reviewContainer}>
-                            <span
-                                className={styles.content}>{review.content}</span>
-                            <span className={styles.add}>....더보기</span>
-                        </span>
-                    </div>
+                <div className={styles.reviewContent}>        
+                    <span
+                        className={styles.content}>{review.content}</span>
+                    <span className={styles.add}>....더보기</span>                    
                 </div>
+            </div>   
 
-                <div className={styles.footerContainer}>
-                    <div className={styles.likeContainer}>
-                        <img
-                            src={review?.isLiked === true ? "/heart-fill-icon.svg" : "/heart-icon.svg"}
-                            alt=""
-                        />
-                        <div>{review?.likeCount}</div>
-                    </div>
-                    <div className={styles.reviewDate}>{review?.createdAt}</div>
+            <div className={styles.footerContainer}>
+                <div className={styles.likeContainer}>
+                    <img
+                        src={review?.isLiked === true ? "/favoritefilled.svg" : "/heart-icon.svg"}
+                        alt=""
+                    />
+                    <div className={styles.likeCounter}>{review?.likeCount}</div>
                 </div>
+                <div className={styles.reviewDate}>{review?.createdAt}</div>
             </div>
         </div>
+        
     );
 };
 
