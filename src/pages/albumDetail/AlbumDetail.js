@@ -199,7 +199,7 @@ const AlbumDetailsPage = (props) => {
         if (jwt === null) {
             return;
         }
-        axios.get(`${process.env.REACT_APP_API_HOST}/album/review/check?albumId=${props.albumId}`, {
+        axios.get(`${process.env.REACT_APP_API_HOST}/album/${props.albumId}/review/check`, {
             headers: {
                 Authorization: `Bearer ${jwt}`
             }
