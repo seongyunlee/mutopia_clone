@@ -1,10 +1,10 @@
 import axios from "axios";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import styles from "./Search.module.css";
 
 const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiIiLCJpYXQiOjE3MTUxNTgwNzksImV4cCI6MTc0NjY5NDA3OSwiYXVkIjoiIiwic3ViIjoidGVzdHVzZXIifQ._zVQhiluqkNvElvU45WPH2gaoPB7J_c_ZvTOU3zqvD0"
-const SearchBox = ({value, onChange}) => {
+const SearchBox = ({inputRef, onChange}) => {
     return (
         <div className={styles.searchBox}>
             <img src="/search.svg" alt="search"/>
@@ -12,7 +12,7 @@ const SearchBox = ({value, onChange}) => {
                 className={styles.searchBoxInput}
                 type="search"
                 placeholder="Search..."
-                value={value}
+                ref={inputRef}
                 onChange={onChange}
             />
         </div>
@@ -52,10 +52,9 @@ const SearchResults = ({results, searching}) => {
     );
 }
 
-const fetchResults = async ({query}) => {
+const fetchResults = async (query) => {
     if (!query) return [];
     try {
-
         const response = await axios.get(`${process.env.REACT_APP_API_HOST}/album/search?keyword=${query}`, {});
         // console.log(response.data);
         return response.data;
@@ -65,42 +64,48 @@ const fetchResults = async ({query}) => {
     }
 };
 
-const useDebouncedState = (value, delay = 500) => {
-    const [debouncedValue, setDebouncedValue] = useState(value);
-
-    useEffect(() => {
-        const timeout = setTimeout(() => setDebouncedValue(value), delay);
-        return () => clearTimeout(timeout);
-    }, [value, delay]);
-
-    return debouncedValue;
-}
-
 const Search = () => {
-    const [query, setQuery] = useState("");
-    const debouncedQuery = useDebouncedState(query, 1_000);
     const [results, setResults] = useState([]);
     const [searching, setSearching] = useState(false);
 
-    useEffect(() => {
-        setSearching(true);
-        // console.log(debouncedQuery);
+    const inputRef = useRef();
 
-        (async () => {
-            let results = await fetchResults({query: debouncedQuery});
-            while (results.length === 0) {
-                await new Promise((resolve) => setTimeout(resolve, 1000));
-                //console.log(results)
-                results = await fetchResults({query: debouncedQuery});
-            }
-            setResults(results);
-            setSearching(false);
-        })();
-    }, [debouncedQuery]);
+    const setQueryParams = (query) => {
+        const url = new URL(window.location.href);
+        url.searchParams.set('q', query);
+        window.history.pushState({}, '', url);
+    }
+
+    const search = async () => {
+        const now = inputRef.current.value;
+        if (now === "") {
+            return;
+        }
+        try {
+            setTimeout(async () => {
+                const changed = inputRef.current.value;
+                if (changed === now) {
+                    setSearching(true);
+                    const result = await fetchResults(changed);
+                    setQueryParams(changed);
+                    setResults(result);
+                }
+            }, 500);
+        } catch (e) {
+        }
+    }
+
+    useEffect(() => {
+        const query = new URLSearchParams(window.location.search).get('q');
+        if (query) {
+            inputRef.current.value = query;
+            search();
+        }
+    }, []);
 
     return (
         <div className={styles.container}>
-            <SearchBox value={query} onChange={(e) => setQuery(e.target.value)}/>
+            <SearchBox inputRef={inputRef} onChange={(e) => search()}/>
             <SearchResults results={results} searching={searching}/>
         </div>
     );

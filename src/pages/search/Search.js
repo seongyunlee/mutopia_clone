@@ -1,14 +1,13 @@
-import styles from "./Search.module.css";
-import {useState, useContext, useEffect} from "react";
+import {useEffect, useState} from "react";
 
 const SearchBox = ({value, onChange}) => {
     return (
         <input
-        type="search"
-        placeholder="Search..."
-        value={value}
-        onChange={onChange}
-      />
+            type="search"
+            placeholder="Search..."
+            value={value}
+            onChange={onChange}
+        />
     );
 }
 
@@ -20,7 +19,7 @@ const SearchResults = ({results, searching}) => {
                 "Loading..."
             ) : (
                 <>
-                <header>검색 완료</header>
+                    <header>검색 완료</header>
                 </>
             )}
         </article>
@@ -37,23 +36,29 @@ const useDebouncedState = (value, delay = 500) => {
 
     return debouncedValue;
 }
-  
+
 const Search = () => {
     const [query, setQuery] = useState("");
     const debouncedQuery = useDebouncedState(query, 1_000);
     const [results, setResults] = useState([]);
     const [searching, setSearching] = useState(false);
-  
+
+
     useEffect(() => {
-      setSearching(true);
-      console.log(debouncedQuery)
+        setSearching(true);
+        console.log(debouncedQuery)
     }, [debouncedQuery]);
-  
+
+
+    const search = async (query) => {
+
+    }
+
     return (
-      <>
-        <SearchBox value={query} onChange={(e) => setQuery(e.target.value)} />
-        <SearchResults results={results} searching={searching} />
-      </>
+        <>
+            <SearchBox value={query} onChange={(e) => setQuery(e.target.value)}/>
+            <SearchResults results={results} searching={searching}/>
+        </>
     );
 }
 
