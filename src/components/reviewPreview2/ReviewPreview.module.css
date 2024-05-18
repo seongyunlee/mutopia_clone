@@ -28,7 +28,7 @@
     width: 100%;
     margin-right: 10px;
     margin-left: 10px;
-    margin-top: 15px;
+    margin-top: 10px;
     gap: 10px;
 }
 
@@ -105,9 +105,8 @@
 
 .reviewContent{
     min-height: 86px;
-    margin-right: 10px;
+    width: 290px;
 }
-
 .reviewTitle {
     color: #383838;
     font-family: Roboto;
@@ -158,5 +157,4 @@
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-    margin-right: 20px;
 }
