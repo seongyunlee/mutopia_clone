@@ -20,17 +20,17 @@ const Home = () => {
         {
             "review": {
                 "id": 1,
-                "title": "asdvc",
-                "content": "asdf",
+                "title": "I've got IVE",
+                "content": " “다른 문을 열어/따라갈 필요는 없어”라 외쳤던 ‘I am’의 가사가 무색하게 많은 것이 겹쳐 보인다. 베이스라인을 강조한 ‘Off the record’는 피프티 피프티의 ‘Cupid’와 태연의 ‘Weekend’가 레퍼런스로 삼은 도자 캣의 분홍색 디스코 감성을 닮았고, ‘Baddie’의 사운드 질감과 랩 위주의 구성에서 에스파의 ‘Savage’와 NCT의 잔향을 지우기란 쉽지 않다. 전통적인 색채로 ‘정통성’을 손에 쥐었던 아이브가 눈치를 많이 보고 있다.",
                 "rating": 4,
                 "isLiked": false,
                 "likeCount": 0,
-                "createdAt": "1970-01-05"
+                "createdAt": "2024.04.01"
             },
             "writer": {
                 "id": "testuser",
                 "username": "테스트유저",
-                "profileImageUrl": "https://icampus.skku.edu/customs/main/header_logo.png?v=123213"
+                "profileImageUrl": "/defaultProfile.svg"
             },
             "album": {
                 "id": "02vMw0MNNUbBxS6WeB1PR4",
