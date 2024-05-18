@@ -4,6 +4,7 @@ import styles from './ReviewDetail.module.css';
 import StarRating from '../../components/starRating/StarRating';
 import ToggleFilter from "../../components/toggleFilter/ToggleFilter";
 import ReviewPreview from "../../components/reviewPreview/ReviewPreview";
+import {useNavigate} from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import AlbumReviewWrite from "../../components/albumReviewModal/AlbumReviewWrite";
 
@@ -12,13 +13,15 @@ const ReviewDetail = ( ) => {
     const reviewId = 5;
     // 나중에 param으로 받아오기
     const {user, setUser} = useContext(UserContext);
-    const [albumInfo, setAlbumInfo] = useState(null);
+    const [albumId, setAlbumId] = useState(null);
     const [reviewInfo, setReviewInfo] = useState(null);
     const [myRating, setMyRating] = useState("-");
     const [myReviewId, setMyReviewId] = useState(null); 
     const [isLoading, setIsLoading] = useState(true); // 로딩 상태 추가
     const [reviewWriteModalOpen, setReviewWriteModalOpen] = useState(false); 
     const [isLiked, setIsLiked] = useState(false); // 추가: 좋아요 상태 관리
+
+    const navigate = useNavigate(); // navigate 함수 사용
     
     const fetchReviewInfo = async () => {
         try {
@@ -26,6 +29,7 @@ const ReviewDetail = ( ) => {
             const response = await axios.get(`${process.env.REACT_APP_API_HOST}/album/review/${reviewId}`, {});
             //console.log(response.data);
             setReviewInfo(response.data);
+            setAlbumId(response.data.album.id);
             setIsLoading(false); // 데이터를 불러온 후 로딩 상태를 false로 설정
         } catch (error) {
             console.error('Failed to fetch review information:', error);
@@ -36,9 +40,9 @@ const ReviewDetail = ( ) => {
 
     const getMyReview = async () => {
         const jwt = localStorage.getItem("accessToken");
-        if (jwt) {
+        if (jwt && albumId) {
             try {
-                const response = await axios.get(`${process.env.REACT_APP_API_HOST}/album/review/check?albumId=${props.albumId}`, {
+                const response = await axios.get(`${process.env.REACT_APP_API_HOST}/album/${albumId}/review/check`, {
                     headers: { Authorization: `Bearer ${jwt}` }
                 });
                 if (response.data.userHasReviewed && response.data.albumReviewId !== null) {
@@ -50,34 +54,17 @@ const ReviewDetail = ( ) => {
         }
     };
 
-    const getMyRating = async () => {
-        const jwt = localStorage.getItem("accessToken");
-        if (jwt === null) {
-            return;
-        }
-        axios.get(`${process.env.REACT_APP_API_HOST}/album/${props.albumId}/rating`, {
-            headers: {
-                Authorization: `Bearer ${jwt}`
-            }
-        }).then((response) => {
-            if (response.data.rating !== null) {
-                setMyRating(response.data.rating)
-            }
-        }).catch((error) => {
-            console.error('Failed to fetch my review:', error);
-        });
-    }
-
     const moveToMyReviewOrWrite = () => {
-        console.log(user?.id);
+        // console.log(user?.id);
         if (!user?.id) {
             alert('로그인이 필요합니다.');
             const loginDialog = document.getElementById("loginModal");
             loginDialog.showModal();
             return;
         }
+
         if (myReviewId) {
-            window.location.href = `/album/review/${myReviewId}`;
+            navigate(`/reviewDetail/${myReviewId}`);
         } else {
             setReviewWriteModalOpen(true);
         }
@@ -113,6 +100,7 @@ const ReviewDetail = ( ) => {
 
     useEffect(() => {
         fetchReviewInfo();
+        getMyReview();
     }, []);
 
     if (isLoading) {
@@ -127,7 +115,7 @@ const ReviewDetail = ( ) => {
                 <img className={styles.writerPhoto} src={reviewInfo.writer.profileImageUrl ? reviewInfo.writer.profileImageUrl : "/defaultProfile.svg"} />
             </div>
             <div className={styles.reviewCover}>
-                <img src={reviewInfo.album.converImgeUrl ? reviewInfo.album.converImgeUrl : "/albumDefault.jpg"} alt="Album Art" className={styles.albumArt}/>
+                <img src={reviewInfo.album.coverImageUrl ? reviewInfo.album.coverImageUrl : "/albumDefault.jpg"} alt="Album Art" className={styles.albumArt}/>
                 <div className={styles.reviewInfo}>
                     <div className={styles.albumTitle}>{reviewInfo.album.name ? reviewInfo.album.name : " "}</div>
                     <div className={styles.artist}>{reviewInfo.album.artistName ? reviewInfo.album.artistName : " "}</div>  
@@ -151,53 +139,26 @@ const ReviewDetail = ( ) => {
                 <img src="/share.svg" alt="share" className={styles.shareIcon} />
             </div>
         </div>
-        <button className={styles.btnWrite} onClick={moveToMyReviewOrWrite}>이 앨범 리뷰하기 / 나의 리뷰보기</button>     
-        <div>
-            <div className={styles.othersContainer}>
-                <div className={styles.headerContainer}>
-                    <h2>~의 다른 리뷰</h2>
-                    <ToggleFilter menu={["최근", "인기"]} />
-                    </div>
-                    <div className="verticalScroll">
-                    <ReviewPreview
-                        ellipse85="/ellipse-85@2x.png"
-                        iFeel="I feel"
-                        rectangle1480="/rectangle-1480@2x.png"
-                        prop="아이들 리뷰 제목"
-                        onContainerClick={onContainerClick}
-                    />
-                    <ReviewPreview
-                        ellipse85="/ellipse-85@2x.png"
-                        iFeel="I feel"
-                        rectangle1480="/rectangle-1480@2x.png"
-                        prop="아이들 리뷰 제목"
-                        onContainerClick={onContainerClick}/>
+        <button className={styles.btnWrite} onClick={moveToMyReviewOrWrite}>{myReviewId && user ? "나의 리뷰 보기" : "이 앨범 리뷰하기"}</button>     
+        <section className={styles.subSection}>
+            <div className={styles.sectionTitleContainer}>                    
+                    <div className={styles.sectionTitle}>{reviewInfo.writer.username ? reviewInfo.writer.username : " "}의 인생앨범 엿보기 👀</div>
+                    <ToggleFilter menu={["최근", "인기"]}/>
                 </div>
-            </div>
-
-            <div className={styles.othersContainer}>
-                <div className={styles.headerContainer}>
-                    <h2>이 앨범의 다른 리뷰</h2>
-                    <ToggleFilter menu={["최근", "인기"]} />
-                    </div>
-                    <div className="verticalScroll">
-                    <ReviewPreview
-                        ellipse85="/ellipse-85@2x.png"
-                        iFeel="I feel"
-                        rectangle1480="/rectangle-1480@2x.png"
-                        prop="아이들 리뷰 제목"
-                        onContainerClick={onContainerClick}
-                    />
-                    <ReviewPreview
-                        ellipse85="/ellipse-85@2x.png"
-                        iFeel="I feel"
-                        rectangle1480="/rectangle-1480@2x.png"
-                        prop="아이들 리뷰 제목"
-                        onContainerClick={onContainerClick}/>
+                <div className="verticalScroll">
+                    <ReviewPreview/>
                 </div>
-            </div>
+        </section>
 
-        </div>
+        <section className={styles.subSection}>
+            <div className={styles.sectionTitleContainer}>                    
+                    <div className={styles.sectionTitle}>{reviewInfo.album.name ? reviewInfo.album.name : " "}의 다른 리뷰 🔍</div>
+                    <ToggleFilter menu={["최근", "인기"]}/>
+                </div>
+                <div className="verticalScroll">
+                    <ReviewPreview/>
+                </div>
+        </section>
         </>
     );
 }
