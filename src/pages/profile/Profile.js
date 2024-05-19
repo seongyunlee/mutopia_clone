@@ -264,6 +264,7 @@ const Profile = ( props ) => {
     const getProfileHeader = async () => {
         axios.get(`${process.env.REACT_APP_API_HOST}/user/${userId}/profile/aggregation`, {}).then((response) => {
             setUserInfo(response.data);
+            console.log(response.data);
             setIsLoading(false);
         }).catch((error) => {
             console.error('Failed to fetch profile header:', error);

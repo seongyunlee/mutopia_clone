@@ -18,7 +18,7 @@
     line-height: normal;
 
     display: flex;
-    width: 64px;
+    flex-wrap: wrap;
     padding: 5px 15px;
     justify-content: center;
     align-items: center;

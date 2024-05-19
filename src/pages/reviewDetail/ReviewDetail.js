@@ -25,8 +25,8 @@ const ReviewDetail = ( ) => {
             },
             "writer": {
                 "id": "testuser",
-                "username": "테스트유저",
-                "profileImageUrl": "/defaultProfile.svg"
+                "username": "바보랜드",
+                "profileImageUrl": "/mock3.jpg"
             },
             "album": {
                 "id": "02vMw0MNNUbBxS6WeB1PR4",

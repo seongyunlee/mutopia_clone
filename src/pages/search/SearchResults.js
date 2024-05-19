@@ -89,6 +89,7 @@ const Search = () => {
                     const result = await fetchResults(changed);
                     setQueryParams(changed);
                     setResults(result);
+                    setSearching(false); // 추가
                 }
             }, 500);
         } catch (e) {
