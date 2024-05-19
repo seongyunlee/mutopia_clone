@@ -13,6 +13,7 @@ import AlbumDetail from "./pages/albumDetail/AlbumDetail";
 import ReviewDetail from "./pages/reviewDetail/ReviewDetail";
 import StarRating3 from "./components/starRating2/StarRating3";
 import Playlist from "./pages/playlist/Playlist";
+import AddSong from "./pages/addSong/AddSong";
 
 function App() {
 
@@ -31,6 +32,7 @@ function App() {
                         <Route path="/reviewDetail/:id" element={<ReviewDetail/>}/>
                         <Route path="/followUser" element={<FollowUser/>}/>
                         <Route path="/playlist" element={<Playlist/>} />
+                        <Route path="/addSong" element={<AddSong/>} />
                     </Routes>
                 </div>
                 <FooterNav/>

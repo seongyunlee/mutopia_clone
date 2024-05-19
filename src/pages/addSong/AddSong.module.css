@@ -1,0 +1,72 @@
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal {
+    background-color: white;
+    width: 100%;
+    max-width: 500px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.modalHeader {
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    background-color: #f0f0f0; /* Light grey background for the search area */
+}
+
+.searchBar {
+    flex-grow: 1;
+    margin-right: 8px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.closeButton {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 24px;
+}
+
+.songList {
+    padding: 16px;
+    overflow-y: auto; /* Allows scrolling if list is too long */
+}
+
+.songItem {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px; /* Space between items */
+}
+
+.songCover {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    border-radius: 25px; /* Circular images */
+}
+
+.songInfo {
+    line-height: 1.2;
+}
+
+.songTitle {
+    font-weight: bold;
+}
+
+.songArtist {
+    color: #666;
+    font-size: 0.8rem;
+}

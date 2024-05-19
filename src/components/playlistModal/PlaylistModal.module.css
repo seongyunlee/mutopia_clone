@@ -1,22 +1,22 @@
-/* Modal.module.css */
 .modalOverlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .modal {
-    background-color: white;
+    background-color: #f3eaff; /* 연한 보라색 */
     padding: 20px;
     border-radius: 10px;
     width: 90%;
     max-width: 400px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
 }
 
 .modalHeader {
@@ -29,17 +29,20 @@
     border: none;
     cursor: pointer;
     font-size: 24px;
+    color: white; /* 버튼 색상 변경 */
 }
 
 .content {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 10px; /* 상단 여백 추가 */
 }
 
 .albumArt {
-    width: 80%;
+    width: 20%; /* 이미지 크기 조정 */
     border-radius: 10px;
+    margin-bottom: 10px; /* 여백 추가 */
 }
 
 .trackDetails {
@@ -48,19 +51,34 @@
 }
 
 .button {
-    margin-top: 10px;
-    padding: 10px;
-    width: 100%;
-    background-color: #eee;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.moreOptions {
+    display: flex;        /* flexbox 레이아웃 사용 */
+    align-items: center;  /* 수직 중앙 정렬 */
     margin-top: 20px;
-    font-size: 24px;
     background: none;
     border: none;
     cursor: pointer;
+    font-size: 14px;
+    font-family: Roboto;
+    color: #000;
+}
+
+.icon1 {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px; /* 아이콘과 텍스트 사이의 간격 */
+}
+.icon2 {
+    width: 19px;
+    height: 19px;
+    margin-right: 10px; /* 아이콘과 텍스트 사이의 간격 */
+}
+.moreOptions {
+    margin-top: 10px;
+    padding: 10px;
+    width: 100%;
+    border-radius: 10px;
+    background-color: #7b61ff; /* 동일한 버튼 스타일 적용 */
+    border: none;
+    cursor: pointer;
+    color: white; /* 텍스트 색상 */
 }

@@ -1,21 +1,20 @@
 import styles from './PlaylistItem.module.css';
 import PlaylistModal from '../playlistModal/PlaylistModal';
-import {useContext, useEffect, useRef, useState} from "react";
+import { useState } from "react";
 
 const PlaylistItem = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false); 
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const img = "/ive.png";
+    const albumCover = "/path/to/album/cover.jpg";  // 예시 경로
     const trackName = "LOVE DIVE";
     const artist = "아이브";
     const album = "I've Mine";
-
 
     const toggleModal = () => {
         setIsModalOpen(!isModalOpen);
     };
 
-    
     return (
         <div className={styles.trackContainer}>
             <img src={img} alt="album cover" className={styles.coverImg}/>
@@ -26,7 +25,7 @@ const PlaylistItem = () => {
             <div className={styles.etcContainer} onClick={toggleModal}>
                 <img src="/etc.svg" alt="etc" className={styles.etc}/>
             </div>
-            {isModalOpen && <PlaylistModal onClose={toggleModal} track={{name: trackName, artist, album}} />}
+            {isModalOpen && <PlaylistModal isOpen={isModalOpen} onClose={toggleModal} track={{name: trackName, artist, album, albumCover}} />}
         </div>
     );
 };

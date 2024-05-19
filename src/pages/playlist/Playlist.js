@@ -1,6 +1,8 @@
 import React from 'react';
 import styles from './Playlist.module.css';  // Ensure your path to CSS file is correct
 import PlaylistItem from "../../components/playlistItem/PlaylistItem";
+import { useNavigate } from 'react-router-dom';
+import AddSong from '../addSong/AddSong';
 
 const Playlist = () => {
 
@@ -8,6 +10,13 @@ const Playlist = () => {
     const trackName = "LOVE DIVE";
     const artist = "아이브";
     const album = "I've Mine";
+
+    const navigate = useNavigate();  // Using useNavigate instead of useHistory
+
+    const navigateToAddSong = () => {
+        navigate('/addsong'); // Navigate to the Playlist page
+    };
+    
 
     return (
         <div className={styles.playlist}>
@@ -32,8 +41,7 @@ const Playlist = () => {
                     </div>
                     
                 </div>
-
-                <button className={styles.addButton}>곡 추가하기</button>
+                <button className={styles.addButton} onClick={navigateToAddSong}>곡 추가하기</button>
             </div>
         
             <div className={styles.listContainer}>
