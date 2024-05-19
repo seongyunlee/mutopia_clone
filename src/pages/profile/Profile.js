@@ -22,7 +22,7 @@ const MainPage = ( props ) => {
     const titleOthers = ["의 뮤직보드 🎵", "의 인생 앨범 💿", "의 인생곡 ✍🏻"];
 
     const getTopsterInfo = async () => {
-        axios.get(`${process.env.REACT_APP_API_HOST}/user/${userInfo.userId}/topster`, {}).then((response) => {
+        axios.get(`${process.env.REACT_APP_API_HOST}/user/${userInfo.userId}/profile/topster`, {}).then((response) => {
             setTopsterInfo(response.data);
             setIsLoading(false);
         }).catch((error) => {
