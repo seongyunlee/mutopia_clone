@@ -27,12 +27,12 @@ const ShareDialog = (props) => {
                 <div className={styles.title}>
                     공유하기
                 </div>
-                <img src="/cross-icon-black.svg" className={styles.closeButton} onClick={closeDialog}/>
+                <img src="/x-circle.svg" className={styles.closeButton} onClick={closeDialog}/>
             </div>
             <div className={styles.body}>
                 <div className={styles.linkBox}>
                     <div className={styles.linkText}>
-                        {linkUrl ? linkUrl : "https://www.naver.com"}
+                        {linkUrl ? linkUrl : "undefined"}
                     </div>
                     <div className={styles.copyButton} onClick={copyLink}>
                         복사

@@ -4,17 +4,35 @@ import {useNavigate} from "react-router-dom";
 import styles from "./Search.module.css";
 
 const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiIiLCJpYXQiOjE3MTUxNTgwNzksImV4cCI6MTc0NjY5NDA3OSwiYXVkIjoiIiwic3ViIjoidGVzdHVzZXIifQ._zVQhiluqkNvElvU45WPH2gaoPB7J_c_ZvTOU3zqvD0"
-const SearchBox = ({inputRef, onChange}) => {
+const SearchBox = ({inputRef, onChange, isSearching}) => {
+
+    const clear = () => {
+        inputRef.current.value = "";
+        onChange();
+    }
+
     return (
         <div className={styles.searchBox}>
             <img src="/search.svg" alt="search"/>
             <input
                 className={styles.searchBoxInput}
-                type="search"
                 placeholder="Search..."
                 ref={inputRef}
                 onChange={onChange}
             />
+            {
+                isSearching &&
+                <div className={styles.svgLoader}>
+                    <svg className={styles.svgContainer} height="20" width="20" viewBox="0 0 100 100">
+                        <circle className={styles.loaderSvgBg} cx="50" cy="50" r="45"></circle>
+                        <circle className={styles.loaderSvgAnimate} cx="50" cy="50" r="45"></circle>
+                    </svg>
+                </div>
+            }
+            {!isSearching && inputRef?.current?.value !== "" &&
+                <img src="/x-circle.svg" alt="x" onClick={clear} className={styles.searchBoxClear}/>
+            }
+
         </div>
     );
 }
@@ -33,26 +51,67 @@ const ResultItem = (props) => {
     );
 }
 
-const SearchResults = ({results, searching}) => {
+const searchProgress = () => {
+    return (
+        <div className={styles.searchProgress}>
+            Loading...
+        </div>
+    );
+}
+
+const SearchResults = ({albums, tracks}) => {
 
     const navigate = useNavigate(); // navigate 함수 사용
 
     const handleItemClick = (id) => {
         navigate(`/albumDetail/${id}`); // 페이지 이동
     };
-    // console.log(results);
-    // 우선 앨범 결과만 온다고 가정
+
+    if (!albums && !tracks || (albums.length === 0 && tracks.length === 0)) {
+        return (
+            <div className={styles.typeKeyword}>
+                음악, 앨범, 가수명으로 검색 할 수 있습니다.
+            </div>
+        );
+    }
+
+
     return (
-        <div className={styles.searchResults}>
-            {searching ? "Loading..." : ""}
-            {results.map((result) => (
-                <ResultItem key={result.id} result={result} onClick={() => handleItemClick(result.id)}/>
-            ))}
+        <div className={styles.resultContainer}>
+            {
+                (albums && albums.length > 0) &&
+                <section className={styles.resultSection}>
+                    <div className={styles.resultSectionTitle}>
+                        앨범
+                    </div>
+                    <div className={styles.searchResults}>
+                        {albums.map((result) => (
+                            <ResultItem key={result.id} result={result} onClick={() => handleItemClick(result.id)}/>
+                        ))}
+                    </div>
+                </section>
+            }
+            {
+                (tracks && tracks?.length > 0) &&
+                <section className={styles.resultSection}>
+                    <div className={styles.resultSectionTitle}>
+                        곡
+                    </div>
+                    <div className={styles.searchResults}>
+                        {tracks?.map((result) => {
+                            // use albumCoverUrl as coverImageUrl
+                            result.coverImageUrl = result.albumCoverUrl;
+                            return (<ResultItem key={result.id} result={result}
+                                                onClick={() => handleItemClick(result.id)}/>)
+                        })}
+                    </div>
+                </section>
+            }
         </div>
     );
 }
 
-const fetchResults = async (query) => {
+const getAlbums = async (query) => {
     if (!query) return [];
     try {
         const response = await axios.get(`${process.env.REACT_APP_API_HOST}/album/search?keyword=${query}`, {});
@@ -64,9 +123,21 @@ const fetchResults = async (query) => {
     }
 };
 
+const getTracks = async (query) => {
+    if (!query) return [];
+    try {
+        const response = await axios.get(`${process.env.REACT_APP_API_HOST}/song/search?keyword=${query}&offset=0`, {});
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return [];
+    }
+}
+
 const Search = () => {
-    const [results, setResults] = useState([]);
+    const [albums, setAlbums] = useState([]);
     const [searching, setSearching] = useState(false);
+    const [tracks, setTracks] = useState([]);
 
     const inputRef = useRef();
 
@@ -79,17 +150,22 @@ const Search = () => {
     const search = async () => {
         const now = inputRef.current.value;
         if (now === "") {
+            const url = new URL(window.location.href);
+            url.searchParams.delete('q');
+            window.history.pushState({}, '', url);
+            setTracks([]);
+            setAlbums([]);
             return;
         }
         try {
             setTimeout(async () => {
                 const changed = inputRef.current.value;
                 if (changed === now) {
-                    setSearching(true);
-                    const result = await fetchResults(changed);
+                    const [albums, tracks] = await Promise.all([getAlbums(changed), getTracks(changed)]);
+                    setAlbums(albums);
+                    setTracks(tracks);
+                    setSearching(false);
                     setQueryParams(changed);
-                    setResults(result);
-                    setSearching(false); // 추가
                 }
             }, 500);
         } catch (e) {
@@ -106,8 +182,8 @@ const Search = () => {
 
     return (
         <div className={styles.container}>
-            <SearchBox inputRef={inputRef} onChange={(e) => search()}/>
-            <SearchResults results={results} searching={searching}/>
+            <SearchBox inputRef={inputRef} onChange={(e) => search()} isSearching={searching}/>
+            <SearchResults albums={albums} tracks={tracks} searching={searching}/>
         </div>
     );
 }

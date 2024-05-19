@@ -7,7 +7,9 @@
     display: flex;
     align-items: center;
     flex-direction: row;
-    padding-left: 18px;
+    padding: 0px 18px;
+    box-sizing: border-box;
+
 }
 
 .searchBoxInput {
@@ -18,6 +20,47 @@
     padding-left: 12px;
     font-size: 14px;
 }
+
+.searchBoxClear {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.searchBoxLoading {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.resultSectionTitle {
+    color: #383838;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.resultContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px 30px 0px 30px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.typeKeyword {
+    color: #A0A1A4;
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: 20px;
+}
+
 
 .container {
     display: flex;
@@ -32,7 +75,6 @@
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    padding: 20px 17px 0 17px;
     gap: 10px;
 }
 
@@ -59,4 +101,57 @@
 .resultItemArtist {
     font-size: 12px;
     color: #A0A1A4;
+}
+
+.svgContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.svg-loader {
+    display: flex;
+    position: relative;
+    align-content: space-around;
+    justify-content: center;
+    align-items: center;
+}
+
+.loaderSvgBg, .loaderSvgAnimate {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    fill: none;
+    stroke-width: 5px;
+    stroke-linecap: round;
+    stroke: var(--color-primary);
+}
+
+.loaderSvgBg {
+    stroke-width: 8px;
+    stroke: rgb(207, 205, 245);
+}
+
+.loaderSvgAnimate {
+    stroke-dasharray: 242.6;
+    animation: fill-animation 1s cubic-bezier(1, 1, 1, 1) 0s infinite;
+}
+
+@keyframes fill-animation {
+    0% {
+        stroke-dasharray: 40 242.6;
+        stroke-dashoffset: 0;
+    }
+    50% {
+        stroke-dasharray: 141.3;
+        stroke-dashoffset: 141.3;
+    }
+    100% {
+        stroke-dasharray: 40 242.6;
+        stroke-dashoffset: 282.6;
+    }
 }
