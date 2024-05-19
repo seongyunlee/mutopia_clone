@@ -39,7 +39,7 @@ const ProfileHeader = (props) => {
                     </div>
                 </div>
             </div>
-            <div className={styles.profileContainerThird}>{userInfo.bio? userInfo.bio : " "}</div>
+            <div className={styles.profileContainerThird}>{userInfo.biography? userInfo.biography : " "}</div>
         </header>
     );
 };
