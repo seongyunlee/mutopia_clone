@@ -1,5 +1,5 @@
 .playlist{
-    margin : 20px;
+    margin: 25px;
 
 }
 .header {
@@ -59,12 +59,15 @@
     font-size: 16px;
     cursor: pointer;
     margin-top: 40px; /* 추가 버튼과 플레이 버튼 사이의 간격 */
+    width: 300px;
+
 }
 
 
 .detailsContainer {
     display: flex; /* Flexbox 레이아웃 적용 */
     flex-direction: column;
+    margin-left: 10px;
 }
 
 .playButtonContainer {
@@ -73,4 +76,10 @@
 
 .listContainer {
     margin-top: 20px;
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: center; /* 수평 중앙 정렬 */
+    align-items: center; /* 수직 중앙 정렬, 필요에 따라 추가 */
 }

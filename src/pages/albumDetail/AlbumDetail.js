@@ -9,6 +9,7 @@ import ToggleFilter from "../../components/toggleFilter/ToggleFilter";
 import TrackReview from "../../components/trackReview/TrackReview";
 import ShareDialog from "./ShareDialog";
 import {UserContext} from "../../context/UserContext";
+import { useNavigate } from 'react-router-dom';
 
 const MainPage = (props) => {
 
@@ -158,6 +159,13 @@ const AlbumDetailsPage = (props) => {
     const [myReviewId, setMyReviewId] = useState(null);
     const [isLiked, setIsLiked] = useState(false);
     const [reviewList, setReviewList] = useState([]);
+    const navigate = useNavigate();
+
+    // 곡 추가 페이지로 이동
+    const navigateToPlaylistAdd = () => {
+        navigate('/playlistadd');
+    };
+
 
     const getRecentReviews = () => {
         const jwt = localStorage.getItem("accessToken");
@@ -323,7 +331,7 @@ const AlbumDetailsPage = (props) => {
                 <div className={styles.socialButtons}>
                     <img src="/heart-icon.svg" alt="❤️" className={styles.socialIcon} onClick={onAlbumLikeClicked}/>
                     <img src="/share.svg" alt="🔗" className={styles.socialIcon} onClick={showShareDialog}/>
-                    <img src="/add.svg" alt="🌠" className={styles.socialIcon}/>
+                    <img src="/add.svg" alt="🌠" className={styles.socialIcon} onClick={navigateToPlaylistAdd}/>
                 </div>
             </div>
             <ShareDialog dialogId="shareDialog" linkUrl={location.href}/>

@@ -1,0 +1,49 @@
+  .addPlaylist {
+    margin: 20px;
+  }
+  
+  .addListContainer {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px; /* 아래쪽 요소와의 간격 */
+  }
+  
+  .listadd {
+    margin-right: 10px; /* 텍스트와의 간격 */
+    width: 85px; /* 앨범 커버 이미지 크기 */
+    height: 85px;
+  }
+  
+  .playlistItem {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px; /* 아래쪽 버튼과의 간격 */
+  }
+  
+  .albumArt {
+    width: 85px; /* 앨범 커버 이미지 크기 */
+    height: 85px;
+    margin-right: 10px; /* 옆 텍스트와의 간격 */
+    border-radius: 5px; /* 앨범 커버 모서리 둥글게 */
+  }
+  
+  .playlistCheckbox {
+    margin-left: auto; /* 체크박스를 오른쪽 끝으로 정렬 */
+    cursor: pointer;
+    width: 40px; /* 체크박스 크기 조정 */
+    height: 40px; /* 체크박스 크기 조정 */
+  }
+
+  
+  
+  .musicAddButton {
+    background-color: #7b61ff; /* 버튼 배경색 */
+    color: white; /* 버튼 텍스트 색상 */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px; /* 버튼 모서리 둥글게 */
+    cursor: pointer;
+    font-size: 16px; /* 텍스트 크기 */
+  }
+  

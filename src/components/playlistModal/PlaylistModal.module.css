@@ -29,7 +29,6 @@
     border: none;
     cursor: pointer;
     font-size: 24px;
-    color: white; /* 버튼 색상 변경 */
 }
 
 .content {
@@ -50,9 +49,22 @@
     text-align: center;
 }
 
+.artist {
+    color: #A0A1A4;
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: center; /* 수평 중앙 정렬 */
+    align-items: center; /* 수직 중앙 정렬 */
+    width: 100%; /* 컨테이너 전체 너비 사용 */
+}
+
+
 .button {
-    display: flex;        /* flexbox 레이아웃 사용 */
-    align-items: center;  /* 수직 중앙 정렬 */
+    display: flex;
+    align-items: center;  /* 아이템들을 수직 중앙 정렬 */
+    justify-content: center; /* 아이템들을 수평 중앙 정렬 */
     margin-top: 20px;
     background: none;
     border: none;
@@ -62,18 +74,25 @@
     color: #000;
 }
 
+.icon1, .icon2 {
+    margin-right: 8px; /* 아이콘과 텍스트 사이의 간격 */
+}
+
 .icon1 {
-    width: 24px;
-    height: 24px;
-    margin-right: 10px; /* 아이콘과 텍스트 사이의 간격 */
+    margin-left: 78px;
+    width: 22px;
+    height: 22px;
 }
+
 .icon2 {
-    width: 19px;
-    height: 19px;
-    margin-right: 10px; /* 아이콘과 텍스트 사이의 간격 */
+    margin-left: 80px;
+    width: 18px;
+    height: 18px;
 }
+
+
 .moreOptions {
-    margin-top: 10px;
+    margin-top: 15px;
     padding: 10px;
     width: 100%;
     border-radius: 10px;

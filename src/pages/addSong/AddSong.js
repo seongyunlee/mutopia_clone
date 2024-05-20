@@ -1,12 +1,19 @@
 import styles from './AddSong.module.css';
-import { useState } from 'react';
+import {useEffect, useState} from "react";
+import { useNavigate } from 'react-router-dom';  // useNavigate import
 
 const AddSong = () => {
-    const [isModalOpen, setIsModalOpen] = useState(true);  // 초기 상태를 true로 설정하여 모달이 열린 상태에서 시작
+    const [isModalOpen, setIsModalOpen] = useState(true);
+    const navigate = useNavigate();  // navigate 함수 초기화
 
     const toggleModal = () => {
-        setIsModalOpen(!isModalOpen);  // 상태 토글
+        setIsModalOpen(!isModalOpen);  // 모달 상태 토글
+        if (isModalOpen) {
+            navigate(-1);  // 모달이 닫힐 때 이전 페이지로 이동
+        }
     };
+
+    
 
     if (!isModalOpen) return null;  // 모달이 닫혀 있으면 아무것도 렌더링하지 않음
 
