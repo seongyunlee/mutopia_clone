@@ -1,26 +1,73 @@
-  .addPlaylist {
-    margin: 20px;
-  }
-  
-  .addListContainer {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px; /* 아래쪽 요소와의 간격 */
-  }
-  
-  .listadd {
-    margin-right: 10px; /* 텍스트와의 간격 */
-    width: 85px; /* 앨범 커버 이미지 크기 */
-    height: 85px;
-  }
-  
-  .playlistItem {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    margin-bottom: 20px; /* 아래쪽 버튼과의 간격 */
-  }
-  
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  background-color: white;
+  width: 90%;
+  height: 80%;
+  max-width: 600px;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  border-bottom: 1px solid #ccc;
+  position: relative;
+}
+
+.modalTitle {
+  position: absolute;
+  font-size: 18px;
+  font-family: Roboto;
+  color: #000;
+  font-weight:bold;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.closeButton {
+  position: absolute;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.addListContainer {
+  display: flex;
+  flex-direction: column; /* 요소들을 세로 방향으로 배치 */
+  align-items: flex-start; /* 왼쪽 정렬 */
+  margin-bottom: 20px; /* 아래쪽 요소와의 간격 */
+}
+
+.newList, .playlistItem {
+  width: 100%; /* 컨테이너 전체 너비를 사용 */
+  display: flex;
+  align-items: center; /* 텍스트와 이미지 세로 중앙 정렬 */
+  margin-bottom: 20px; /* 각 아이템 아래의 간격 */
+}
+
+.listadd {
+  margin-right: 10px; /* 이미지와 텍스트 간 간격 */
+  width: 85px;
+  height: 85px;
+}
+
   .albumArt {
     width: 85px; /* 앨범 커버 이미지 크기 */
     height: 85px;
@@ -35,15 +82,24 @@
     height: 40px; /* 체크박스 크기 조정 */
   }
 
-  
+  .addListContainer{
+    margin: 30px;
+    display:flex;
+  }
   
   .musicAddButton {
-    background-color: #7b61ff; /* 버튼 배경색 */
-    color: white; /* 버튼 텍스트 색상 */
+    background-color: #7b61ff; 
+    color: white; 
     border: none;
     padding: 10px 20px;
-    border-radius: 5px; /* 버튼 모서리 둥글게 */
+    border-radius: 10px; 
     cursor: pointer;
-    font-size: 16px; /* 텍스트 크기 */
+    font-size: 18px; 
+    font-family: Roboto;
+    width: 80%; 
+    align-self: center; 
+    margin-top: auto; 
+    margin-bottom: 20px; 
   }
+  
   
