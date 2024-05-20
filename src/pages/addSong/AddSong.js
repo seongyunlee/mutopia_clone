@@ -1,71 +1,162 @@
 import styles from './AddSong.module.css';
-import {useEffect, useState} from "react";
-import { useNavigate } from 'react-router-dom';  // useNavigate import
+import { useEffect, useState, useRef } from "react";
+import { useNavigate } from 'react-router-dom';
+import axios from "axios";
 
 const AddSong = () => {
     const [isModalOpen, setIsModalOpen] = useState(true);
-    const navigate = useNavigate();  // navigate 함수 초기화
+    const [query, setQuery] = useState("");
+    const [results, setResults] = useState([]);
+    const [searching, setSearching] = useState(false);
+    const navigate = useNavigate();
+    const inputRef = useRef();
 
     const toggleModal = () => {
-        setIsModalOpen(!isModalOpen);  // 모달 상태 토글
+        setIsModalOpen(!isModalOpen);
         if (isModalOpen) {
-            navigate(-1);  // 모달이 닫힐 때 이전 페이지로 이동
+            navigate(-1);
         }
     };
 
-    
+    useEffect(() => {
+        const fetchResults = async (query) => {
+            if (!query) return [];
+            try {
+                const response = await axios.get(`${process.env.REACT_APP_API_HOST}/album/search?keyword=${query}`, {});
+                return response.data;
+            } catch (error) {
+                console.error(error);
+                return [];
+            }
+        };
 
-    if (!isModalOpen) return null;  // 모달이 닫혀 있으면 아무것도 렌더링하지 않음
+        const debouncedQuery = setTimeout(async () => {
+            if (query) {
+                setSearching(true);
+                const result = await fetchResults(query);
+                setResults(result);
+                setSearching(false);
+            }
+        }, 500);
 
-    const songs = [
+        return () => clearTimeout(debouncedQuery);
+    }, [query]);
+
+    const recommendedSongs = [
         {
             id: 1,
-            title: "So Long, London",
-            artist: "The Tortured Poets Department - Taylor Swift",
-            cover: "/path-to-so-long-london.jpg"
+            title: "Columbia",
+            artist: "Quevedo",
+            cover: "./rectangle-1513-5@2x.png"
         },
         {
             id: 2,
-            title: "Allergy",
-            artist: "NEVER DIE - (여자)아이들",
-            cover: "/path-to-allergy.jpg"
+            title: "VETRI NERI",
+            artist: "AVA, ANNA, Capo Plaza",
+            cover: "./rectangle-1513-5@2x.png"
         },
         {
             id: 3,
-            title: "인류, 비상시 그리고 죽음의 아내",
-            artist: "UNFORGIVEN - 손흥민",
-            cover: "/path-to-unforgiven.jpg"
+            title: "BESO",
+            artist: "ROSALÍA, Rauw Alejandro",
+            cover: "./rectangle-1513-5@2x.png"
         },
         {
             id: 4,
-            title: "파이어",
-            artist: "UNFORGIVEN - 손흥민",
-            cover: "/path-to-fire.jpg"
+            title: "EL TONTO",
+            artist: "Lola Indigo, Quevedo",
+            cover: "./rectangle-1513-5@2x.png"
+        },
+        {
+            id: 5,
+            title: "PLAYA DEL INGLÉS",
+            artist: "Quevedo, Myke Towers",
+            cover: "./rectangle-1513-5@2x.png"
+        },
+        {
+            id: 6,
+            title: "WHERE SHE GOES",
+            artist: "Bad Bunny",
+            cover: "./rectangle-1513-5@2x.png"
+        },
+        {
+            id: 7,
+            title: "Casanova",
+            artist: "Soolking, Lola Indigo, Rvfv",
+            cover: "./rectangle-1513-5@2x.png"
+        },
+        {
+            id: 8,
+            title: "MIRAGE (feat. Ozuna, GIMS & Sfera Ebbasta)",
+            artist: "AriBeatz, Ozuna, GIMS, Sfera Ebbasta",
+            cover: "./rectangle-1513-5@2x.png"
         }
     ];
+
+    if (!isModalOpen) return null;
 
     return (
         <div className={styles.modalOverlay}>
             <div className={styles.modal}>
                 <div className={styles.modalHeader}>
-                    <input type="search" placeholder="검색하기" className={styles.searchBar} />
-                    <button className={styles.closeButton} onClick={toggleModal}>×</button> 
+                    <div className={styles.modalTitle}>곡 추가하기</div>
+                    <button className={styles.closeButton} onClick={toggleModal}>×</button>
                 </div>
-                <div className={styles.songList}>
-                    {songs.map(song => (
-                        <div key={song.id} className={styles.songItem}>
-                            <img src={song.cover} alt="album cover" className={styles.songCover} />
-                            <div className={styles.songInfo}>
-                                <div className={styles.songTitle}>{song.title}</div>
-                                <div className={styles.songArtist}>{song.artist}</div>
-                            </div>
-                        </div>
-                    ))}
+                <div className={styles.searchContainer}>
+                    <img src="/search.svg" alt="search" className={styles.searchIcon} />
+                    <input
+                        type="search"
+                        className={styles.searchBar}
+                        value={query}
+                        ref={inputRef}
+                        onChange={(e) => setQuery(e.target.value)}
+                    />
                 </div>
+                {query ? (
+                    <SearchResults results={results} searching={searching} />
+                ) : (
+                    <RecommendedSongs songs={recommendedSongs} />
+                )}
             </div>
         </div>
     );
 };
 
-export default AddSong;
+const RecommendedSongs = ({ songs }) => {
+    return (
+        <div className={styles.songList}>
+            <div className={styles.suggest}><h3>추천된 노래</h3></div>
+            {songs.map(song => (
+                <div key={song.id} className={styles.songItem}>
+                    <img src={song.cover} alt="album cover" className={styles.songCover} />
+                    <div className={styles.songInfo}>
+                        <div className={styles.songTitle}>{song.title}</div>
+                        <div className={styles.songArtist}>{song.artist}</div>
+                    </div>
+                </div>
+            ))}
+        </div>
+    );
+};
 
+const SearchResults = ({ results, searching }) => {
+    return (
+        <div className={styles.songList}>
+            {searching ? (
+                "Loading..."
+            ) : (
+                results.map(result => (
+                    <div key={result.id} className={styles.songItem}>
+                        <img src={result.coverImageUrl} alt="album cover" className={styles.songCover} />
+                        <div className={styles.songInfo}>
+                            <div className={styles.songTitle}>{result.name}</div>
+                            <div className={styles.songArtist}>{result.artistName}</div>
+                        </div>
+                    </div>
+                ))
+            )}
+        </div>
+    );
+};
+
+export default AddSong;
