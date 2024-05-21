@@ -43,13 +43,13 @@
 .searchContainer {
     position: relative;
     padding: 1rem;
-    background-color: #F5EEFF;
+    margin-top: 10px;
 }
 
 .searchBar {
     width: 100%;
     font-size: 1rem;
-    padding: 0.5rem 1.5rem 0.5rem 0.5rem;
+    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
     height: 40px;
     border-radius: 10px;
     border: none;
@@ -58,13 +58,12 @@
     align-items: center;
     flex-direction: row;
     padding-left: 18px;
-    background-color: #F5EEFF;
     
 }
 
 .searchIcon {
     position: absolute;
-    left: 1.5rem; /* Adjust position of the icon */
+    left: 1.5rem;
     top: 50%;
     transform: translateY(-50%);
     width: 20px;
@@ -81,11 +80,11 @@
     cursor: pointer;
 }
 
-.songList {
+.listContainer {
     flex: 1;
     overflow-y: auto;
     padding: 1rem;
-    background-color: #F5EEFF;
+
 }
 
 .songItem {

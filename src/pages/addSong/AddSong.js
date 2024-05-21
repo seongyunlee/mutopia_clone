@@ -2,6 +2,7 @@ import styles from './AddSong.module.css';
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
+import ItemAdd from "../../components/playlistItem/ItemAdd"
 
 const AddSong = () => {
     const [isModalOpen, setIsModalOpen] = useState(true);
@@ -42,57 +43,6 @@ const AddSong = () => {
         return () => clearTimeout(debouncedQuery);
     }, [query]);
 
-    const recommendedSongs = [
-        {
-            id: 1,
-            title: "Columbia",
-            artist: "Quevedo",
-            cover: "./rectangle-1513-5@2x.png"
-        },
-        {
-            id: 2,
-            title: "VETRI NERI",
-            artist: "AVA, ANNA, Capo Plaza",
-            cover: "./rectangle-1513-5@2x.png"
-        },
-        {
-            id: 3,
-            title: "BESO",
-            artist: "ROSALÍA, Rauw Alejandro",
-            cover: "./rectangle-1513-5@2x.png"
-        },
-        {
-            id: 4,
-            title: "EL TONTO",
-            artist: "Lola Indigo, Quevedo",
-            cover: "./rectangle-1513-5@2x.png"
-        },
-        {
-            id: 5,
-            title: "PLAYA DEL INGLÉS",
-            artist: "Quevedo, Myke Towers",
-            cover: "./rectangle-1513-5@2x.png"
-        },
-        {
-            id: 6,
-            title: "WHERE SHE GOES",
-            artist: "Bad Bunny",
-            cover: "./rectangle-1513-5@2x.png"
-        },
-        {
-            id: 7,
-            title: "Casanova",
-            artist: "Soolking, Lola Indigo, Rvfv",
-            cover: "./rectangle-1513-5@2x.png"
-        },
-        {
-            id: 8,
-            title: "MIRAGE (feat. Ozuna, GIMS & Sfera Ebbasta)",
-            artist: "AriBeatz, Ozuna, GIMS, Sfera Ebbasta",
-            cover: "./rectangle-1513-5@2x.png"
-        }
-    ];
-
     if (!isModalOpen) return null;
 
     return (
@@ -115,46 +65,40 @@ const AddSong = () => {
                 {query ? (
                     <SearchResults results={results} searching={searching} />
                 ) : (
-                    <RecommendedSongs songs={recommendedSongs} />
+                    <div className={styles.listContainer}>
+                        <div className={styles.suggest}><h3>추천된 노래</h3></div>
+                    <ItemAdd/>
+                    <ItemAdd/>
+                    <ItemAdd/>
+                    <ItemAdd/>
+                    <ItemAdd/>
+                    <ItemAdd/>
+                    <ItemAdd/>
+                    </div>
                 )}
             </div>
         </div>
     );
 };
 
-const RecommendedSongs = ({ songs }) => {
-    return (
-        <div className={styles.songList}>
-            <div className={styles.suggest}><h3>추천된 노래</h3></div>
-            {songs.map(song => (
-                <div key={song.id} className={styles.songItem}>
-                    <img src={song.cover} alt="album cover" className={styles.songCover} />
-                    <div className={styles.songInfo}>
-                        <div className={styles.songTitle}>{song.title}</div>
-                        <div className={styles.songArtist}>{song.artist}</div>
-                    </div>
-                </div>
-            ))}
-        </div>
-    );
-};
-
 const SearchResults = ({ results, searching }) => {
     return (
-        <div className={styles.songList}>
-            {searching ? (
-                "Loading..."
-            ) : (
-                results.map(result => (
-                    <div key={result.id} className={styles.songItem}>
-                        <img src={result.coverImageUrl} alt="album cover" className={styles.songCover} />
-                        <div className={styles.songInfo}>
-                            <div className={styles.songTitle}>{result.name}</div>
-                            <div className={styles.songArtist}>{result.artistName}</div>
+        <div className={styles.songListContainer}>
+            <div className={styles.songList}>
+                {searching ? (
+                    "Loading..."
+                ) : (
+                    results.map(result => (
+                        <div key={result.id} className={styles.songItem}>
+                            <img src={result.coverImageUrl} alt="album cover" className={styles.songCover} />
+                            <div className={styles.songInfo}>
+                                <div className={styles.songTitle}>{result.name}</div>
+                                <div className={styles.songArtist}>{result.artistName}</div>
+                            </div>
                         </div>
-                    </div>
-                ))
-            )}
+                    ))
+                )}
+            </div>
         </div>
     );
 };
