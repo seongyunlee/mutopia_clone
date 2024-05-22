@@ -13,21 +13,14 @@ const TopsterDisplay = (props) => {
     const moveToAlbumDetail = (albumId) => {
         navigate(`/albumDetail/${albumId}`);
     }
-    const albums = [];
+    let albums = [];
 
-    if (topsterInfo == null) {
-        const sample =
-            {
-                topsterId: "1",
-                albumId: "1575TQDOQqc0MAheeEeKWUR",
-                albumCoverImg: "https://i.scdn.co/image/ab67616d0000b273bd8c739ce7e59ae9414c7a26"
-            };
-        for (let i = 0; i < 11; i++) {
-            albums.push(sample);
-        }
-
-    } else{
-        for (let i = 0; i < topsterInfo.topsterAlbums.length; i++) {
+    if (topsterInfo == null || topsterInfo.length === 0) {
+        return (
+            <div>등록된 뮤직보드가 없습니다</div>
+        )
+    } else {
+        for (let i = 0; i < topsterInfo?.topsterAlbums?.length; i++) {
             albums.push(topsterInfo.topsterAlbums[i]);
         }
     }
@@ -61,39 +54,39 @@ const TopsterDisplay = (props) => {
             <div className={styles.largerRow}>
                 {albums.slice(0, 3).map((album, index) => (
                     <div className={styles.largeAlbum} key={index}>
-                        <img 
-                            className={styles.albumlargeCoverImg} 
-                            src={album ? album.coverImageUrl : "/topsterdefault.jpg"} 
+                        <img
+                            className={styles.albumlargeCoverImg}
+                            src={album ? album.coverImageUrl : "/topsterdefault.jpg"}
                             alt={album ? album.name : "Default Image"}
                             onClick={() => onAlbumClick(album)}
                         />
-                        {isErasable && <img className={styles.deleteIcon} src="/cross-circle.svg" alt="delete" />}
+                        {isErasable && <img className={styles.deleteIcon} src="/cross-circle.svg" alt="delete"/>}
                     </div>
                 ))}
             </div>
             <div className={styles.smallerRow}>
                 {albums.slice(3, 7).map((album, index) => (
                     <div className={styles.smallAlbum} key={index + 3}>
-                        <img 
-                            className={styles.albumsmallCoverImg} 
-                            src={album ? album.coverImageUrl : "/topsterdefault.jpg"} 
+                        <img
+                            className={styles.albumsmallCoverImg}
+                            src={album ? album.coverImageUrl : "/topsterdefault.jpg"}
                             alt={album ? album.name : "Default Image"}
                             onClick={() => onAlbumClick(album)}
                         />
-                        {isErasable && <img className={styles.deleteIcon} src="/cross-circle.svg" alt="delete" />}
+                        {isErasable && <img className={styles.deleteIcon} src="/cross-circle.svg" alt="delete"/>}
                     </div>
                 ))}
             </div>
             <div className={styles.smallerRow}>
                 {albums.slice(7, 11).map((album, index) => (
                     <div className={styles.smallAlbum} key={index + 3}>
-                        <img 
-                            className={styles.albumsmallCoverImg} 
-                            src={album ? album.coverImageUrl : "/topsterdefault.jpg"} 
+                        <img
+                            className={styles.albumsmallCoverImg}
+                            src={album ? album.coverImageUrl : "/topsterdefault.jpg"}
                             alt={album ? album.name : "Default Image"}
                             onClick={() => onAlbumClick(album)}
                         />
-                        {isErasable && <img className={styles.deleteIcon} src="/cross-circle.svg" alt="delete" />}
+                        {isErasable && <img className={styles.deleteIcon} src="/cross-circle.svg" alt="delete"/>}
                     </div>
                 ))}
             </div>

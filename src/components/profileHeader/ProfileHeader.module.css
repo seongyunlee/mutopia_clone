@@ -35,7 +35,6 @@
 }
 
 .profileContainerFirst {
-    margin-top: 20px;
     display: flex; /* Flexbox 레이아웃 사용 */
     flex-direction: row;
     justify-content: space-between; /* 컴포넌트를 양쪽 끝에 배치 */
@@ -44,26 +43,26 @@
 }
 
 .profilePhoto {
-    width: 70px;
-    height: 70px;
+    width: 100px;
+    height: 100px;
     flex-shrink: 0;
-    border-radius: 70px;
+    border-radius: 1000px;
     border: 1px solid #C1C1C1;
-    background: url('/public/defaultProfile.svg') lightgray 50% / cover no-repeat;
 }
 
-.profileInfo{
+.profileInfo {
     display: flex;
     flex-direction: row;
-    gap: 30px;
+    gap: 60px;
 }
 
-.profileInfoElement{
+.profileInfoElement {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-.profileInfoElementNum{
+
+.profileInfoElementNum {
     color: #383838;
     text-align: center;
     font-family: Roboto;
@@ -73,7 +72,7 @@
     line-height: normal;
 }
 
-.profileInfoElementText{
+.profileInfoElementText {
     color: #666;
     text-align: center;
     font-family: Roboto;
@@ -86,7 +85,7 @@
 .profileContainerSecond {
     display: flex; /* Flexbox 레이아웃 사용 */
     flex-direction: row;
-    gap: 60px;
+    gap: 40px;
     align-items: center; /* 수직 중심 정렬 */
     padding: 10px 23px;
 }
@@ -109,4 +108,22 @@
     display: flex; /* Flexbox 레이아웃 사용 */
     flex-direction: column;
     gap: 15px;
+    margin-top: 10px;
+}
+
+.profileContainerTop {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 20px 0;
+    margin-left: 10px;
+}
+
+.profileContainerTopContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0px 20px;
 }

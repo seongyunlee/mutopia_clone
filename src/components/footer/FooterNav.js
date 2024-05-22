@@ -1,5 +1,7 @@
 import styles from "./Footer.module.css";
 import {useNavigate} from "react-router-dom";
+import {UserContext} from "../../context/UserContext";
+import {useContext} from "react";
 
 const FooterNav = ({}) => {
 
@@ -7,12 +9,24 @@ const FooterNav = ({}) => {
 
     const navigate = useNavigate();
 
+    const {user} = useContext(UserContext);
+
     function navigateHome() {
         navigate("/");
     }
 
+    const showLoginModal = () => {
+        alert("로그인이 필요합니다.");
+        const loginModal = document.getElementById('loginModal');
+        loginModal.showModal();
+    }
+
     function navigateProfile() {
-        navigate("/profile");
+        if (user.id == null) {
+            showLoginModal();
+            return;
+        }
+        navigate(`/profile/${user.id}`);
     }
 
     function navigateeditProfile() {
