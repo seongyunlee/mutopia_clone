@@ -129,8 +129,14 @@ const TrackItem = (props) => {
 
     const {track} = props;
 
+    const navigate = useNavigate();
+
+    const moveToTrackDetailPage = (trackId) => {
+        navigate(`/trackDetail/${trackId}`);
+    };
+
     return (
-        <div className={styles.trackItem}>
+        <div className={styles.trackItem} onClick={() => moveToTrackDetailPage(track.id)}>
             <div className={styles.trackNumber}>{track.trackNumber}</div>
             <div className={styles.trackTitle}>{track.name}</div>
             <div className={styles.trackDuration}>{track.length}</div>
@@ -240,7 +246,7 @@ const AlbumDetailsPage = (props) => {
 
     const moveToMyReviewOrWrite = () => {
         console.log(user.id);
-        if (!user?.id) {
+        if (!user?.id) { // if(!user?.id)
             alert('로그인이 필요합니다.');
             const loginDialog = document.getElementById("loginModal");
             loginDialog.showModal();

@@ -10,6 +10,7 @@ import UserContextProvider from "./context/UserContext";
 import Search from "./pages/search/Search";
 import SearchResults from "./pages/search/SearchResults";
 import AlbumDetail from "./pages/albumDetail/AlbumDetail";
+import TrackDetail from "./pages/trackDetail/TrackDetail";
 import ReviewDetail from "./pages/reviewDetail/ReviewDetail";
 import StarRating3 from "./components/starRating2/StarRating3";
 import Playlist from "./pages/playlist/Playlist";
@@ -29,6 +30,7 @@ function App() {
                         <Route path="/editProfile" element={<EditProfile/>}/>
                         <Route path="/search" element={<SearchResults/>}/>
                         <Route path="/albumDetail/:id" element={<AlbumDetail/>}/>
+                        <Route path="/trackDetail/:id" element={<TrackDetail/>}/>
                         <Route path="/reviewDetail" element={<ReviewDetail/>}/>
                         <Route path="/reviewDetail/:id" element={<ReviewDetail/>}/>
                         <Route path="/followUser" element={<FollowUser/>}/>

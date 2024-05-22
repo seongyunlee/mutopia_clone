@@ -1,8 +1,8 @@
-import styles from "./AlbumDetail.module.css";
+import styles from "./TrackDetail.module.css";
 import {useContext, useEffect, useRef, useState} from "react";
 import {useParams} from "react-router-dom";
 import axios from "axios";
-import AlbumReviewWrite from "../../components/albumReviewModal/AlbumReviewWrite";
+import TrackCommentWrite from "../../components/trackCommentModal/TrackCommentWrite";
 import ReviewPreview from "../../components/reviewPreview/ReviewPreview";
 import PlaylistPreview from "../../components/playlistPreview/PlaylistPreview";
 import ToggleFilter from "../../components/toggleFilter/ToggleFilter";
@@ -146,22 +146,22 @@ const TrackItem = (props) => {
 
 
 // 앨범 상세페이지 컴포넌트
-const AlbumDetailsPage = (props) => {
-    console.log(props.albumId)
+const TrackDetailPage = (props) => {
+    console.log(props.trackId)
 
     const {user, setUser} = useContext(UserContext);
 
-    const [reviewWriteModalOpen, setReviewWriteModalOpen] = useState(false);
+    const [commentWriteModalOpen, setCommentWriteModalOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(true); // 로딩 상태 추가
-    const reviewWriteModalBackground = useRef();
-    const [albumInfo, setAlbumInfo] = useState(null);
+    const commentWriteModalBackground = useRef();
+    const [trackInfo, setTrackInfo] = useState(null);
     const [myRating, setMyRating] = useState("-");
     const [myReviewId, setMyReviewId] = useState(null);
     const [isLiked, setIsLiked] = useState(false);
     const [reviewList, setReviewList] = useState([]);
     const navigate = useNavigate();
 
-    // 곡 추가 페이지로 이동 -> 탑스터로 수정 필요
+    // 곡 추가 페이지로 이동
     const navigateToPlaylistAdd = () => {
         navigate('/playlistadd');
     };
@@ -182,12 +182,12 @@ const AlbumDetailsPage = (props) => {
     }
 
 
-    const fetchAlbumInfo = async () => {
+    const fetchTrackInfo = async () => {
         try {
             setIsLoading(true); // 데이터를 불러오기 시작할 때 로딩 상태를 true로 설정
-            const response = await axios.get(`${process.env.REACT_APP_API_HOST}/album/info/${props.albumId}`, {});
+            const response = await axios.get(`${process.env.REACT_APP_API_HOST}/song/info/${props.trackId}`, {});
             console.log(response.data);
-            setAlbumInfo(response.data);
+            setTrackInfo(response.data);
             setIsLoading(false); // 데이터를 불러온 후 로딩 상태를 false로 설정
         } catch (error) {
             console.error('Failed to fetch album information:', error);
@@ -249,7 +249,7 @@ const AlbumDetailsPage = (props) => {
         if (myReviewId) {
             window.location.href = `/album/review/${myReviewId}`;
         } else {
-            setReviewWriteModalOpen(true);
+            setCommentWriteModalOpen(true);
         }
 
     }
@@ -284,15 +284,15 @@ const AlbumDetailsPage = (props) => {
 
 
     useEffect(() => {
-        fetchAlbumInfo();
-        getMyReview();
-        getMyRating();
-        getRecentReviews();
+        fetchTrackInfo();
+        //getMyReview();
+        //getMyRating();
+        //getRecentReviews();
 
-    }, [props.albumId]);
+    }, [props.trackId]);
 
     if (isLoading) {
-        return <div>Loading album information...</div>; // 로딩 상태일 때 로딩 메시지 표시
+        return <div>Loading track information...</div>; // 로딩 상태일 때 로딩 메시지 표시
     }
 
     return (
@@ -338,12 +338,13 @@ const AlbumDetailsPage = (props) => {
             <NavigationBar
                 data={{albumInfo, reviewList}}
             /> {/* This remains outside the new container */}
-            {reviewWriteModalOpen &&
-                <AlbumReviewWrite albumId={props.albumId}
-                                  reviewWriteModalOpen={reviewWriteModalOpen}
-                                  setReviewWriteModalOpen={setReviewWriteModalOpen}
-                                  reviewWriteModalBackground={reviewWriteModalBackground}
+            {commentWriteModalOpen &&
+                <TrackCommentWrite trackId={props.trackId}
+                                  commentWriteModalOpen={reviewWriteModalOpen}
+                                  setCommentWriteModalOpen={setCommentWriteModalOpen}
+                                  commentWriteModalBackground={commentWriteModalBackground}
                 />
+                //trackId, commentWriteModalOpen, setCommentWriteModalOpen, commentWriteModalBackground
             }
         </div>
     );
@@ -384,15 +385,17 @@ const NavigationBar = (props) => {
     );
 };
 
-const AlbumDetail = () => {
+const TrackDetail = () => {
     const {id} = useParams(); // id 파라미터 추출
+
+    console.log(id)
 
     return (
         <>
-            <AlbumDetailsPage albumId={id}/>
+            <TrackDetailPage trackId={id}/>
 
         </>
     );
 }
 
-export default AlbumDetail;
+export default TrackDetail;
