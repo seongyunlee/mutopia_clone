@@ -16,7 +16,7 @@ const FooterNav = ({}) => {
     }
 
     function navigateeditProfile() {
-        navigate("/reviewDetail");
+        navigate("/addSong");
     }
 
     function navigateSearch() {

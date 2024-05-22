@@ -214,33 +214,9 @@
     border-radius: 5px;
 }
 
-
-.mainPage {
-    background-color: #ffffff;
-    font-family: Arial, sans-serif;
-    margin-left: 20px;
-
-}
-
-.homeSection {
-    margin-left: 20px;
-
-}
-
-.sectionTitle {
+.commentSection{
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    margin-top: 20px;
-    margin-bottom: 10px;
-}
-
-.toggleContainer {
-    margin-left: auto;
-    margin-right: 20px;
-}
-
-.arrow {
-    width: 25px;
+    flex-direction: column;
+    gap: 20px;
+    padding: 10px;
 }

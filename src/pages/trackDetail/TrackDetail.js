@@ -11,139 +11,53 @@ import ShareDialog from "./ShareDialog";
 import {UserContext} from "../../context/UserContext";
 import { useNavigate } from 'react-router-dom';
 
-const MainPage = (props) => {
+const CommentPage = (props) => {
 
-    const {tracks, reviews} = props;
+    const {commentList} = props.commentList;
 
-    const onContainerClick = () => {
-    };
+    if (commentList.length === 0) {
+        return (
+            <div className={styles.commentSection}>
+                <div className={styles.noComment}>
+                    아직 작성된 한줄평이 없습니다. 첫 한줄평을 남겨주세요.
+                </div>
+            </div>
+        );
+    }
 
     return (
-        <div className="mainPage">
-            <section className={styles.homeSection}>
-                <div className={styles.sectionTitle}>
-                    <h2>수록곡</h2>
-                    <div className={styles.toggleContainer}>
-                        <img src="/arrow_down.svg" alt="arrow" className={styles.arrow}/>
-                    </div>
-                </div>
-                <div className={styles.trackListContainer}>
-                    {
-                        tracks.sort((a, b) => a.trackNumber - b.trackNumber).map((track) => {
-                            return (
-                                <TrackItem track={track}/>
-                            )
-                        })
-                    }
-                </div>
-                <div className={styles.sectionTitle}>
-                    <h2>앨범 리뷰</h2>
-                </div>
-                {reviews?.length > 0 ?
-                    <div className="verticalScroll">
-                        {reviews?.map((review) => {
-                            return (<ReviewPreview
-                                key={review.id}
-                                content={review}
-                            />)
-                        })
-                        }
-                    </div>
-                    : <div> 아직 작성된 리뷰가 없습니다. 첫 리뷰를 남겨주세요</div>
-                }
-                <div className={styles.sectionTitle}>
-                    <h2>곡 리뷰</h2>
-                </div>
-                <div className="verticalScroll">
-                    <TrackReview/>
-                </div>
-
-                <div className={styles.sectionTitle}>
-                    <h2>별점</h2>
-                </div>
-            </section>
-        </div>
-
-    );
-};
-
-const ReviewPage = () => {
-
-    const onContainerClick = () => {
-    };
-    return (
-        <div className="reviewPage">
-            <section className={styles.homeSection}>
-                <div className={styles.sectionTitle}>
-                    <h2>앨범리뷰</h2>
-                    <div className={styles.toggleContainer}>
-                        <ToggleFilter menu={["최근", "인기"]}/>
-                    </div>
-                </div>
-                <div className="verticalScroll">
-                    <ReviewPreview
-                    />
-                    <ReviewPreview/>
-                </div>
-
-                <div className={styles.sectionTitle}>
-                    <h2>수록곡 리뷰</h2>
-                    <div className={styles.toggleContainer}>
-                        <ToggleFilter menu={["최근", "인기"]}/>
-                    </div>
-                </div>
-                <div className="verticalScroll">
-                    <TrackReview/>
-                </div>
-            </section>
+        <div className={styles.commentSection}>
+           {commentList.map((comment, index) => (
+                <TrackPreview key={index} comment={comment} />
+            ))}
         </div>
     );
 };
 
 
-const ListPage = () => {
-    return (
-        <section className={styles.homeSection}>
-            <div className={styles.sectionTitle}>
-                <h2>플레이리스트</h2>
-                <div className={styles.toggleContainer}>
-                    <ToggleFilter menu={["최근", "인기"]}/>
+const ListPage = (props) => {
+
+    const {playList} = props.playList;
+
+    if (playList.length === 0) {
+        return (
+            <div className={styles.commentSection}>
+                <div className={styles.noComment}>
+                    아직 등록된 플레이리스트가 없습니다. 첫 플레이리스트를 등록해보세요.
                 </div>
             </div>
-            <div className="verticalScroll">
-                <PlaylistPreview
-                    ellipse85="/ellipse-85@2x.png"
-                    rectangle1480="/rectangle-1480-2@2x.png"
-                    rectangle1479="/rectangle-1479@2x.png"
-                    rectangle1478="/rectangle-1478@2x.png"
-                    rectangle1477="/rectangle-1477@2x.png"
-                    rectangle14781="/rectangle-1478-1@2x.png"
-                    rectangle14791="/rectangle-1479-1@2x.png"
-                    vector="/vector-15.svg"
-                />
-            </div>
-        </section>
-    );
-};
-const TrackItem = (props) => {
-
-    const {track} = props;
+        );
+    }
 
     return (
-        <div className={styles.trackItem}>
-            <div className={styles.trackNumber}>{track.trackNumber}</div>
-            <div className={styles.trackTitle}>{track.name}</div>
-            <div className={styles.trackDuration}>{track.length}</div>
-            <div className={styles.trackRating}>
-                <img src="/YellowStar.svg" alt="⭐️" className={styles.starIcon}/>
-                {track.rating ? track.rating.toFixed(1) : "?"}
-                <div style={{marginLeft: "5px", color: "#A0A1A4", fontSize: "12px", fontWeight: "400"}}> / 5</div>
-            </div>
+        <div className={styles.commentSection}>
+           {commentList.map((comment, index) => (
+                <PlaylistPreview key={index} comment={comment} />
+            ))}
         </div>
-    )
+    );
 
-}
-
+};
 
 // 앨범 상세페이지 컴포넌트
 const TrackDetailPage = (props) => {
@@ -156,9 +70,10 @@ const TrackDetailPage = (props) => {
     const commentWriteModalBackground = useRef();
     const [trackInfo, setTrackInfo] = useState(null);
     const [myRating, setMyRating] = useState("-");
-    const [myReviewId, setMyReviewId] = useState(null);
+    const [myCommentId, setMyCommentId] = useState(null);
     const [isLiked, setIsLiked] = useState(false);
-    const [reviewList, setReviewList] = useState([]);
+    const [commentList, setCommentList] = useState([]);
+    const [playList, setPlayList] = useState([]);
     const navigate = useNavigate();
 
     // 곡 추가 페이지로 이동
@@ -202,7 +117,8 @@ const TrackDetailPage = (props) => {
 
     }
 
-    const getMyReview = async () => {
+    const getMyComment = async () => {
+        console.log(user.id);
         const jwt = localStorage.getItem("accessToken");
         if (jwt === null) {
             return;
@@ -278,10 +194,6 @@ const TrackDetailPage = (props) => {
         toggleAlbumLike();
     }
 
-    const onTopsterAddClicked = () => {
-
-    }
-
 
     useEffect(() => {
         fetchTrackInfo();
@@ -326,7 +238,7 @@ const TrackDetailPage = (props) => {
                 </div>
 
                 <button className={styles.reviewButton} onClick={() => moveToMyReviewOrWrite()}>
-                    {myReviewId ? "나의 리뷰 보기" : "이 앨범 리뷰하기"}
+                    {myReviewId ? "나의 한줄평 보기" : "한줄평 작성하기"}
                 </button>
                 <div className={styles.socialButtons}>
                     <img src="/heart-icon.svg" alt="❤️" className={styles.socialIcon} onClick={onAlbumLikeClicked}/>
@@ -336,7 +248,7 @@ const TrackDetailPage = (props) => {
             </div>
             <ShareDialog dialogId="shareDialog" linkUrl={location.href}/>
             <NavigationBar
-                data={{albumInfo, reviewList}}
+                data={{commentList, playList}}
             /> {/* This remains outside the new container */}
             {commentWriteModalOpen &&
                 <TrackCommentWrite trackId={props.trackId}
@@ -352,22 +264,18 @@ const TrackDetailPage = (props) => {
 
 // NavigationBar 컴포넌트
 const NavigationBar = (props) => {
-    const [tab, setTab] = useState('main');
+    const [tab, setTab] = useState('comment');
 
     console.log(props.data, "fff")
 
     const {data} = props;
-    const {albumInfo, reviewList} = data;
+    const {commentList, playList} = data;
 
     return (
         <div>
             <div className={styles.navBar}>
-                <div className={tab === 'main' ? styles.activeTab : styles.tab} onClick={() => setTab('main')}>
-                    <div>메인</div>
-                    <div className={styles.indicator}></div>
-                </div>
-                <div className={tab === 'review' ? styles.activeTab : styles.tab} onClick={() => setTab('review')}>
-                    <div>리뷰</div>
+                <div className={tab === 'comment' ? styles.activeTab : styles.tab} onClick={() => setTab('review')}>
+                    <div>한줄평</div>
                     <div className={styles.indicator}></div>
                 </div>
                 <div className={tab === 'likes' ? styles.activeTab : styles.tab} onClick={() => setTab('list')}>
@@ -376,10 +284,8 @@ const NavigationBar = (props) => {
                 </div>
             </div>
             <div>
-                {tab === 'main' &&
-                    <MainPage tracks={albumInfo?.albumTrackList} reviews={reviewList}/>}
-                {tab === 'review' && <ReviewPage/>}
-                {tab === 'list' && <ListPage/>}
+                {tab === 'comment' && <CommentPage commentList={commentList}/>}
+                {tab === 'list' && <ListPage playList={playList}/>}
             </div>
         </div>
     );
