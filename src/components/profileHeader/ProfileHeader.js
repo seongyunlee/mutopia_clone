@@ -1,7 +1,7 @@
 import styles from "./ProfileHeader.module.css";
 import {useNavigate} from 'react-router-dom';
 import axios from "axios";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 const ProfileHeader = (props) => {
     const {userInfo, isMine} = props;
@@ -9,7 +9,25 @@ const ProfileHeader = (props) => {
     const [isFollowing, setIsFollowing] = useState(false);
 
     const navigateToFollower = (tab) => {
-        navigate(`/profile/${userInfo.id}/followers?tab=${tab}`);
+        navigate(`/profile/${userInfo.userId}/followers?tab=${tab}`);
+    }
+
+    const checkIsFollowing = () => {
+        if (localStorage.getItem('accessToken') === null) {
+            return;
+        }
+        axios.get(`${process.env.REACT_APP_API_HOST}/user/following/${userInfo.userId}`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+            },
+        }).then((res) => {
+            if (res.data?.following) {
+                setIsFollowing(true);
+            }
+        }).catch(() => {
+            setIsFollowing(false);
+        });
+
     }
 
     const addFollow = () => {
@@ -18,7 +36,7 @@ const ProfileHeader = (props) => {
             return;
         }
         setIsFollowing(true);
-        axios.post(`${process.env.REACT_APP_API_HOST}/user/following?userId=${userInfo.id}`, {}, {
+        axios.post(`${process.env.REACT_APP_API_HOST}/user/following?userId=${userInfo.userId}`, {}, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('accessToken')}`
             },
@@ -41,7 +59,7 @@ const ProfileHeader = (props) => {
             return;
         }
         setIsFollowing(false);
-        axios.delete(`${process.env.REACT_APP_API_HOST}/user/following?userId=${userInfo.id}`, {
+        axios.delete(`${process.env.REACT_APP_API_HOST}/user/following?userId=${userInfo.userId}`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('accessToken')}`
             },
@@ -52,7 +70,7 @@ const ProfileHeader = (props) => {
         });
     }
 
-    const handleButtonClick = (tag) => {
+    const handleButtonClick = () => {
         if (isMine) {
             navigate('/editProfile');
         } else if (isFollowing) {
@@ -61,6 +79,13 @@ const ProfileHeader = (props) => {
             addFollow();
         }
     }
+
+    useEffect(() => {
+        console.log(userInfo, "userInfo");
+        if (!isMine && userInfo.userId) {
+            checkIsFollowing();
+        }
+    }, [userInfo]);
 
 
     return (
@@ -76,7 +101,7 @@ const ProfileHeader = (props) => {
                                  background: isMine || !isFollowing ? "#7B61FF" : "#EADDFF",
                                  color: isMine || !isFollowing ? "#FFFFFF" : "#000000"
                              }}
-                             onClick={() => handleButtonClick(isMine ? '/editProfile' : '/followUser', 'followers')}>
+                             onClick={() => handleButtonClick()}>
                             {isMine ? "수정" : isFollowing ? "팔로잉" : "팔로우"}
                         </div>
                     </div>

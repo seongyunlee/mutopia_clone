@@ -9,7 +9,7 @@ import styles from "./Profile.module.css";
 import {useContext, useEffect, useState} from "react";
 import {UserContext} from "../../context/UserContext";
 import axios from "axios";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
 
 const MainPage = (props) => {
@@ -184,7 +184,6 @@ const ReviewPage = (props) => {
 const LikesPage = () => {
     const {user, setUser} = useContext(UserContext);
     // 자신의 프로필이라고 가정
-    const [isMine, setIsMine] = useState(true);
     const title = ["좋아요한 앨범 💘", "좋아요한 곡 ❣️", "내가 좋아요한 리뷰 💜", "찜한 플레이리스트 🎧"];
 
     return (
@@ -261,11 +260,17 @@ const Profile = (props) => {
     const [likeTracks, setLikeTracks] = useState([]);
     const [likeReviews, setLikeReviews] = useState([]);
 
+    const navigate = useNavigate();
+
 
     const userId = useParams().id;
 
-    if (user.id === userId) {
-        setIsMine(true);
+
+    const checkIsMine = () => {
+        console.log(user, "user");
+        if (user.id === userId) {
+            setIsMine(true);
+        }
     }
 
     const getTopsterInfo = () => {
@@ -273,7 +278,6 @@ const Profile = (props) => {
             setTopsterInfo(response.data);
             setIsLoading(false);
         }).catch((error) => {
-            console.error('Failed to fetch topster information:', error);
         });
     }
 
@@ -282,17 +286,16 @@ const Profile = (props) => {
             setAlbumReview(response.data);
             setIsLoading(false);
         }).catch((error) => {
-            console.error('Failed to fetch album reviews', error);
         });
     }
 
     const getProfileHeader = () => {
         axios.get(`${process.env.REACT_APP_API_HOST}/user/${userId}/profile/aggregation`, {}).then((response) => {
-            setUserInfo(response.data);
-            console.log(response.data);
+            setUserInfo({...response.data, userId: userId});
             setIsLoading(false);
         }).catch((error) => {
-            console.error('Failed to fetch profile header:', error);
+            alert("잘못된 접근입니다.")
+            navigate(-1);
         });
     }
 
@@ -345,6 +348,10 @@ const Profile = (props) => {
         getUserTrackReviews();
         getUserPlaylists();
     }, []);
+
+    useEffect(() => {
+        checkIsMine()
+    });
 
 
     return (

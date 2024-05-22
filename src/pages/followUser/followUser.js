@@ -7,21 +7,21 @@ import {UserContext} from "../../context/UserContext";
 const FollowUser = () => {
     const [activeTab, setActiveTab] = useState('followers');
     const [searchParams] = useSearchParams();
-    const {user} = useContext(UserContext);
+    const {user, setUser} = useContext(UserContext);
     const pageUserId = useParams().id;
     const [userList, setUserList] = useState([]);
 
     const navigate = useNavigate();
 
     const showLoginModal = () => {
-        alert("로그인이 필요합니다.dd");
+        alert("로그인이 필요합니다.");
         const loginModal = document.getElementById('loginModal');
         loginModal.showModal();
     }
 
     const checkLogin = () => {
-        console.log(user.id, "user.id");
-        if (user.id == null) {
+        const accessToken = localStorage.getItem('accessToken');
+        if (accessToken === null) {
             showLoginModal();
         }
     }
@@ -81,6 +81,8 @@ const FollowUser = () => {
 
     const handleFollowClick = (userId) => {
         console.log("Toggle follow state for user:", userId);
+
+        //TODO: Follow or unfollow user
     };
 
     useEffect(() => {
@@ -92,7 +94,7 @@ const FollowUser = () => {
     }, [activeTab]);
 
     useEffect(() => {
-        //checkLogin();
+        checkLogin();
     }, []);
 
 
@@ -121,10 +123,10 @@ const FollowUser = () => {
                                 <h2 className="user-name">{user.nickname}</h2>
                             </div>
                             <button
-                                className={`follow-btn ${user.isFollowing ? 'unfollow' : 'follow'}`}
+                                className={`follow-btn ${user.following ? 'unfollow' : 'follow'}`}
                                 onClick={() => handleFollowClick(user.id)}
                             >
-                                {user.isFollowing ? '언팔로우' : '팔로우'}
+                                {user.following ? '언팔로우' : '팔로우'}
                             </button>
                         </div>
                     </li>

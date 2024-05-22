@@ -26,7 +26,7 @@ const FooterNav = ({}) => {
             showLoginModal();
             return;
         }
-        navigate(`/profile/${user.id}`);
+        window.location.href = `/profile/${user.id}`;
     }
 
     function navigateeditProfile() {
