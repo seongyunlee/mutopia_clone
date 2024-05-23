@@ -17,7 +17,9 @@ const CommentPage = (props) => {
 
     const {commentList} = props.commentList;
 
-    if (commentList.length === 0) {
+    // console.log({commentList}, "fff");
+
+    if (!commentList || !Array.isArray(commentList) || commentList.length === 0) {
         return (
             <div className={styles.commentSection}>
                 <div className={styles.noComment}>
@@ -40,8 +42,8 @@ const CommentPage = (props) => {
 const ListPage = (props) => {
 
     const {playList} = props.playList;
-
-    if (playList.length === 0) {
+    
+    if (!playList || !Array.isArray(playList) || playList.length === 0) {
         return (
             <div className={styles.commentSection}>
                 <div className={styles.noComment}>
@@ -177,7 +179,7 @@ const TrackDetailPage = (props) => {
 
     const moveToMyReviewOrWrite = () => {
         console.log(user.id);
-        if (!user?.id) {
+        if (user?.id) { //!user?.id
             alert('로그인이 필요합니다.');
             const loginDialog = document.getElementById("loginModal");
             loginDialog.showModal();
@@ -265,10 +267,10 @@ const TrackDetailPage = (props) => {
                 </div>
 
                 <button className={styles.reviewButton} onClick={() => moveToMyReviewOrWrite()}>
-                    {myReviewId ? "나의 한줄평 보기" : "한줄평 작성하기"}
+                    {myComment ? "나의 한줄평 보기" : "한줄평 작성하기"}
                 </button>
                 <div className={styles.socialButtons}>
-                    <img src="/heart-icon.svg" alt="❤️" className={styles.socialIcon} onClick={onAlbumLikeClicked}/>
+                    <img src="/heart-icon.svg" alt="❤️" className={styles.socialIcon} onClick={onTrackLikeClicked}/>
                     <img src="/share.svg" alt="🔗" className={styles.socialIcon} onClick={showShareDialog}/>
                     <img src="/add.svg" alt="🌠" className={styles.socialIcon} onClick={navigateToPlaylistAdd}/>
                 </div>
@@ -279,7 +281,7 @@ const TrackDetailPage = (props) => {
             /> {/* This remains outside the new container */}
             {commentWriteModalOpen &&
                 <TrackCommentWrite trackId={props.trackId}
-                                  commentWriteModalOpen={reviewWriteModalOpen}
+                                  commentWriteModalOpen={commentWriteModalOpen}
                                   setCommentWriteModalOpen={setCommentWriteModalOpen}
                                   commentWriteModalBackground={commentWriteModalBackground}
                 />
@@ -301,11 +303,11 @@ const NavigationBar = (props) => {
     return (
         <div>
             <div className={styles.navBar}>
-                <div className={tab === 'comment' ? styles.activeTab : styles.tab} onClick={() => setTab('review')}>
+                <div className={tab === 'comment' ? styles.activeTab : styles.tab} onClick={() => setTab('comment')}>
                     <div>한줄평</div>
                     <div className={styles.indicator}></div>
                 </div>
-                <div className={tab === 'likes' ? styles.activeTab : styles.tab} onClick={() => setTab('list')}>
+                <div className={tab === 'list' ? styles.activeTab : styles.tab} onClick={() => setTab('list')}>
                     <div>리스트</div>
                     <div className={styles.indicator}></div>
                 </div>

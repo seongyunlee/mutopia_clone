@@ -375,7 +375,7 @@ const NavigationBar = (props) => {
                     <div>리뷰</div>
                     <div className={styles.indicator}></div>
                 </div>
-                <div className={tab === 'likes' ? styles.activeTab : styles.tab} onClick={() => setTab('list')}>
+                <div className={tab === 'list' ? styles.activeTab : styles.tab} onClick={() => setTab('list')}>
                     <div>리스트</div>
                     <div className={styles.indicator}></div>
                 </div>
