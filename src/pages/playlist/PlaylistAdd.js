@@ -22,6 +22,12 @@ const PlaylistAdd = () => {
     setIsClicked(true);
   };
 
+
+  // 곡 추가 페이지로 이동
+  const navigateToMakeList = () => {
+    navigate('/makeList');
+  };
+
   return (
     <div className={styles.modalOverlay}>
       <div className={styles.modal}>
@@ -32,7 +38,7 @@ const PlaylistAdd = () => {
 
         <div className={styles.addListContainer}>
           <div className={styles.newList}>
-            <img src="./listadd.svg" alt="listadd" className={styles.listadd} />
+            <img src="./listadd.svg" alt="listadd" className={styles.listadd} onClick={navigateToMakeList} />
             <p>새로운 리스트</p>
           </div>
 

@@ -1,33 +1,42 @@
 .playlist{
     margin: 25px;
-
 }
+
 .header {
     display: flex;
-    flex-direction: column; /* 자식 요소들을 수직으로 정렬 */
+    flex-direction: column;
     padding: 10px;
 }
 
 .backIcon {
     cursor: pointer;
     width: 24px;  
-    height: 24px; 
-    margin-right: 20px;
-    margin-bottom: 30px;
+    height: 24px;
+    align-self: flex-start;
 }
 
-.titleContainer {
+.detailsContainer {
+    margin-top: 30px;
+    margin-left: 20px;
     display: flex;
     flex-direction: column;
-    align-items: center; 
-    flex-grow: 1; 
 }
 
 .playlistTitle {
     font-size: 20px;
     font-weight: 600;
     color: black;
-    margin-bottom: 20px; /* 제목과 작성자 정보 사이의 간격 */
+    margin-bottom: 10px;
+}
+
+.description {
+    margin-bottom: 20px;
+}
+
+.authorAndControlsContainer {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
 }
 
 .authorContainer {
@@ -42,44 +51,45 @@
     border-radius: 50%;
 }
 
-.playButton {
-    width: 40px;
-    margin-top: 20px; /* 플레이 버튼과 제목 사이의 간격 */
-    cursor: pointer;
-    margin-left: auto;
+.controlsContainer {
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
 
+.likeButton {
+    margin-top: 10px;
+    cursor: pointer;
+    width: 22px;
+    height: 22px;
+}
+
+.playButton {
+    margin-top: 15px;
+    width: 50px;
+    cursor: pointer;
+}
 
 .addButton {
-    background-color: transparent; /* 배경색을 투명하게 설정 */
-    color: rgb(0, 0, 0); /* 텍스트 색상을 흰색으로 설정 */
-    border: 3px solid #65558F; /* 보라색 테두리 적용 */
+    background-color: transparent;
+    color: black;
+    border: 3px solid #65558F;
     padding: 8px 16px;
     border-radius: 10px;
     font-size: 16px;
     cursor: pointer;
-    margin-top: 40px; /* 추가 버튼과 플레이 버튼 사이의 간격 */
-    width: 300px;
-
-}
-
-
-.detailsContainer {
-    display: flex; /* Flexbox 레이아웃 적용 */
-    flex-direction: column;
-    margin-left: 10px;
-}
-
-.playButtonContainer {
-    margin-left: auto; /* 이 부분을 추가하세요 */
-}
-
-.listContainer {
+    width: 600px;
     margin-top: 20px;
+    align-self: center;
 }
 
 .buttonContainer {
     display: flex;
-    justify-content: center; /* 수평 중앙 정렬 */
-    align-items: center; /* 수직 중앙 정렬, 필요에 따라 추가 */
+    margin-top: 10px;
+    margin-bottom: 20px;
+    gap: 60px;
+}
+
+.listContainer {
+    margin-top: 20px;
 }
