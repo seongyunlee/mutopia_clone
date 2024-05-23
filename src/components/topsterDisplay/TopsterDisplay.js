@@ -5,8 +5,7 @@ import axios from "axios";
 
 const TopsterDisplay = (props) => {
 
-    const {topsterInfo, isErasable} = props;
-    console.log(topsterInfo);
+    const {topsterInfo, isErasable, refreshTopster} = props;
 
     const navigate = useNavigate();
 
@@ -25,15 +24,19 @@ const TopsterDisplay = (props) => {
         }
     }
 
-    const removeAlbum = (topsterId) => {
-        axios.delete(`/topster/${topsterId}`,
+    const removeAlbum = (albumId) => {
+        axios.delete(`${process.env.REACT_APP_API_HOST}/user/profile/topster/album`,
             {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+                },
+                data: {
+                    albumIds: [albumId]
                 }
-            })
+            }
+        )
             .then(response => {
-                albums = albums.filter(album => album.topsterId !== topsterId);
+                refreshTopster();
             }).catch(error => {
             alert("탑스터 삭제에 실패했습니다.");
         });
@@ -42,7 +45,7 @@ const TopsterDisplay = (props) => {
     const onAlbumClick = (album) => {
         if (isErasable) {
             // show confirm alert
-            confirm("탑스터를 삭제하시겠습니까?") && removeAlbum(album.topsterId);
+            confirm("탑스터를 삭제하시겠습니까?") && removeAlbum(album.id);
 
         } else {
             moveToAlbumDetail(album.id)
@@ -53,12 +56,11 @@ const TopsterDisplay = (props) => {
         <div className={styles.topsterContainer}>
             <div className={styles.largerRow}>
                 {albums.slice(0, 3).map((album, index) => (
-                    <div className={styles.largeAlbum} key={index}>
+                    <div className={styles.largeAlbum} key={index} onClick={() => onAlbumClick(album)}>
                         <img
                             className={styles.albumlargeCoverImg}
                             src={album ? album.coverImageUrl : "/topsterdefault.jpg"}
                             alt={album ? album.name : "Default Image"}
-                            onClick={() => onAlbumClick(album)}
                         />
                         {isErasable && <img className={styles.deleteIcon} src="/cross-circle.svg" alt="delete"/>}
                     </div>

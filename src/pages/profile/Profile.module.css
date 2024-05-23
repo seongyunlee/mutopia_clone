@@ -5,12 +5,12 @@
     justify-content: center;
 }
 
-.profileNavBar{
+.profileNavBar {
     margin-top: 15px;
     margin-bottom: 7px;
     padding: 0 54px;
     flex-direction: row;
-    display: flex;    
+    display: flex;
     justify-content: space-between;
 }
 
@@ -43,7 +43,7 @@
     border-radius: 5px;
 }
 
-.TabSection{
+.TabSection {
     width: auto;
     display: flex;
     flex-direction: column;
@@ -52,17 +52,17 @@
     margin-left: 25px;
     margin-right: 25px;
     margin-top: 20px;
-    
+
 }
 
-.subSection{
+.subSection {
     display: flex;
     flex-direction: column;
     gap: 15px;
     width: 100%;
 }
 
-.sectionTitle{
+.sectionTitle {
     color: #808080;
     font-family: Roboto;
     font-size: 20px;
@@ -73,10 +73,20 @@
 
 .sectionTitleContainer {
     display: flex;
+    justify-content: space-between;
 }
 
 .btnEditTopster {
-    width: 14px;
-    height: 14px;
+    padding: 2px 10px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    font-size: 14px;
+    height: 26px;
+    box-sizing: border-box;
+    border-radius: 13px;
+    color: var(--color-black);
+    background-color: var(--color-secondary);
+    justify-content: flex-end;
 }
 

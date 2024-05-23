@@ -1,20 +1,24 @@
 import styles from './TrackItem.module.css';
+import {useNavigate} from "react-router-dom";
 
-const TrackItem = ({}) => {
+const TrackItem = (prop) => {
 
-    const img = "/ive.png";
-    const trackName = "LOVE DIVE";
-    const artist = "아이브";
-    const album = "I've Mine";
+    const {track} = prop;
+
+    const navigate = useNavigate();
+
+    const moveToDetail = () => {
+        navigate(`/trackDetail/${songId}`);
+    }
 
     return (
-        <div className={styles.trackContainer}>
-            <img src={img} alt="album cover" className={styles.coverImg}/>
+        <div className={styles.trackContainer} onClick={moveToDetail}>
+            <img src={track?.albumCoverImg} alt="album cover" className={styles.coverImg}/>
             <div className={styles.trackInfo}>
-                <div className={styles.trackName}>{trackName}</div>
-                <div className={styles.albumArtist}>{album} · {artist}</div>
+                <div className={styles.trackName}>{track?.songTitle}</div>
+                <div className={styles.albumArtist}>{track?.albumName} · {track?.artistName}</div>
             </div>
-        
+
         </div>
     );
 };

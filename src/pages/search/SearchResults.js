@@ -67,6 +67,10 @@ const SearchResults = ({albums, tracks}) => {
         navigate(`/albumDetail/${id}`); // 페이지 이동
     };
 
+    const handleTrackItemClick = (id) => {
+        navigate(`/trackDetail/${id}`); // 페이지 이동
+    }
+
     if (!albums && !tracks || (albums.length === 0 && tracks.length === 0)) {
         return (
             <div className={styles.typeKeyword}>
@@ -102,7 +106,7 @@ const SearchResults = ({albums, tracks}) => {
                             // use albumCoverUrl as coverImageUrl
                             result.coverImageUrl = result.albumCoverUrl;
                             return (<ResultItem key={result.id} result={result}
-                                                onClick={() => handleItemClick(result.id)}/>)
+                                                onClick={() => handleTrackItemClick(result.id)}/>)
                         })}
                     </div>
                 </section>

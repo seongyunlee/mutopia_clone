@@ -77,14 +77,14 @@
 }
 
 .user-text {
-    flex-grow: 1; 
+    flex-grow: 1;
 }
 
 .user-name {
     font-size: 16px;
     font-weight: bold;
     margin: 0;
-    margin-bottom: 4px; 
+    margin-bottom: 4px;
 }
 
 .user-bio {
@@ -103,9 +103,9 @@
 }
 
 
-
 .follow-btn.unfollow {
-    background-color: #7B61FF;
+    background-color: #EADDFF;
+    color: black;
 }
 
 .follow-btn:hover {
@@ -114,15 +114,16 @@
 
 .follow-btn.unfollow:hover {
     background-color: #7B61FF;
+    color: white;
 }
 
 .indicator {
     height: 2px;
-    background-color: #7B61FF; 
+    background-color: #7B61FF;
     width: 100%;
-    margin-top: 2px; 
+    margin-top: 2px;
 }
 
 .hidden {
-    display: none; 
+    display: none;
 }

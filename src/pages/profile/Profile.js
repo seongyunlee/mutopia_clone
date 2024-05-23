@@ -14,7 +14,7 @@ import {useNavigate, useParams} from "react-router-dom";
 const testJwt = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQiOjE3MTUwOTgwMzUsImV4cCI6MTc0NjYzNDA4NywiYXVkIjoid3d3LmV4YW1wbGUuY29tIiwic3ViIjoidGVzdHVzZXIiLCJSb2xlIjoiVVNFUiJ9.1_R8SRfmLEGy3YB5nVfHYU6om-g7tbifxyRmHAYV4D4"
 
 const MainPage = (props) => {
-    const {userInfo, isMine, albumReview, topsterInfo, trackReview} = props;
+    const {userInfo, isMine, albumReview, topsterInfo, trackReview, refreshTopster} = props;
 
 
     const {user} = useContext(UserContext);
@@ -86,12 +86,15 @@ const MainPage = (props) => {
                 <div className={styles.sectionTitleContainer}>
                     <div
                         className={styles.sectionTitle}>{isMine ? titleMine[0] : userInfo.username + titleOthers[0]}</div>
-                    {user?.id &&
-                        <img src="/pencil-grey.svg" className={styles.btnEditTopster} alt="edit"
-                             onClick={() => setIsTopsterEraseMode(!isTopsterEraseMode)}/>
+                    {isMine &&
+                        <div title="editProfile" className={styles.btnEditTopster}
+                             onClick={() => setIsTopsterEraseMode(!isTopsterEraseMode)}>
+                            {isTopsterEraseMode ? "완료" : "편집"}
+                        </div>
                     }
                 </div>
-                <TopsterDisplay topsterInfo={topsterInfo} isErasable={isTopsterEraseMode}/>
+                <TopsterDisplay topsterInfo={topsterInfo} isErasable={isTopsterEraseMode}
+                                refreshTopster={refreshTopster}/>
             </section>
             <section className={styles.subSection}>
                 <div className={styles.sectionTitleContainer}>
@@ -182,7 +185,10 @@ const ReviewPage = (props) => {
     )
 };
 
-const LikesPage = () => {
+const LikesPage = (props) => {
+
+    const {userInfo, isMine, likeAlbums, likeTracks, likeReviews, likeComments, likePlaylists} = props;
+
     const {user, setUser} = useContext(UserContext);
     // 자신의 프로필이라고 가정
     const title = ["좋아요한 앨범 💘", "좋아요한 곡 ❣️", "내가 좋아요한 리뷰 💜", "찜한 플레이리스트 🎧"];
@@ -193,36 +199,35 @@ const LikesPage = () => {
                 <div className={styles.sectionTitleContainer}>
                     <div className={styles.sectionTitle}>{title[0]}</div>
                 </div>
-                <div className="verticalScroll">
-                    <LikedAlbumList/>
-                </div>
+                {likeAlbums?.length === 0 ? <div>좋아요한 앨범이 없습니다.</div> :
+                    <div className="verticalScroll">
+                        <LikedAlbumList list={likeAlbums}/>
+                    </div>
+                }
 
             </section>
             <section className={styles.subSection}>
                 <div className={styles.sectionTitleContainer}>
                     <div className={styles.sectionTitle}>{title[1]}</div>
                 </div>
-                <div className="verticalScroll">
-                    <LikedTrackList/>
-                </div>
+                {likeTracks?.length === 0 ? <div>좋아요한 곡이 없습니다.</div> :
+                    <div className="verticalScroll">
+                        <LikedTrackList list={likeTracks}/>
+                    </div>
+                }
 
             </section>
             <section className={styles.subSection}>
                 <div className={styles.sectionTitleContainer}>
                     <div className={styles.sectionTitle}>{title[2]}</div>
                 </div>
-                <div className="verticalScroll">
-                    <ReviewPreview/>
-                    <ReviewPreview/>
-                    <ReviewPreview/>
-                    <ReviewPreview/>
-                    <ReviewPreview/>
-                    <ReviewPreview/>
-                    <ReviewPreview/>
-                    <ReviewPreview/>
-                    <ReviewPreview/>
-                    <ReviewPreview/>
-                </div>
+                {likeReviews?.length === 0 ? <div>좋아요한 리뷰가 없습니다.</div> :
+                    <div className="verticalScroll">
+                        {
+                            likeReviews.map((review, index) => (<ReviewPreview content={review} key={index}/>))
+                        }
+                    </div>
+                }
                 <div className="verticalScroll">
                     <TrackReview/>
                     <TrackReview/>
@@ -274,6 +279,10 @@ const Profile = (props) => {
         }
     }
 
+    useEffect(() => {
+        checkIsMine();
+    }, [user]);
+
     const getTopsterInfo = () => {
         axios.get(`${process.env.REACT_APP_API_HOST}/user/${userId}/profile/topster`, {}).then((response) => {
             setTopsterInfo(response.data);
@@ -301,7 +310,11 @@ const Profile = (props) => {
     }
 
     const getUserTrackReviews = () => {
-        axios.get(`${process.env.REACT_APP_API_HOST}/user/${userId}/comment/recent`, {}).then((response) => {
+        axios.get(`${process.env.REACT_APP_API_HOST}/user/${userId}/song/comment/recent`, {
+            params: {
+                offset: 0,
+            }
+        }).then((response) => {
             setTrackReviews(response.data);
         }).catch((error) => {
             console.error('Failed to fetch comments:', error);
@@ -316,17 +329,24 @@ const Profile = (props) => {
         });
     }
     const getLikeAlbums = () => {
-        axios.get(`${process.env.REACT_APP_API_HOST}/user/${userId}/album/liked`, {}).then((response) => {
-            setAlbumReview(response.data);
-            setIsLoading(false);
+        axios.get(`${process.env.REACT_APP_API_HOST}/album/like/${userId}`, {
+            params: {
+                page: 0,
+            }
+        }).then((response) => {
+            setLikeAlbums(response.data);
         }).catch((error) => {
             console.error('Failed to fetch liked albums:', error);
         });
     }
 
     const getLikeTracks = () => {
-        axios.get(`${process.env.REACT_APP_API_HOST}/user/${userId}/track/liked`, {}).then((response) => {
-            setTrackReviews(response.data);
+        axios.get(`${process.env.REACT_APP_API_HOST}/song/like/${userId}`, {
+            params: {
+                page: 0,
+            }
+        }).then((response) => {
+            setLikeTracks(response.data);
         }).catch((error) => {
             console.error('Failed to fetch liked tracks:', error);
         });
@@ -334,9 +354,13 @@ const Profile = (props) => {
     }
 
     const getLikeReviews = () => {
-        axios.get(`${process.env.REACT_APP_API_HOST}/user/${userId}/review/liked`, {})
+        axios.get(`${process.env.REACT_APP_API_HOST}/album/review/like/${userId}`, {
+            params: {
+                offset: 0,
+            }
+        })
             .then((response) => {
-                    setAlbumReview(response.data);
+                    setLikeReviews(response.data);
                 }
             )
     }
@@ -348,11 +372,10 @@ const Profile = (props) => {
         getAlbumReview();
         getUserTrackReviews();
         getUserPlaylists();
+        getLikeAlbums();
+        getLikeTracks();
+        getLikeReviews();
     }, []);
-
-    useEffect(() => {
-        checkIsMine()
-    });
 
 
     return (
@@ -375,13 +398,15 @@ const Profile = (props) => {
             <div>
                 {tab === 'main' &&
                     <MainPage userInfo={userInfo} isMine={isMine} albumReview={albumReview} topsterInfo={topsterInfo}
-                              trackReview={trackReviews}
+                              trackReview={trackReviews} refreshTopster={getTopsterInfo}
                     />}
                 {tab === 'review' &&
-                    <ReviewPage userInfo={userInfo} isMine={isMine} albumReview={albumReview} comments={[]}
+                    <ReviewPage userInfo={userInfo} isMine={isMine} albumReview={albumReview}
+                                trackReviews={trackReviews}
                                 playList={playlists}/>}
                 {tab === 'likes' &&
-                    <LikesPage userInfo={userInfo} isMine={isMine} likeAlbums={[]} likeTracks={[]} likeReviews={[]}
+                    <LikesPage userInfo={userInfo} isMine={isMine} likeAlbums={likeAlbums} likeTracks={likeTracks}
+                               likeReviews={likeReviews}
                                likeComments={[]} likePlaylists={[]} likePlaylists={[]}/>}
             </div>
         </div>

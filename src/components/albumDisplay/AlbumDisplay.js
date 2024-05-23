@@ -1,10 +1,17 @@
 import styles from "./AlbumDisplay.module.css";
+import {useNavigate} from "react-router-dom";
 
 const AlbumDisplay = (props) => {
-    const {coverImg, name, artist} = props;
+    const {id, coverImg, name, artist} = props;
+
+    const navigate = useNavigate(); // useNavigate 훅 사용
+
+    const moveToDetail = () => {
+        navigate(`/albumDetail/${id}`);
+    }
 
     return (
-        <div className={styles.rectangleParent}>
+        <div className={styles.rectangleParent} onClick={moveToDetail}>
             <img
                 className={styles.frameChild}
                 loading="lazy"

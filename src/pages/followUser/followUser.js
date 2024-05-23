@@ -9,7 +9,8 @@ const FollowUser = () => {
     const [searchParams] = useSearchParams();
     const {user, setUser} = useContext(UserContext);
     const pageUserId = useParams().id;
-    const [userList, setUserList] = useState([]);
+    const [followers, setFollowers] = useState([]);
+    const [following, setFollowing] = useState([]);
 
     const navigate = useNavigate();
 
@@ -41,9 +42,9 @@ const FollowUser = () => {
                 Authorization: `Bearer ${localStorage.getItem('accessToken')}`
             },
         }).then(response => {
-            setUserList(response.data)
+            setFollowers(response.data)
         }).catch(error => {
-            setUserList([])
+            setFollowers([])
         });
     }
 
@@ -53,9 +54,9 @@ const FollowUser = () => {
                 Authorization: `Bearer ${localStorage.getItem('accessToken')}`
             },
         }).then(response => {
-            setUserList(response.data)
+            setFollowing(response.data)
         }).catch(error => {
-            setUserList([])
+            setFollowing([])
         });
     }
 
@@ -79,18 +80,52 @@ const FollowUser = () => {
             {id: 2, name: '드레이크', image: '/Ellipse_93.svg', isFollowing: true, bio: 'Started from the bottom'}
         ];*/
 
-    const handleFollowClick = (userId) => {
-        console.log("Toggle follow state for user:", userId);
 
-        //TODO: Follow or unfollow user
+    const changeFollowState = (userId, isFollowing) => {
+        const updatedList = followers.map(user => {
+            if (user.userId === userId) {
+                return {...user, following: isFollowing};
+            }
+            return user;
+        });
+        setFollowers(updatedList);
+    }
+
+    const unFollow = (userId) => {
+        axios.delete(`${process.env.REACT_APP_API_HOST}/user/following?userId=${userId}`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+            },
+        }).then(() => {
+            changeFollowState(userId, false);
+        }).catch((error) => {
+        });
+    }
+
+    const follow = (userId) => {
+        axios.post(`${process.env.REACT_APP_API_HOST}/user/following?userId=${userId}`, {}, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+            },
+        }).then(() => {
+            changeFollowState(userId, true);
+        }).catch((error) => {
+        });
+    }
+
+
+    const handleFollowClick = (e, userId, isFollow) => {
+        if (isFollow) {
+            unFollow(userId);
+        } else {
+            follow(userId);
+        }
+        e.stopPropagation();
     };
 
     useEffect(() => {
-        if (activeTab === 'followers') {
-            getFollowers();
-        } else {
-            getFollowing();
-        }
+        getFollowers();
+        getFollowing();
     }, [activeTab]);
 
     useEffect(() => {
@@ -102,11 +137,11 @@ const FollowUser = () => {
         <div className="follow-page">
             <div className="tab-nav">
                 <button onClick={() => setActiveTab('followers')} className={activeTab === 'followers' ? 'active' : ''}>
-                    {`${userList != null ? userList.length : 0} 팔로워`}
+                    {`${followers != null ? followers.length : 0} 팔로워`}
                     <div className={activeTab === 'followers' ? 'indicator' : 'hidden'}></div>
                 </button>
                 <button onClick={() => setActiveTab('following')} className={activeTab === 'following' ? 'active' : ''}>
-                    {`${userList != null ? userList.length : 0} 팔로잉`}
+                    {`${following != null ? following.length : 0} 팔로잉`}
                     <div className={activeTab === 'following' ? 'indicator' : 'hidden'}></div>
                 </button>
             </div>
@@ -115,8 +150,8 @@ const FollowUser = () => {
                 <img src="/import_export.svg" alt="Change Order" className="latest-icon"/>
             </div>*/}
             <ul className="user-list">
-                {userList.map(user => (
-                    <li key={user.id} className="user-item" onClick={() => moveToProfile(user.userId)}>
+                {(activeTab == "followers" ? followers : following).map(user => (
+                    <div key={user.id} className="user-item" onClick={() => moveToProfile(user.userId)}>
                         <img src={user.profileImageUrl} alt={user.nickname} className="user-image"/>
                         <div className="user-info">
                             <div className="user-text">
@@ -124,12 +159,12 @@ const FollowUser = () => {
                             </div>
                             <button
                                 className={`follow-btn ${user.following ? 'unfollow' : 'follow'}`}
-                                onClick={() => handleFollowClick(user.id)}
+                                onClick={(e) => handleFollowClick(e, user.userId, user.following)}
                             >
                                 {user.following ? '언팔로우' : '팔로우'}
                             </button>
                         </div>
-                    </li>
+                    </div>
                 ))}
             </ul>
         </div>

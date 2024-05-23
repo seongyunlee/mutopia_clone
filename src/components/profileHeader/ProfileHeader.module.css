@@ -39,12 +39,12 @@
     flex-direction: row;
     justify-content: space-between; /* 컴포넌트를 양쪽 끝에 배치 */
     align-items: center; /* 수직 중심 정렬 */
-    padding: 10px 23px;
+    padding: 10px 15px;
 }
 
 .profilePhoto {
-    width: 100px;
-    height: 100px;
+    width: 70px;
+    height: 70px;
     flex-shrink: 0;
     border-radius: 1000px;
     border: 1px solid #C1C1C1;
@@ -52,8 +52,10 @@
 
 .profileInfo {
     display: flex;
+    flex: 1;
     flex-direction: row;
-    gap: 60px;
+    justify-content: space-between;
+    max-width: 300px;
 }
 
 .profileInfoElement {
@@ -85,7 +87,6 @@
 .profileContainerSecond {
     display: flex; /* Flexbox 레이아웃 사용 */
     flex-direction: row;
-    gap: 40px;
     align-items: center; /* 수직 중심 정렬 */
     padding: 10px 23px;
 }
@@ -107,7 +108,6 @@
 .profileContainer {
     display: flex; /* Flexbox 레이아웃 사용 */
     flex-direction: column;
-    gap: 15px;
     margin-top: 10px;
 }
 
@@ -115,7 +115,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    padding: 20px 0;
+    margin-top: 10px;
     margin-left: 10px;
 }
 

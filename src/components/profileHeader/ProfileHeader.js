@@ -105,7 +105,7 @@ const ProfileHeader = (props) => {
                             {isMine ? "수정" : isFollowing ? "팔로잉" : "팔로우"}
                         </div>
                     </div>
-                    <div className={styles.profileContainerSecond}>
+                    <div className={styles.profileContainerFirst}>
                         <div className={styles.profileInfo}>
                             <div className={styles.profileInfoElement}>
                                 <div
