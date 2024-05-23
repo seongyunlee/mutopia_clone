@@ -99,18 +99,22 @@
     justify-content: center;
     margin-top: 30px;
     justify-content: space-around;
-}
-
-
-.socialButtons span {
-    margin-right: 20px;
-    font-size: 1.5em;
-}
-
-.socialIcon {
+  }
+  
+  .socialButton {
+    display: flex;
+    align-items: center;
+  }
+  
+  .socialIcon {
     width: 20px; /* 아이콘 크기 조절 */
     height: 24px;
-}
+  }
+  
+  .likeCount {
+    margin-left: 15px; /* 아이콘과 좋아요 수 간격 조절 */
+    font-size: 16px; /* 좋아요 수 글씨 크기 조절 */
+  }
 
 .navBar {
     margin-top: 10px;

@@ -88,8 +88,8 @@ const TrackDetailPage = (props) => {
 
 
     const getRecentReviews = () => {
-        //const jwt = localStorage.getItem("accessToken");
-        const jwt = testJwt;
+        const jwt = localStorage.getItem("accessToken");
+        //const jwt = testJwt;
         const headers = {}
         if (jwt !== null) {
             headers.Authorization = `Bearer ${jwt}`;
@@ -105,8 +105,8 @@ const TrackDetailPage = (props) => {
 
     const fetchTrackInfo = async () => {
         setIsLoading(true);
-        //const jwt = localStorage.getItem("accessToken");
-        const jwt = testJwt;
+        const jwt = localStorage.getItem("accessToken");
+        //const jwt = testJwt;
         axios.get(`${process.env.REACT_APP_API_HOST}/song/info/${props.trackId}`, {
             headers: {
                 Authorization: `Bearer ${jwt}`
@@ -135,8 +135,8 @@ const TrackDetailPage = (props) => {
     
     const getTrackLiked = async () => {
         console.log(user.id);
-        //const jwt = localStorage.getItem("accessToken");
-        const jwt = testJwt;
+        const jwt = localStorage.getItem("accessToken");
+        //const jwt = testJwt;
         axios.get(`${process.env.REACT_APP_API_HOST}/song/${props.trackId}/like/status`, {
             headers: {
                 Authorization: `Bearer ${jwt}`
@@ -155,16 +155,17 @@ const TrackDetailPage = (props) => {
 
     const getMyCommentAndRating = async () => {
         console.log(user.id);
-        //const jwt = localStorage.getItem("accessToken");
-        const jwt = testJwt;
+        const jwt = localStorage.getItem("accessToken");
+        //const jwt = testJwt;
         if (jwt === null) {
             return;
         }
-        axios.get(`${process.env.REACT_APP_API_HOST}/user/${props.trackId}/song/commnet/recent`, {
+        axios.get(`${process.env.REACT_APP_API_HOST}/user/${user.id}/song/${props.trackId}/comment/recent`, {
             headers: {
                 Authorization: `Bearer ${jwt}`
             }
         }).then((response) => {
+            console.log(response.data, "mycomment")
             if (response.data.length!==0) {
                 setMyComment(response.data);
                 setMyRating(response.data.rating);
@@ -179,7 +180,7 @@ const TrackDetailPage = (props) => {
 
     const moveToMyReviewOrWrite = () => {
         console.log(user.id);
-        if (user?.id) { //!user?.id
+        if (!user?.id) { //!user?.id
             alert('로그인이 필요합니다.');
             const loginDialog = document.getElementById("loginModal");
             loginDialog.showModal();
@@ -194,8 +195,8 @@ const TrackDetailPage = (props) => {
     }
 
     const toggleTrackLike = () => {
-        //const jwt = localStorage.getItem("accessToken");
-        const jwt = testJwt;
+        const jwt = localStorage.getItem("accessToken");
+        //const jwt = testJwt;
         if (jwt === null) {
             alert('로그인이 필요합니다.');
             const loginDialog = document.getElementById("loginModal");
@@ -205,22 +206,26 @@ const TrackDetailPage = (props) => {
 
         const prevIsLiked = isLiked;
         setIsLiked((prev) => !prev);
-        likeCount += prevIsLiked ? -1 : 1;
+        if(prevIsLiked){
+            setLikeCount((prev) => (prev-1));
+        }else{
+            setLikeCount((prev) => (prev+1));
+        }
 
-        axois.post(`${process.env.REACT_APP_API_HOST}/song/${props.trackId}/like/toggle`, {}, {
+        axios.post(`${process.env.REACT_APP_API_HOST}/song/${props.trackId}/like/toggle`, {}, {
             headers: {
                 Authorization: `Bearer ${jwt}`
             }
         }).then((response) => {
+            console.log(response.data);
         }).catch((error) => {
             setIsLiked(prevIsLiked);
-            likeCount += prevIsLiked ? 1 : -1;
+            if(prevIsLiked){
+                setLikeCount((prev) => (prev+1));
+            }else{
+                setLikeCount((prev) => (prev-1));
+            }
         });
-    }
-
-    const onTrackLikeClicked = () => {
-        setIsLiked(!isLiked);
-        toggleTrackLike();
     }
 
 
@@ -256,12 +261,12 @@ const TrackDetailPage = (props) => {
                     </div>
                     <div className={styles.ratingItem}>
                         <div className={styles.value}>
-                            {trackInfo.averageRating ? trackInfo.averageRating.toFixed(1) : 0} / 5.0
+                            {trackInfo.averageRating ? trackInfo.averageRating.toFixed(1)/2 : 0} / 5.0
                         </div>
                         <div className={styles.label}>전체 평가</div>
                     </div>
                     <div className={styles.ratingItem}>
-                        <div className={styles.value}>{`${myRating} / 5.0`}</div>
+                        <div className={styles.value}>{`${myRating/2 ? myRating/2 : '?' } / 5.0`} </div>
                         <div className={styles.label}>내 평가</div>
                     </div>
                 </div>
@@ -270,10 +275,28 @@ const TrackDetailPage = (props) => {
                     {myComment ? "나의 한줄평 보기" : "한줄평 작성하기"}
                 </button>
                 <div className={styles.socialButtons}>
-                    <img src="/heart-icon.svg" alt="❤️" className={styles.socialIcon} onClick={onTrackLikeClicked}/>
-                    <img src="/share.svg" alt="🔗" className={styles.socialIcon} onClick={showShareDialog}/>
-                    <img src="/add.svg" alt="🌠" className={styles.socialIcon} onClick={navigateToPlaylistAdd}/>
-                </div>
+                    <div className={styles.socialButton}>
+                        <img 
+                        src={isLiked ? "/favoritefilled.svg" : "/heart-icon.svg"} 
+                        alt="❤️" 
+                        className={styles.socialIcon} 
+                        onClick={toggleTrackLike}
+                        />
+                        <span className={styles.likeCount}>{likeCount}</span>
+                    </div>
+                    <img 
+                        src="/share.svg" 
+                        alt="🔗" 
+                        className={styles.socialIcon} 
+                        onClick={showShareDialog}
+                    />
+                    <img 
+                        src="/add.svg" 
+                        alt="🌠" 
+                        className={styles.socialIcon} 
+                        onClick={navigateToPlaylistAdd}
+                    />
+                    </div>
             </div>
             <ShareDialog dialogId="shareDialog" linkUrl={location.href}/>
             <NavigationBar
