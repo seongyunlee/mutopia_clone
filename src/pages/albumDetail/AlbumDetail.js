@@ -29,9 +29,9 @@ const MainPage = (props) => {
                 </div>
                 <div className={styles.trackListContainer}>
                     {
-                        tracks.sort((a, b) => a.trackNumber - b.trackNumber).map((track) => {
+                        tracks.sort((a, b) => a.trackNumber - b.trackNumber).map((track, index) => {
                             return (
-                                <TrackItem track={track}/>
+                                <TrackItem key={index} track={track}/>
                             )
                         })
                     }

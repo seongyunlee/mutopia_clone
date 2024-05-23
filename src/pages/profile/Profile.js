@@ -11,6 +11,7 @@ import {UserContext} from "../../context/UserContext";
 import axios from "axios";
 import {useNavigate, useParams} from "react-router-dom";
 
+const testJwt = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQiOjE3MTUwOTgwMzUsImV4cCI6MTc0NjYzNDA4NywiYXVkIjoid3d3LmV4YW1wbGUuY29tIiwic3ViIjoidGVzdHVzZXIiLCJSb2xlIjoiVVNFUiJ9.1_R8SRfmLEGy3YB5nVfHYU6om-g7tbifxyRmHAYV4D4"
 
 const MainPage = (props) => {
     const {userInfo, isMine, albumReview, topsterInfo, trackReview} = props;

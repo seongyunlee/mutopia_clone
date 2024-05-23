@@ -11,6 +11,8 @@ import ShareDialog from "./ShareDialog";
 import {UserContext} from "../../context/UserContext";
 import { useNavigate } from 'react-router-dom';
 
+const testJwt = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQiOjE3MTUwOTgwMzUsImV4cCI6MTc0NjYzNDA4NywiYXVkIjoid3d3LmV4YW1wbGUuY29tIiwic3ViIjoidGVzdHVzZXIiLCJSb2xlIjoiVVNFUiJ9.1_R8SRfmLEGy3YB5nVfHYU6om-g7tbifxyRmHAYV4D4"
+
 const CommentPage = (props) => {
 
     const {commentList} = props.commentList;
@@ -70,8 +72,9 @@ const TrackDetailPage = (props) => {
     const commentWriteModalBackground = useRef();
     const [trackInfo, setTrackInfo] = useState(null);
     const [myRating, setMyRating] = useState("-");
-    const [myCommentId, setMyCommentId] = useState(null);
+    const [myComment, setMyComment] = useState(null);
     const [isLiked, setIsLiked] = useState(false);
+    const [likeCount, setLikeCount] = useState(0);
     const [commentList, setCommentList] = useState([]);
     const [playList, setPlayList] = useState([]);
     const navigate = useNavigate();
@@ -83,74 +86,92 @@ const TrackDetailPage = (props) => {
 
 
     const getRecentReviews = () => {
-        const jwt = localStorage.getItem("accessToken");
+        //const jwt = localStorage.getItem("accessToken");
+        const jwt = testJwt;
         const headers = {}
         if (jwt !== null) {
             headers.Authorization = `Bearer ${jwt}`;
         }
-        axios.get(`${process.env.REACT_APP_API_HOST}/album/${props.albumId}/review/recent`, {
+        axios.get(`${process.env.REACT_APP_API_HOST}/song/${props.trackId}/comment/recent`, {
             headers: headers
         }).then((response) => {
-            setReviewList(response.data);
+            setCommentList(response.data);
         }).catch((error) => {
         });
     }
 
 
     const fetchTrackInfo = async () => {
-        try {
-            setIsLoading(true); // 데이터를 불러오기 시작할 때 로딩 상태를 true로 설정
-            const response = await axios.get(`${process.env.REACT_APP_API_HOST}/song/info/${props.trackId}`, {});
-            console.log(response.data);
-            setTrackInfo(response.data);
-            setIsLoading(false); // 데이터를 불러온 후 로딩 상태를 false로 설정
-        } catch (error) {
-            console.error('Failed to fetch album information:', error);
-            alert('잘못된 접근입니다.');
-            history.back();
-        }
-    };
+        setIsLoading(true);
+        //const jwt = localStorage.getItem("accessToken");
+        const jwt = testJwt;
+        axios.get(`${process.env.REACT_APP_API_HOST}/song/info/${props.trackId}`, {
+            headers: {
+                Authorization: `Bearer ${jwt}`
+            }
+        }).then((response) => {
+            if (response.data !== null) {
+                setTrackInfo(response.data);
+                setIsLoading(false); // 데이터를 불러온 후 로딩 상태를 false로 설정
+            } else{
+                console.error('Failed to fetch album information:', error);
+                alert('잘못된 접근입니다.');
+                history.back();
+            }
+        }).catch((error) => {
+                console.error('Failed to fetch album information:', error);
+                alert('잘못된 접근입니다.');
+                history.back();
+        });
+    }
 
     const showShareDialog = () => {
         const dialog = document.getElementById("shareDialog");
         dialog.showModal();
 
     }
-
-    const getMyComment = async () => {
+    
+    const getTrackLiked = async () => {
         console.log(user.id);
-        const jwt = localStorage.getItem("accessToken");
-        if (jwt === null) {
-            return;
-        }
-        axios.get(`${process.env.REACT_APP_API_HOST}/album/${props.albumId}/review/check`, {
+        //const jwt = localStorage.getItem("accessToken");
+        const jwt = testJwt;
+        axios.get(`${process.env.REACT_APP_API_HOST}/song/${props.trackId}/like/status`, {
             headers: {
                 Authorization: `Bearer ${jwt}`
             }
         }).then((response) => {
-            if (response.data.userHasReviewed && response.data.albumReviewId !== null) {
-                setMyReviewId(response.data.albumReviewId)
+            if (response.data.isUserLoggedIn === "NO") {
+                setIsLiked(false);
+            }else{
+                response.data.likeStatus === "ON" ? setIsLiked(true) : setIsLiked(false)
             }
+            setLikeCount(response.data.likeCount);
         }).catch((error) => {
-            console.error('Failed to fetch my review:', error);
+            console.error('Failed to fetch liked status:', error);
         });
     }
 
-    const getMyRating = async () => {
-        const jwt = localStorage.getItem("accessToken");
+    const getMyCommentAndRating = async () => {
+        console.log(user.id);
+        //const jwt = localStorage.getItem("accessToken");
+        const jwt = testJwt;
         if (jwt === null) {
             return;
         }
-        axios.get(`${process.env.REACT_APP_API_HOST}/album/${props.albumId}/rating`, {
+        axios.get(`${process.env.REACT_APP_API_HOST}/user/${props.trackId}/song/commnet/recent`, {
             headers: {
                 Authorization: `Bearer ${jwt}`
             }
         }).then((response) => {
-            if (response.data.rating !== null) {
-                setMyRating(response.data.rating)
+            if (response.data.length!==0) {
+                setMyComment(response.data);
+                setMyRating(response.data.rating);
+            }else{
+                
             }
+            
         }).catch((error) => {
-            console.error('Failed to fetch my review:', error);
+            console.error('Failed to fetch my comment:', error);
         });
     }
 
@@ -162,44 +183,51 @@ const TrackDetailPage = (props) => {
             loginDialog.showModal();
             return;
         }
-        if (myReviewId) {
-            window.location.href = `/album/review/${myReviewId}`;
+        if (myComment !== null) {
+            setCommentWriteModalOpen(true); // 수정 필요
         } else {
             setCommentWriteModalOpen(true);
         }
 
     }
 
-    const toggleAlbumLike = () => {
-        const jwt = localStorage.getItem("accessToken");
+    const toggleTrackLike = () => {
+        //const jwt = localStorage.getItem("accessToken");
+        const jwt = testJwt;
         if (jwt === null) {
             alert('로그인이 필요합니다.');
             const loginDialog = document.getElementById("loginModal");
             loginDialog.showModal();
             return;
         }
-        axois.post(`${process.env.REACT_APP_API_HOST}/album/${props.albumId}/like/toggle`, {}, {
+
+        const prevIsLiked = isLiked;
+        setIsLiked((prev) => !prev);
+        likeCount += prevIsLiked ? -1 : 1;
+
+        axois.post(`${process.env.REACT_APP_API_HOST}/song/${props.trackId}/like/toggle`, {}, {
             headers: {
                 Authorization: `Bearer ${jwt}`
             }
         }).then((response) => {
-            setIsLiked(response.data.likeStatus === "ON")
         }).catch((error) => {
-            setIsLiked(!isLiked);
+            setIsLiked(prevIsLiked);
+            likeCount += prevIsLiked ? 1 : -1;
         });
     }
 
-    const onAlbumLikeClicked = () => {
+    const onTrackLikeClicked = () => {
         setIsLiked(!isLiked);
-        toggleAlbumLike();
+        toggleTrackLike();
     }
 
 
     useEffect(() => {
+        console.log("hello2");
         fetchTrackInfo();
-        //getMyReview();
-        //getMyRating();
-        //getRecentReviews();
+        getMyCommentAndRating();
+        getTrackLiked();
+        getRecentReviews();
 
     }, [props.trackId]);
 
@@ -211,23 +239,22 @@ const TrackDetailPage = (props) => {
         <div className={styles.albumPage}>
             <div className={styles.contentContainer}>
                 <div className={styles.albumArtContainer}>
-                    <img src={albumInfo.albumImg} alt="Album Art" className={styles.albumArt}/>
+                    <img src={trackInfo.albumCoverUrl} alt="Album Art" className={styles.albumArt}/>
                 </div>
                 <div className={styles.albumInfo}>
-                    <h1>{albumInfo.albumName}</h1>
-                    <h2>{`${albumInfo.releaseDate.replaceAll("-", ".")} | ${albumInfo?.albumTrackList?.length}곡 | ${
-                        Math.floor(albumInfo.albumLength / 60)}분 ${albumInfo.albumLength % 60}초`}</h2>
-                    <h3>{albumInfo.artistName}</h3>
+                    <h1>{trackInfo.trackName}</h1>
+                    <h2>{trackInfo.albumName}</h2>
+                    <h3>{trackInfo.artistName}</h3>
                 </div>
                 <div className={styles.ratingInfo}>
                     <div className={styles.ratingItem}>
                         <div className={styles.value}>
-                            {albumInfo.totalReviewCount ? albumInfo.totalReviewCount : 0}</div>
-                        <div className={styles.label}>총 리뷰</div>
+                            {trackInfo.commentCount ? trackInfo.commentCount : 0}</div>
+                        <div className={styles.label}>총 한줄평</div>
                     </div>
                     <div className={styles.ratingItem}>
                         <div className={styles.value}>
-                            {albumInfo.averageRating ? albumInfo.averageRating.toFixed(1) : 0} / 5.0
+                            {trackInfo.averageRating ? trackInfo.averageRating.toFixed(1) : 0} / 5.0
                         </div>
                         <div className={styles.label}>전체 평가</div>
                     </div>
@@ -290,6 +317,8 @@ const NavigationBar = (props) => {
         </div>
     );
 };
+
+
 
 const TrackDetail = () => {
     const {id} = useParams(); // id 파라미터 추출
