@@ -9,9 +9,9 @@ const TrackReview = (prop) => {
     return (
         <div className={styles.container}>
             <div className={styles.headerContainer}>
-                <StarRating score={7}/>
+                <StarRating score={content?.songComment?.rating}/>
                 <div className={styles.authorContainer}>
-                    <div>{content?.writer?.userId}</div>
+                    <div>{content?.writer?.username}</div>
                     <img className={styles.authorProfileImg}
                          src={content?.writer?.profileImageUrl}
                          loading="lazy"
