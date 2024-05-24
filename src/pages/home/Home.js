@@ -3,9 +3,10 @@ import styles from "./Home.module.css";
 import PlaylistPreview from "../../components/playlistPreview/PlaylistPreview";
 import ToggleFilter from "../../components/toggleFilter/ToggleFilter";
 import TrackReview from "../../components/trackReview/TrackReview";
-import {useContext, useEffect} from "react";
+import {useContext, useEffect, useState} from "react";
 import {UserContext} from "../../context/UserContext";
 import ReviewPreview from "../../components/reviewPreview/ReviewPreview";
+import axios from "axios";
 
 const Home = () => {
     const onContainerClick = () => {
@@ -14,6 +15,13 @@ const Home = () => {
     const userInfo = {};
 
     const {user, setUser} = useContext(UserContext);
+    const [followerReviews, setFollowerReviews] = useState([]);
+    const [recentReviews, setRecentReviews] = useState([]);
+    const [popularReviews, setPopularReviews] = useState([]);
+    const [recentComments, setRecentComments] = useState([]);
+    const [popularComments, setPopularComments] = useState([]);
+    const [recentPlaylists, setRecentPlaylists] = useState([]);
+    const [popularPlaylists, setPopularPlaylists] = useState([]);
 
 
     const mockReview =
@@ -138,6 +146,69 @@ const Home = () => {
 
     }
 
+    const fetchFollowerReviews = () => {
+        const token = localStorage.getItem('accessToken')
+        if(token === null) {
+            return;
+
+        }else{
+
+        }
+
+    }
+
+    const fetchRecentReviews = () => {
+        axios.get(`${process.env.REACT_APP_API_HOST}/album/review/recent`, {
+            params: {
+                offset: 0
+            }
+        }).then((response) => {
+            if (response.data !== null) {
+                console.log(response.data, "recent reviews");
+                setRecentReviews(response.data);
+            }
+        }).catch((error) => {
+            console.error('Failed to fetch recent reviews:', error);
+        });
+    }
+
+    const fetchPopularReviews = () => {
+        axios.get(`${process.env.REACT_APP_API_HOST}/album/review/popular`, {
+            params: {
+                offset: 0
+            }
+        }) .then((response) => {
+            if (response.data !== null) {
+                console.log(response.data, "popular reviews")
+                setPopularReviews(response.data);
+            }
+        }).catch((error) => {
+            console.error('Failed to fetch popular reviews:', error);
+        });
+    }
+
+    const fetchRecentComments = () => {
+    }
+
+    const fetchPopularComments = () => {
+
+    }
+
+    const fetchRecentPlaylists = () => {
+    }
+
+    const fetchPopularPlaylists = () => {
+
+    }
+
+    useEffect(() => {
+        fetchRecentReviews();
+        fetchPopularReviews();
+        fetchRecentComments();
+        fetchPopularComments();
+        fetchRecentPlaylists();
+        fetchPopularPlaylists();
+    }, []);
 
     return (
         <div className={styles.home}>
@@ -147,11 +218,13 @@ const Home = () => {
                             <div className={styles.sectionTitle}>팔로워들이 듣고있어요 🔍</div>
                         </div>
                         <div className="verticalScroll">
-                            <ReviewPreview
-                                content={mockReview}
-                            />
-                            <ReviewPreview
-                                content={mockReview3}/>
+                        {followerReviews.length === 0 ? (
+                            <div>팔로워의 최근 리뷰가 없어요! 팔로워를 더 등록해보세요 👀</div>
+                        ) : (
+                            followerReviews.map((review, index) => (
+                            <ReviewPreview key={index} content={review} />
+                            ))
+                        )}
                         </div>
                     </section>) :
                 <div className={styles.mutopiaInfo} style={{backgroundImage: `url(/intro-background.png)`}}>

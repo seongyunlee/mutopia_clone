@@ -296,7 +296,7 @@ const TrackDetailPage = (props) => {
                         className={styles.socialIcon} 
                         onClick={navigateToPlaylistAdd}
                     />
-                    </div>
+                </div>
             </div>
             <ShareDialog dialogId="shareDialog" linkUrl={location.href}/>
             <NavigationBar

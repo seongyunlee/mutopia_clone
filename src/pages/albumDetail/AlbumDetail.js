@@ -164,6 +164,7 @@ const AlbumDetailsPage = (props) => {
     const [myRating, setMyRating] = useState("-");
     const [myReviewId, setMyReviewId] = useState(null);
     const [isLiked, setIsLiked] = useState(false);
+    const [likeCount, setLikeCount] = useState(0);
     const [reviewList, setReviewList] = useState([]);
     const navigate = useNavigate();
 
@@ -260,28 +261,58 @@ const AlbumDetailsPage = (props) => {
 
     }
 
+    const getAlbumLiked = async () => {
+        console.log(user.id);
+        const jwt = localStorage.getItem("accessToken");
+        axios.get(`${process.env.REACT_APP_API_HOST}/album/${props.albumId}/like/status`, {
+            headers: {
+                Authorization: `Bearer ${jwt}`
+            }
+        }).then((response) => {
+            if (response.data.isUserLoggedIn === "NO") {
+                setIsLiked(false);
+            }else{
+                response.data.likeStatus === "ON" ? setIsLiked(true) : setIsLiked(false)
+            }
+            setLikeCount(response.data.likeCount);
+        }).catch((error) => {
+            console.error('Failed to fetch liked status:', error);
+        });
+    }
+
+
     const toggleAlbumLike = () => {
         const jwt = localStorage.getItem("accessToken");
+        //const jwt = testJwt;
         if (jwt === null) {
             alert('로그인이 필요합니다.');
             const loginDialog = document.getElementById("loginModal");
             loginDialog.showModal();
             return;
         }
-        axois.post(`${process.env.REACT_APP_API_HOST}/album/${props.albumId}/like/toggle`, {}, {
+
+        const prevIsLiked = isLiked;
+        setIsLiked((prev) => !prev);
+        if(prevIsLiked){
+            setLikeCount((prev) => (prev-1));
+        }else{
+            setLikeCount((prev) => (prev+1));
+        }
+
+        axios.post(`${process.env.REACT_APP_API_HOST}/album/${props.albumId}/like/toggle`, {}, {
             headers: {
                 Authorization: `Bearer ${jwt}`
             }
         }).then((response) => {
-            setIsLiked(response.data.likeStatus === "ON")
+            console.log(response.data);
         }).catch((error) => {
-            setIsLiked(!isLiked);
+            setIsLiked(prevIsLiked);
+            if(prevIsLiked){
+                setLikeCount((prev) => (prev+1));
+            }else{
+                setLikeCount((prev) => (prev-1));
+            }
         });
-    }
-
-    const onAlbumLikeClicked = () => {
-        setIsLiked(!isLiked);
-        toggleAlbumLike();
     }
 
     const onTopsterAddClicked = () => {
@@ -294,6 +325,7 @@ const AlbumDetailsPage = (props) => {
         getMyReview();
         getMyRating();
         getRecentReviews();
+        getAlbumLiked();
 
     }, [props.albumId]);
 
@@ -335,9 +367,27 @@ const AlbumDetailsPage = (props) => {
                     {myReviewId ? "나의 리뷰 보기" : "이 앨범 리뷰하기"}
                 </button>
                 <div className={styles.socialButtons}>
-                    <img src="/heart-icon.svg" alt="❤️" className={styles.socialIcon} onClick={onAlbumLikeClicked}/>
-                    <img src="/share.svg" alt="🔗" className={styles.socialIcon} onClick={showShareDialog}/>
-                    <img src="/add.svg" alt="🌠" className={styles.socialIcon} onClick={navigateToPlaylistAdd}/>
+                    <div className={styles.socialButton}>
+                        <img 
+                        src={isLiked ? "/favoritefilled.svg" : "/heart-icon.svg"} 
+                        alt="❤️" 
+                        className={styles.socialIcon} 
+                        onClick={toggleAlbumLike}
+                        />
+                        <span className={styles.likeCount}>{likeCount}</span>
+                    </div>
+                    <img 
+                        src="/share.svg" 
+                        alt="🔗" 
+                        className={styles.socialIcon} 
+                        onClick={showShareDialog}
+                    />
+                    <img 
+                        src="/add.svg" 
+                        alt="🌠" 
+                        className={styles.socialIcon} 
+                        onClick={navigateToPlaylistAdd}
+                    />
                 </div>
             </div>
             <ShareDialog dialogId="shareDialog" linkUrl={location.href}/>
@@ -359,7 +409,7 @@ const AlbumDetailsPage = (props) => {
 const NavigationBar = (props) => {
     const [tab, setTab] = useState('main');
 
-    console.log(props.data, "fff")
+    //console.log(props.data, "fff")
 
     const {data} = props;
     const {albumInfo, reviewList} = data;
