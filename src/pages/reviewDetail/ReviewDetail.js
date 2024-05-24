@@ -4,14 +4,18 @@ import styles from './ReviewDetail.module.css';
 import StarRating from '../../components/starRating/StarRating';
 import ToggleFilter from "../../components/toggleFilter/ToggleFilter";
 import ReviewPreview from "../../components/reviewPreview/ReviewPreview";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
+import ShareDialog from "./ShareDialog";
 import AlbumReviewWrite from "../../components/albumReviewModal/AlbumReviewWrite";
 
 
 const ReviewDetail = ( ) => {
-    const reviewId = 5;
-    // 나중에 param으로 받아오기
+
+    const {id} = useParams();
+    const reviewId = 23;
+    //const reviewId = id; // 나중에 param으로 받아오기
+   
     const mockReview =
         {
             "review": {
@@ -49,6 +53,7 @@ const ReviewDetail = ( ) => {
     const [isLoading, setIsLoading] = useState(true); // 로딩 상태 추가
     const [reviewWriteModalOpen, setReviewWriteModalOpen] = useState(false); 
     const [isLiked, setIsLiked] = useState(false); // 추가: 좋아요 상태 관리
+    const [likeCount, setLikeCount] = useState(0);
 
     const navigate = useNavigate(); // navigate 함수 사용
     
@@ -56,7 +61,7 @@ const ReviewDetail = ( ) => {
         try {
             setIsLoading(true); // 데이터를 불러오기 시작할 때 로딩 상태를 true로 설정
             const response = await axios.get(`${process.env.REACT_APP_API_HOST}/album/review/${reviewId}`, {});
-            //console.log(response.data);
+            console.log(response.data, "review info");
             setReviewInfo(response.data);
             setAlbumId(response.data.album.id);
             setIsLoading(false); // 데이터를 불러온 후 로딩 상태를 false로 설정
@@ -65,6 +70,12 @@ const ReviewDetail = ( ) => {
             history.back();
         }
     };
+
+    const showShareDialog = () => {
+        const dialog = document.getElementById("shareDialog");
+        dialog.showModal();
+
+    }
 
 
     const getMyReview = async () => {
@@ -99,38 +110,102 @@ const ReviewDetail = ( ) => {
         }
     };
 
+    const getReviewLiked = async () => {
+        console.log(user.id);
+        const jwt = localStorage.getItem("accessToken");
+        axios.get(`${process.env.REACT_APP_API_HOST}/album/review/${reviewId}/like/status`, {
+            headers: {
+                Authorization: `Bearer ${jwt}`
+            }
+        }).then((response) => {
+            if (response.data.isUserLoggedIn === "NO") {
+                setIsLiked(false);
+            }else{
+                response.data.likeStatus === "ON" ? setIsLiked(true) : setIsLiked(false)
+            }
+            setLikeCount(response.data.likeCount);
+        }).catch((error) => {
+            console.error('Failed to fetch liked status:', error);
+        });
+    }
+
     const toggleReviewLike = () => {
         const jwt = localStorage.getItem("accessToken");
-        if (!jwt) {
+        //const jwt = testJwt;
+        if (jwt === null) {
             alert('로그인이 필요합니다.');
             const loginDialog = document.getElementById("loginModal");
             loginDialog.showModal();
             return;
         }
-        axios.post(`${process.env.REACT_APP_API_HOST}/album/review/${myReviewId}/like/toggle`, {}, {
+
+        const prevIsLiked = isLiked;
+        setIsLiked((prev) => !prev);
+        if(prevIsLiked){
+            setLikeCount((prev) => (prev-1));
+        }else{
+            setLikeCount((prev) => (prev+1));
+        }
+
+        axios.post(`${process.env.REACT_APP_API_HOST}/album/review/${reviewId}/like/toggle`, {}, {
             headers: {
                 Authorization: `Bearer ${jwt}`
             }
         }).then((response) => {
-            setIsLiked(response.data.likeStatus === "ON")
+            console.log(response.data);
         }).catch((error) => {
-            console.error('Failed to toggle like:', error);
-            setIsLiked(!isLiked); // 실패 시 현재 상태 반전
+            setIsLiked(prevIsLiked);
+            if(prevIsLiked){
+                setLikeCount((prev) => (prev+1));
+            }else{
+                setLikeCount((prev) => (prev-1));
+            }
         });
+    }
+
+    const fetchWriterReview = async () => {
+        const jwt = localStorage.getItem("accessToken");
+        if (jwt && albumId) {
+            try {
+                const response = await axios.get(`${process.env.REACT_APP_API_HOST}/album/${albumId}/review/check`, {
+                    headers: { Authorization: `Bearer ${jwt}` }
+                });
+                if (response.data.userHasReviewed && response.data.albumReviewId !== null) {
+                    setMyReviewId(response.data.albumReviewId);
+                }
+            } catch (error) {
+                console.error('Failed to fetch my review:', error);
+            }
+        }
     };
 
-    const onReviewLikeClicked = () => {
-        setIsLiked(!isLiked);
-        toggleReviewLike();
-    };
-    
-    const onContainerClick = () => {
+    const fetchAlbumReviews = async () => {
+        const jwt = localStorage.getItem("accessToken");
+        if (jwt && albumId) {
+            try {
+                const response = await axios.get(`${process.env.REACT_APP_API_HOST}/album/${albumId}/review/check`, {
+                    headers: { Authorization: `Bearer ${jwt}` }
+                });
+                if (response.data.userHasReviewed && response.data.albumReviewId !== null) {
+                    setMyReviewId(response.data.albumReviewId);
+                }
+            } catch (error) {
+                console.error('Failed to fetch my review:', error);
+            }
+        }
     };
 
     useEffect(() => {
+        //setMyReviewId(id);
         fetchReviewInfo();
         getMyReview();
+        getReviewLiked();
     }, []);
+
+    useEffect(() => {
+        fetchWriterReview();
+        fetchAlbumReviews();
+    },[reviewInfo]);
 
     if (isLoading) {
         return <div>Loading album information...</div>; // 로딩 상태일 때 로딩 메시지 표시
@@ -162,11 +237,12 @@ const ReviewDetail = ( ) => {
             </div>
             <div className={styles.reivewNav}>
                 <div className={styles.likeIcon}>
-                    <img src="/heart-icon.svg" alt="likes" className={styles.socialIcon} onClick={onReviewLikeClicked} />
-                    <div className={styles.socialCount}>100</div>    
+                    <img src={isLiked ? "/favoritefilled.svg" : "/heart-icon.svg"} alt="likes" className={styles.socialIcon} onClick={toggleReviewLike} />
+                    <div className={styles.socialCount}>{likeCount}</div>    
                 </div>
-                <img src="/share.svg" alt="share" className={styles.shareIcon} />
+                <img src="/share.svg" alt="share" className={styles.shareIcon} onClick={showShareDialog} />
             </div>
+            <ShareDialog dialogId="shareDialog" linkUrl={location.href}/>
         </div>
         <button className={styles.btnWrite} onClick={moveToMyReviewOrWrite}>{myReviewId && user ? "나의 리뷰 보기" : "이 앨범 리뷰하기"}</button>     
         <section className={styles.subSection}>

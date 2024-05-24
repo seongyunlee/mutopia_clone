@@ -1,16 +1,20 @@
 import React from 'react';
 import styles from './AlbumReviewWrite.module.css';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useContext } from 'react';
+import {UserContext} from "../../context/UserContext";
 import axios from 'axios';
 import StarRating from '../starRating2/StarRating3';
+import { useNavigate } from 'react-router-dom';
 
 const AlbumReviewWrite = ({ albumId, reviewWriteModalOpen, setReviewWriteModalOpen, reviewWriteModalBackground }) => {
-    const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiIiLCJpYXQiOjE3MTUxNTgwNzksImV4cCI6MTc0NjY5NDA3OSwiYXVkIjoiIiwic3ViIjoidGVzdHVzZXIifQ._zVQhiluqkNvElvU45WPH2gaoPB7J_c_ZvTOU3zqvD0"
+    const {user, setUser} = useContext(UserContext);
+    const jwt = localStorage.getItem("accessToken");
 
     const [albumInfo, setAlbumInfo] = useState(null); // 앨범 정보를 저장할 상태
     const [score, setScoreFixed] = useState(0);  // 별점 상태 추가
     const reviewTitleRef = useRef(null);
     const reviewContentRef = useRef(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchAlbumInfo = async () => {
@@ -27,6 +31,8 @@ const AlbumReviewWrite = ({ albumId, reviewWriteModalOpen, setReviewWriteModalOp
         fetchAlbumInfo();
     }, [albumId]); // albumId가 변경될 때마다 함수 실행
 
+
+
     const handleSubmit = async (event) => {
         event.preventDefault();  // 폼 기본 제출 방지
         const scoreDouble = score * 2;
@@ -39,11 +45,14 @@ const AlbumReviewWrite = ({ albumId, reviewWriteModalOpen, setReviewWriteModalOp
                 content: reviewContentRef.current.value
             }, {
                 headers: {
-                    Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${jwt}`
                 }
             });
-            console.log(response.data);
+            //console.log(response.data);
             setReviewWriteModalOpen(false);
+            //useNavigate(`/reviewDetail/${myReviewId}`);
+            window.location.href = `/reviewDetail/${response.data.albumReviewId}`;
+
             /*
             setMessage('저장이 완료되었습니다');  // 메시지 설정
             setTimeout(() => {
@@ -54,7 +63,6 @@ const AlbumReviewWrite = ({ albumId, reviewWriteModalOpen, setReviewWriteModalOp
         } catch (error) {
             console.error(error);
         }
-        
         
     };
     
