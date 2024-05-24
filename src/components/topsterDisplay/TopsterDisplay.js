@@ -68,7 +68,7 @@ const TopsterDisplay = (props) => {
             </div>
             <div className={styles.smallerRow}>
                 {albums.slice(3, 7).map((album, index) => (
-                    <div className={styles.smallAlbum} key={index + 3}>
+                    <div className={styles.smallAlbum} key={index + 3} onClick={() => onAlbumClick(album)}>
                         <img
                             className={styles.albumsmallCoverImg}
                             src={album ? album.coverImageUrl : "/topsterdefault.jpg"}
@@ -81,7 +81,7 @@ const TopsterDisplay = (props) => {
             </div>
             <div className={styles.smallerRow}>
                 {albums.slice(7, 11).map((album, index) => (
-                    <div className={styles.smallAlbum} key={index + 3}>
+                    <div className={styles.smallAlbum} key={index + 3} onClick={() => onAlbumClick(album)}>
                         <img
                             className={styles.albumsmallCoverImg}
                             src={album ? album.coverImageUrl : "/topsterdefault.jpg"}
