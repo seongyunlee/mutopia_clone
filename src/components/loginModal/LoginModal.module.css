@@ -31,10 +31,19 @@
     padding: 9px;
 }
 
-.loginItemIcon {
+.loginItemIcon1 {
+    display: flex;
     width: 70px;
     height: 70px;
     border-radius: 35px;
+}
+
+.loginItemIcon2 {
+    display: flex;
+    width: 70px;
+    height: 70px;
+    border-radius: 35px;
+    margin-left: -16px;
 }
 
 .loginItemContainer {

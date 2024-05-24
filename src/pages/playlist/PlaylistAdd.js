@@ -45,7 +45,8 @@ const PlaylistAdd = () => {
           <div className={styles.playlistItem}>
             <img src="./rectangle-1477@2x.png" alt="Album Cover" className={styles.albumArt} />
             <p>운동할 때 듣는 노래</p>
-            <input type="checkbox" className={styles.playlistCheckbox} />
+            <input type="checkbox" id="customCheckbox" className={styles.hiddenCheckbox} />
+            <label htmlFor="customCheckbox" className={styles.checkboxLabel}></label>
           </div>
         </div>
 

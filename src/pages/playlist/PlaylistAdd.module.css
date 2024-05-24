@@ -75,12 +75,42 @@
     border-radius: 5px; /* 앨범 커버 모서리 둥글게 */
   }
   
-  .playlistCheckbox {
-    margin-left: auto; /* 체크박스를 오른쪽 끝으로 정렬 */
-    cursor: pointer;
-    width: 40px; /* 체크박스 크기 조정 */
-    height: 40px; /* 체크박스 크기 조정 */
-  }
+  /* 체크박스 숨기기 */
+.hiddenCheckbox {
+  display: none;
+}
+
+/* 사용자 정의 체크박스 레이블 */
+.checkboxLabel {
+  display: inline-block;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  background-color: #D9D9D9; /* 보라색으로 설정 */
+  border-radius: 5px; /* 둥근 모서리 */
+  position: relative;
+  transition: background 0.3s; /* 부드러운 배경색 전환 효과 */
+  margin-left: auto; /* 체크박스를 오른쪽 끝으로 정렬 */
+}
+
+/* 체크될 때의 스타일 */
+.hiddenCheckbox:checked + .checkboxLabel::after {
+  content: '';
+  position: absolute;
+  left: 12px;
+  top: 2px;
+  width: 13px;
+  height: 24px;
+  border: solid white;
+  border-width: 0 4px 4px 0;
+  transform: rotate(40deg);
+  
+}
+
+/* 체크될 때의 배경색 변경 */
+.hiddenCheckbox:checked + .checkboxLabel {
+  background-color: #7b61ff; /* 체크 상태에서 진한 보라색 */
+}
 
   .addListContainer{
     margin: 30px;

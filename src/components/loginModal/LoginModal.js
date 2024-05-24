@@ -31,11 +31,11 @@ const LoginModal = () => {
                 </div>
                 <div className={styles.loginItemContainer}>
                     <div className={styles.loginItem} onClick={moveToKakaoLogin}>
-                        <img className={styles.loginItemIcon} alt="카카오" src="/kakao-icon.svg"></img>
+                        <img className={styles.loginItemIcon1} alt="카카오" src="/kakao-icon.svg"></img>
                         <div>카카오로 로그인하기</div>
                     </div>
-                    <div className={styles.loginItemIcon} className={styles.loginItem} onClick={moveToGoogleLogin}>
-                        <img alt="구글" src="/google-icon.png" className={styles.loginItemIcon}></img>
+                    <div className={styles.loginItem} onClick={moveToGoogleLogin}>
+                        <img alt="구글" src="/google.svg" className={styles.loginItemIcon2}></img>
                         <div>구글로 로그인하기</div>
                     </div>
                 </div>
