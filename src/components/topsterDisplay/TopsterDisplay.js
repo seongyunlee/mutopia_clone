@@ -57,36 +57,38 @@ const TopsterDisplay = (props) => {
             <div className={styles.largerRow}>
                 {albums.slice(0, 3).map((album, index) => (
                     <div className={styles.largeAlbum} key={index} onClick={() => onAlbumClick(album)}>
-                        <img
-                            className={styles.albumlargeCoverImg}
-                            src={album ? album.coverImageUrl : "/topsterdefault.jpg"}
-                            alt={album ? album.name : "Default Image"}
+                        <img loading="lazy"
+                             className={styles.albumlargeCoverImg}
+                             src={album ? album.coverImageUrl : "/topsterdefault.jpg"}
+                             alt={album ? album.name : "Default Image"}
                         />
-                        {isErasable && <img className={styles.deleteIcon} src="/cross-circle.svg" alt="delete"/>}
+                        {isErasable &&
+                            <img loading="lazy" className={styles.deleteIcon} src="/cross-circle.svg" alt="delete"/>}
                     </div>
                 ))}
             </div>
             <div className={styles.smallerRow}>
                 {albums.slice(3, 7).map((album, index) => (
                     <div className={styles.smallAlbum} key={index + 3} onClick={() => onAlbumClick(album)}>
-                        <img
-                            className={styles.albumsmallCoverImg}
-                            src={album ? album.coverImageUrl : "/topsterdefault.jpg"}
-                            alt={album ? album.name : "Default Image"}
-                            onClick={() => onAlbumClick(album)}
+                        <img loading="lazy"
+                             className={styles.albumsmallCoverImg}
+                             src={album ? album.coverImageUrl : "/topsterdefault.jpg"}
+                             alt={album ? album.name : "Default Image"}
+                             onClick={() => onAlbumClick(album)}
                         />
-                        {isErasable && <img className={styles.deleteIcon} src="/cross-circle.svg" alt="delete"/>}
+                        {isErasable &&
+                            <img loading="lazy" className={styles.deleteIcon} src="/cross-circle.svg" alt="delete"/>}
                     </div>
                 ))}
             </div>
             <div className={styles.smallerRow}>
                 {albums.slice(7, 11).map((album, index) => (
                     <div className={styles.smallAlbum} key={index + 3} onClick={() => onAlbumClick(album)}>
-                        <img
-                            className={styles.albumsmallCoverImg}
-                            src={album ? album.coverImageUrl : "/topsterdefault.jpg"}
-                            alt={album ? album.name : "Default Image"}
-                            onClick={() => onAlbumClick(album)}
+                        <img loading="lazy"
+                             className={styles.albumsmallCoverImg}
+                             src={album ? album.coverImageUrl : "/topsterdefault.jpg"}
+                             alt={album ? album.name : "Default Image"}
+                             onClick={() => onAlbumClick(album)}
                         />
                         {isErasable && <img className={styles.deleteIcon} src="/cross-circle.svg" alt="delete"/>}
                     </div>

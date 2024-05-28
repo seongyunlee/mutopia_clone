@@ -13,7 +13,7 @@ const TrackItem = (prop) => {
 
     return (
         <div className={styles.trackContainer} onClick={moveToDetail}>
-            <img src={track?.albumCoverImg} alt="album cover" className={styles.coverImg}/>
+            <img loading="lazy" src={track?.albumCoverImg} alt="album cover" className={styles.coverImg}/>
             <div className={styles.trackInfo}>
                 <div className={styles.trackName}>{track?.songTitle}</div>
                 <div className={styles.albumArtist}>{track?.albumName} · {track?.artistName}</div>

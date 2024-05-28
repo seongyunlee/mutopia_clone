@@ -1,5 +1,5 @@
 import styles from './ReviewPreview.module.css';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import StarRating from "../starRating/StarRating";
 
 const ReviewPreview = (props) => {
@@ -7,7 +7,7 @@ const ReviewPreview = (props) => {
     const navigate = useNavigate();
 
     const handleClick = () => {
-        navigate("/reviewDetail"); 
+        navigate("/reviewDetail");
     };
 
     console.log(props)
@@ -53,13 +53,15 @@ const ReviewPreview = (props) => {
     return (
         <div className={styles.container} onClick={handleClick}>
             <div className={styles.infoContainer}>
-                <img className={styles.albumImg} alt="" src={album?.coverImageUrl}/>
+                <img loading="lazy" className={styles.albumImg} alt="" src={album?.coverImageUrl}/>
                 <div className={styles.infoDetailContainer}>
-                    <div className={styles.authorContainer}> 
-                        <div className={styles.authorName}>{writer?.username > 12 ? `${writer?.username.substring(0, 12)}...` : writer?.username}</div>
-                        <img className={styles.authorProfileImg} alt="" src={writer?.profileImageUrl}/>
+                    <div className={styles.authorContainer}>
+                        <div
+                            className={styles.authorName}>{writer?.username > 12 ? `${writer?.username.substring(0, 12)}...` : writer?.username}</div>
+                        <img loading="lazy" className={styles.authorProfileImg} alt="" src={writer?.profileImageUrl}/>
                     </div>
-                    <div className={styles.albumName}>{album?.name.length > 20 ? `${album?.name.substring(0, 20)}...` : album?.name}</div>
+                    <div
+                        className={styles.albumName}>{album?.name.length > 20 ? `${album?.name.substring(0, 20)}...` : album?.name}</div>
                     <div className={styles.albumArtist}>{album?.artistName}</div>
                     <StarRating score={review?.rating}/>
                 </div>
@@ -70,24 +72,24 @@ const ReviewPreview = (props) => {
                     {review?.title}
                 </div>
                 <div className={styles.reviewContent}>        
-                    <span 
+                    <span
                         className={styles.content}>{review.content.length > 75 ? review.content.substring(0, 75) : review.content}</span>
-                    <span className={styles.add}>....더보기</span>                    
+                    <span className={styles.add}>....더보기</span>
                 </div>
-            </div>   
+            </div>
 
             <div className={styles.footerContainer}>
                 <div className={styles.likeContainer}>
-                    <img
-                        src={review?.isLiked === true ? "/favoritefilled.svg" : "/heart-icon.svg"}
-                        alt=""
+                    <img loading="lazy"
+                         src={review?.isLiked === true ? "/favoritefilled.svg" : "/heart-icon.svg"}
+                         alt=""
                     />
                     <div className={styles.likeCounter}>{review?.likeCount}</div>
                 </div>
                 <div className={styles.reviewDate}>{review?.createdAt}</div>
             </div>
         </div>
-        
+
     );
 };
 

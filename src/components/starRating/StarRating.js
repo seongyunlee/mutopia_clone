@@ -4,16 +4,16 @@ const Star = ({type}) => {
 
     if (type === 1) {
         return (
-            <img src="/HalfStarYellow.svg"/>
+            <img loading="lazy" loading="lazy" src="/HalfStarYellow.svg"/>
         )
     }
     if (type > 0) {
         return (
-            <img src="/YellowStar.svg"/>
+            <img loading="lazy" src="/YellowStar.svg"/>
         )
     }
     return (
-        <img src="/BlankStar.svg"/>
+        <img loading="lazy" src="/BlankStar.svg"/>
     )
 }
 

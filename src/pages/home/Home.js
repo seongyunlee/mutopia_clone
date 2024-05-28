@@ -53,7 +53,7 @@ const Home = () => {
             }
         }
 
-        const mockReview2 =
+    const mockReview2 =
         {
             "review": {
                 "id": 1,
@@ -82,7 +82,7 @@ const Home = () => {
             }
         }
 
-        const mockReview3 =
+    const mockReview3 =
         {
             "review": {
                 "id": 1,
@@ -148,10 +148,10 @@ const Home = () => {
 
     const fetchFollowerReviews = () => {
         const token = localStorage.getItem('accessToken')
-        if(token === null) {
-            return;
+        if (token === null) {
 
-        }else{
+
+        } else {
 
         }
 
@@ -177,7 +177,7 @@ const Home = () => {
             params: {
                 offset: 0
             }
-        }) .then((response) => {
+        }).then((response) => {
             if (response.data !== null) {
                 console.log(response.data, "popular reviews")
                 setPopularReviews(response.data);
@@ -218,24 +218,24 @@ const Home = () => {
                             <div className={styles.sectionTitle}>팔로워들이 듣고있어요 🔍</div>
                         </div>
                         <div className="verticalScroll">
-                        {followerReviews.length === 0 ? (
-                            <div>팔로워의 최근 리뷰가 없어요! 팔로워를 더 등록해보세요 👀</div>
-                        ) : (
-                            followerReviews.map((review, index) => (
-                            <ReviewPreview key={index} content={review} />
-                            ))
-                        )}
+                            {followerReviews.length === 0 ? (
+                                <div>팔로워의 최근 리뷰가 없어요! 팔로워를 더 등록해보세요 👀</div>
+                            ) : (
+                                followerReviews.map((review, index) => (
+                                    <ReviewPreview key={index} content={review}/>
+                                ))
+                            )}
                         </div>
                     </section>) :
                 <div className={styles.mutopiaInfo} style={{backgroundImage: `url(/intro-background.png)`}}>
-                    <img src="/mutopia.svg" alt="" className={styles.mutopiaLogo}/>
+                    <img loading="lazy" src="/mutopia.svg" alt="" className={styles.mutopiaLogo}/>
                     <div className={styles.mutopiaDescription}>전 세계 음악 팬들과 함께 취향을 공유해 보세요.</div>
                     <div className={styles.mutopiaDetail}>Mutopia는 여러분이 듣는 모든 음악을 기록하고 친구들과 음악에 대한 열정을 나눌 수 있는 소셜
                         플랫폼입니다.
                         <br/>나만의 취향을 마음껏 펼치며, 음악계에서 가장 빠르게 성장하는 커뮤니티에서 자신만의 리스트를 공유해보세요.
                     </div>
                 </div>}
-            
+
             <section className={styles.homeSection}>
                 <div className={styles.sectionTitleContainer}>
                     <div className={styles.sectionTitle}>오늘 이거 들을까요? 🎧</div>
@@ -243,9 +243,9 @@ const Home = () => {
                 <AlbumWall/>
             </section>
 
-                
+
             <section className={styles.homeSection}>
-            <div className={styles.sectionTitleContainer}>                    
+                <div className={styles.sectionTitleContainer}>
                     <div className={styles.sectionTitle}>뮤토피안들의 인생앨범 엿보기 👀</div>
                     <ToggleFilter menu={["최근", "인기"]}/>
                 </div>
@@ -257,9 +257,9 @@ const Home = () => {
                         content={mockReview3}/>
                 </div>
             </section>
-            
+
             <section className={styles.homeSection}>
-            <div className={styles.sectionTitleContainer}>                    
+                <div className={styles.sectionTitleContainer}>
                     <div className={styles.sectionTitle}>뮤토피안들의 인생곡 엿듣기 🎠</div>
                     <ToggleFilter menu={["최근", "인기"]}/>
                 </div>
@@ -269,10 +269,10 @@ const Home = () => {
                     <TrackReview/>
                 </div>
             </section>
-            
+
 
             <section className={styles.homeSection}>
-                <div className={styles.sectionTitleContainer}>                    
+                <div className={styles.sectionTitleContainer}>
                     <div className={styles.sectionTitle}>뮤토피안이 사랑한 플레이리스트 💘</div>
                     <ToggleFilter menu={["최근", "인기"]}/>
                 </div>

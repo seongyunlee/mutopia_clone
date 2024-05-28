@@ -1,6 +1,6 @@
 import styles from './AddSong.module.css';
-import { useEffect, useState, useRef } from "react";
-import { useNavigate } from 'react-router-dom';
+import {useEffect, useRef, useState} from "react";
+import {useNavigate} from 'react-router-dom';
 import axios from "axios";
 import ItemAdd from "../../components/playlistItem/ItemAdd"
 
@@ -53,7 +53,7 @@ const AddSong = () => {
                     <button className={styles.closeButton} onClick={toggleModal}>×</button>
                 </div>
                 <div className={styles.searchContainer}>
-                    <img src="/search.svg" alt="search" className={styles.searchIcon} />
+                    <img loading="lazy" src="/search.svg" alt="search" className={styles.searchIcon}/>
                     <input
                         type="search"
                         className={styles.searchBar}
@@ -63,17 +63,17 @@ const AddSong = () => {
                     />
                 </div>
                 {query ? (
-                    <SearchResults results={results} searching={searching} />
+                    <SearchResults results={results} searching={searching}/>
                 ) : (
                     <div className={styles.listContainer}>
                         <div className={styles.suggest}><h3>추천된 노래</h3></div>
-                    <ItemAdd/>
-                    <ItemAdd/>
-                    <ItemAdd/>
-                    <ItemAdd/>
-                    <ItemAdd/>
-                    <ItemAdd/>
-                    <ItemAdd/>
+                        <ItemAdd/>
+                        <ItemAdd/>
+                        <ItemAdd/>
+                        <ItemAdd/>
+                        <ItemAdd/>
+                        <ItemAdd/>
+                        <ItemAdd/>
                     </div>
                 )}
             </div>
@@ -81,7 +81,7 @@ const AddSong = () => {
     );
 };
 
-const SearchResults = ({ results, searching }) => {
+const SearchResults = ({results, searching}) => {
     return (
         <div className={styles.songListContainer}>
             <div className={styles.songList}>
@@ -90,7 +90,8 @@ const SearchResults = ({ results, searching }) => {
                 ) : (
                     results.map(result => (
                         <div key={result.id} className={styles.songItem}>
-                            <img src={result.coverImageUrl} alt="album cover" className={styles.songCover} />
+                            <img loading="lazy" src={result.coverImageUrl} alt="album cover"
+                                 className={styles.songCover}/>
                             <div className={styles.songInfo}>
                                 <div className={styles.songTitle}>{result.name}</div>
                                 <div className={styles.songArtist}>{result.artistName}</div>

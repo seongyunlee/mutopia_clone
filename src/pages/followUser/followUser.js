@@ -152,7 +152,7 @@ const FollowUser = () => {
             <ul className="user-list">
                 {(activeTab == "followers" ? followers : following).map(user => (
                     <div key={user.id} className="user-item" onClick={() => moveToProfile(user.userId)}>
-                        <img src={user.profileImageUrl} alt={user.nickname} className="user-image"/>
+                        <img loading="lazy" src={user.profileImageUrl} alt={user.nickname} className="user-image"/>
                         <div className="user-info">
                             <div className="user-text">
                                 <h2 className="user-name">{user.nickname}</h2>

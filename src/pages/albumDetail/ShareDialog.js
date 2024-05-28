@@ -27,7 +27,7 @@ const ShareDialog = (props) => {
                 <div className={styles.title}>
                     공유하기
                 </div>
-                <img src="/x-circle.svg" className={styles.closeButton} onClick={closeDialog}/>
+                <img loading="lazy" src="/x-circle.svg" className={styles.closeButton} onClick={closeDialog}/>
             </div>
             <div className={styles.body}>
                 <div className={styles.linkBox}>

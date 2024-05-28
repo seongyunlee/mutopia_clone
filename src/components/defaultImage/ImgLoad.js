@@ -27,7 +27,7 @@ const ImgLoad = (props) => {
                     <div className={styles.imgLoad} ref={divRef}>
                     </div>
                 ) : (
-                    <img src={src} {..._props} ref={imgRef}
+                    <img loading="lazy" src={src} {..._props} ref={imgRef}
                     ></img>
                 )}
         </div>

@@ -1,12 +1,11 @@
-import React from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import styles from './AlbumReviewWrite.module.css';
-import { useState, useEffect, useRef, useContext } from 'react';
 import {UserContext} from "../../context/UserContext";
 import axios from 'axios';
 import StarRating from '../starRating2/StarRating3';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
-const AlbumReviewWrite = ({ albumId, reviewWriteModalOpen, setReviewWriteModalOpen, reviewWriteModalBackground }) => {
+const AlbumReviewWrite = ({albumId, reviewWriteModalOpen, setReviewWriteModalOpen, reviewWriteModalBackground}) => {
     const {user, setUser} = useContext(UserContext);
     const jwt = localStorage.getItem("accessToken");
 
@@ -32,7 +31,6 @@ const AlbumReviewWrite = ({ albumId, reviewWriteModalOpen, setReviewWriteModalOp
     }, [albumId]); // albumId가 변경될 때마다 함수 실행
 
 
-
     const handleSubmit = async (event) => {
         event.preventDefault();  // 폼 기본 제출 방지
         const scoreDouble = score * 2;
@@ -40,7 +38,7 @@ const AlbumReviewWrite = ({ albumId, reviewWriteModalOpen, setReviewWriteModalOp
         try {
             const response = await axios.post(`${process.env.REACT_APP_API_HOST}/album/review`, {
                 albumId: albumId,
-                rating: scoreDouble, 
+                rating: scoreDouble,
                 title: reviewTitleRef.current.value,
                 content: reviewContentRef.current.value
             }, {
@@ -63,14 +61,14 @@ const AlbumReviewWrite = ({ albumId, reviewWriteModalOpen, setReviewWriteModalOp
         } catch (error) {
             console.error(error);
         }
-        
+
     };
-    
+
 
     if (!albumInfo) {
         return <div>Loading...</div>; // 데이터 로딩 중 표시
     }
-    
+
     return (
         <div className={styles.modalContainer} ref={reviewWriteModalBackground} onClick={e => {
             if (e.target === reviewWriteModalBackground.current) {
@@ -78,33 +76,38 @@ const AlbumReviewWrite = ({ albumId, reviewWriteModalOpen, setReviewWriteModalOp
             }
         }}>
             <div className={styles.modalContent} onClick={e => e.stopPropagation()}>
-            <form onSubmit={handleSubmit}>
-                <div className={styles.modalHeader}>
-                    <div className={styles.modalName}>앨범 리뷰 작성하기</div>
-                    <input type="button" className={styles.modalCloseBtn} onClick={() => setReviewWriteModalOpen(false)}></input>
-                </div>
-                <div className={styles.albumCover}>
-                    <div>
-                        <img src={albumInfo.albumImg} alt="albumCover" className={styles.albumCoverImg}></img>
+                <form onSubmit={handleSubmit}>
+                    <div className={styles.modalHeader}>
+                        <div className={styles.modalName}>앨범 리뷰 작성하기</div>
+                        <input type="button" className={styles.modalCloseBtn}
+                               onClick={() => setReviewWriteModalOpen(false)}></input>
                     </div>
-                    <div className={styles.albumInfo}>
-                        <div className={styles.albumName}>{albumInfo.albumName.length < 12 ? albumInfo.albumName : albumInfo.albumName.slice(0, 12) + '...'}</div>
-                        <div className={styles.albumArtist}>{albumInfo.artistName}</div>
+                    <div className={styles.albumCover}>
+                        <div>
+                            <img loading="lazy" src={albumInfo.albumImg} alt="albumCover"
+                                 className={styles.albumCoverImg}></img>
+                        </div>
+                        <div className={styles.albumInfo}>
+                            <div
+                                className={styles.albumName}>{albumInfo.albumName.length < 12 ? albumInfo.albumName : albumInfo.albumName.slice(0, 12) + '...'}</div>
+                            <div className={styles.albumArtist}>{albumInfo.artistName}</div>
+                        </div>
                     </div>
-                </div>
-                <div className={styles.starRating}>
-                    <div className={styles.starName}>별점</div>
-                    <StarRating score={score} setScoreFixed={setScoreFixed} />
-                </div>
-                <div className={styles.review}>
-                    <div className={styles.reviewName}>리뷰</div>
-                    <div className={styles.reviewForm}>
-                        <input className={styles.reviewTitle} type="text" placeholder="제목을 입력하세요" ref={reviewTitleRef}></input>
-                        <textarea className={styles.reviewContent} type="text" placeholder="내용을 입력하세요" ref={reviewContentRef}></textarea>
-                        <input className={styles.submitBtn} type="submit" value="저장하기"></input>
+                    <div className={styles.starRating}>
+                        <div className={styles.starName}>별점</div>
+                        <StarRating score={score} setScoreFixed={setScoreFixed}/>
                     </div>
-                </div>
-            </form>
+                    <div className={styles.review}>
+                        <div className={styles.reviewName}>리뷰</div>
+                        <div className={styles.reviewForm}>
+                            <input className={styles.reviewTitle} type="text" placeholder="제목을 입력하세요"
+                                   ref={reviewTitleRef}></input>
+                            <textarea className={styles.reviewContent} type="text" placeholder="내용을 입력하세요"
+                                      ref={reviewContentRef}></textarea>
+                            <input className={styles.submitBtn} type="submit" value="저장하기"></input>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     );

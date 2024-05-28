@@ -12,11 +12,11 @@ const AlbumDisplay = (props) => {
 
     return (
         <div className={styles.rectangleParent} onClick={moveToDetail}>
-            <img
-                className={styles.frameChild}
-                loading="lazy"
-                alt=""
-                src={coverImg}
+            <img loading="lazy"
+                 className={styles.frameChild}
+                 loading="lazy"
+                 alt=""
+                 src={coverImg}
             />
             <div className={styles.ditto}>
                 {name}

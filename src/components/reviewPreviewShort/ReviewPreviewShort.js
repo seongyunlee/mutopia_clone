@@ -10,7 +10,7 @@ const ReviewPreviewShort = (prop) => {
                 <StarRating score={7}/>
                 <div className={styles.authorContainer}>
                     <div>아무거나듣는사람</div>
-                    <img className={styles.authorProfileImg}
+                    <img loading="lazy" className={styles.authorProfileImg}
                          loading="lazy"
                          alt=""
                     />
@@ -22,9 +22,9 @@ const ReviewPreviewShort = (prop) => {
                 </div>
                 <div className={styles.footerContainer}>
                     <div className={styles.likeContainer}>
-                        <img
-                            src="/heart-icon.svg"
-                            loading="lazy"
+                        <img loading="lazy"
+                             src="/heart-icon.svg"
+                             loading="lazy"
                         />
                         <div>76</div>
                     </div>

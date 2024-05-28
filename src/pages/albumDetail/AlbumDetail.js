@@ -1,6 +1,6 @@
 import styles from "./AlbumDetail.module.css";
 import {useContext, useEffect, useRef, useState} from "react";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 import AlbumReviewWrite from "../../components/albumReviewModal/AlbumReviewWrite";
 import ReviewPreview from "../../components/reviewPreview/ReviewPreview";
@@ -9,7 +9,6 @@ import ToggleFilter from "../../components/toggleFilter/ToggleFilter";
 import TrackReview from "../../components/trackReview/TrackReview";
 import ShareDialog from "./ShareDialog";
 import {UserContext} from "../../context/UserContext";
-import { useNavigate } from 'react-router-dom';
 
 const MainPage = (props) => {
 
@@ -24,7 +23,7 @@ const MainPage = (props) => {
                 <div className={styles.sectionTitle}>
                     <h2>수록곡</h2>
                     <div className={styles.toggleContainer}>
-                        <img src="/arrow_down.svg" alt="arrow" className={styles.arrow}/>
+                        <img loading="lazy" src="/arrow_down.svg" alt="arrow" className={styles.arrow}/>
                     </div>
                 </div>
                 <div className={styles.trackListContainer}>
@@ -141,7 +140,7 @@ const TrackItem = (props) => {
             <div className={styles.trackTitle}>{track.name}</div>
             <div className={styles.trackDuration}>{track.length}</div>
             <div className={styles.trackRating}>
-                <img src="/YellowStar.svg" alt="⭐️" className={styles.starIcon}/>
+                <img loading="lazy" src="/YellowStar.svg" alt="⭐️" className={styles.starIcon}/>
                 {track.rating ? track.rating.toFixed(1) : "?"}
                 <div style={{marginLeft: "5px", color: "#A0A1A4", fontSize: "12px", fontWeight: "400"}}> / 5</div>
             </div>
@@ -271,7 +270,7 @@ const AlbumDetailsPage = (props) => {
         }).then((response) => {
             if (response.data.isUserLoggedIn === "NO") {
                 setIsLiked(false);
-            }else{
+            } else {
                 response.data.likeStatus === "ON" ? setIsLiked(true) : setIsLiked(false)
             }
             setLikeCount(response.data.likeCount);
@@ -293,10 +292,10 @@ const AlbumDetailsPage = (props) => {
 
         const prevIsLiked = isLiked;
         setIsLiked((prev) => !prev);
-        if(prevIsLiked){
-            setLikeCount((prev) => (prev-1));
-        }else{
-            setLikeCount((prev) => (prev+1));
+        if (prevIsLiked) {
+            setLikeCount((prev) => (prev - 1));
+        } else {
+            setLikeCount((prev) => (prev + 1));
         }
 
         axios.post(`${process.env.REACT_APP_API_HOST}/album/${props.albumId}/like/toggle`, {}, {
@@ -307,10 +306,10 @@ const AlbumDetailsPage = (props) => {
             console.log(response.data);
         }).catch((error) => {
             setIsLiked(prevIsLiked);
-            if(prevIsLiked){
-                setLikeCount((prev) => (prev+1));
-            }else{
-                setLikeCount((prev) => (prev-1));
+            if (prevIsLiked) {
+                setLikeCount((prev) => (prev + 1));
+            } else {
+                setLikeCount((prev) => (prev - 1));
             }
         });
     }
@@ -337,7 +336,7 @@ const AlbumDetailsPage = (props) => {
         <div className={styles.albumPage}>
             <div className={styles.contentContainer}>
                 <div className={styles.albumArtContainer}>
-                    <img src={albumInfo.albumImg} alt="Album Art" className={styles.albumArt}/>
+                    <img loading="lazy" src={albumInfo.albumImg} alt="Album Art" className={styles.albumArt}/>
                 </div>
                 <div className={styles.albumInfo}>
                     <h1>{albumInfo.albumName}</h1>
@@ -368,25 +367,25 @@ const AlbumDetailsPage = (props) => {
                 </button>
                 <div className={styles.socialButtons}>
                     <div className={styles.socialButton}>
-                        <img 
-                        src={isLiked ? "/favoritefilled.svg" : "/heart-icon.svg"} 
-                        alt="❤️" 
-                        className={styles.socialIcon} 
-                        onClick={toggleAlbumLike}
+                        <img loading="lazy"
+                             src={isLiked ? "/favoritefilled.svg" : "/heart-icon.svg"}
+                             alt="❤️"
+                             className={styles.socialIcon}
+                             onClick={toggleAlbumLike}
                         />
                         <span className={styles.likeCount}>{likeCount}</span>
                     </div>
-                    <img 
-                        src="/share.svg" 
-                        alt="🔗" 
-                        className={styles.socialIcon} 
-                        onClick={showShareDialog}
+                    <img loading="lazy"
+                         src="/share.svg"
+                         alt="🔗"
+                         className={styles.socialIcon}
+                         onClick={showShareDialog}
                     />
-                    <img 
-                        src="/add.svg" 
-                        alt="🌠" 
-                        className={styles.socialIcon} 
-                        onClick={navigateToPlaylistAdd}
+                    <img loading="lazy"
+                         src="/add.svg"
+                         alt="🌠"
+                         className={styles.socialIcon}
+                         onClick={navigateToPlaylistAdd}
                     />
                 </div>
             </div>

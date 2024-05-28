@@ -12,7 +12,7 @@ const TrackReview = (prop) => {
                 <StarRating score={content?.songComment?.rating}/>
                 <div className={styles.authorContainer}>
                     <div>{content?.writer?.username}</div>
-                    <img className={styles.authorProfileImg}
+                    <img loading="lazy" className={styles.authorProfileImg}
                          src={content?.writer?.profileImageUrl}
                          loading="lazy"
                          alt=""

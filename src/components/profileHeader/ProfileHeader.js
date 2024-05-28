@@ -91,7 +91,8 @@ const ProfileHeader = (props) => {
     return (
         <header className={styles.profileContainer}>
             <div className={styles.profileContainerTopContainer}>
-                <img src={userInfo.profileImageUrl ? userInfo.profileImageUrl : "/defaultProfile.svg"} alt="profile"
+                <img loading="lazy" src={userInfo.profileImageUrl ? userInfo.profileImageUrl : "/defaultProfile.svg"}
+                     alt="profile"
                      className={styles.profilePhoto}/>
                 <div className={styles.profileContainerTop}>
                     <div className={styles.profileContainerFirst}>
