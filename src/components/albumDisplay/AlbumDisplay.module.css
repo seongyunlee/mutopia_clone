@@ -1,29 +1,31 @@
 .frameChild {
-  width: 100px;
-  height: 100px;
-  position: relative;
-  border-radius: var(--br-3xs);
-  object-fit: cover;
+    width: 100px;
+    height: 100px;
+    position: relative;
+    border-radius: var(--br-3xs);
+    object-fit: cover;
 }
+
 .ditto,
 .div {
-  position: relative;
-  font-weight: 600;
+    position: relative;
+    font-weight: 600;
 }
+
 .div {
-  align-self: stretch;
-  font-size: var(--font-size-3xs);
-  color: #A0A1A4;;
+    align-self: stretch;
+    font-size: var(--font-size-3xs);
+    color: #A0A1A4;;
 }
+
 .rectangleParent {
-  width: 109px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: var(--gap-6xs);
-  text-align: center;
-  font-size: var(--font-size-xs);
-  color: #383838;
-  font-family: var(--font-roboto);
+    width: 109px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--gap-6xs);
+    text-align: center;
+    font-size: var(--font-size-xs);
+    color: #383838;
+    font-family: var(--font-roboto);
 }

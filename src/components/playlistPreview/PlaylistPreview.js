@@ -1,12 +1,40 @@
 import styles from "./PlaylistPreview.module.css";
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
+import {useEffect, useState} from "react";
+import axios from "axios";
 
-const PlaylistPreview = () => {
+const PlaylistPreview = (prop) => {
+
+    const {content} = prop;
+
     const navigate = useNavigate();  // Using useNavigate instead of useHistory
 
     const navigateToPlaylist = () => {
         navigate('/playlist'); // Navigate to the Playlist page
     };
+
+    const [isLiked, setIsLiked] = useState(false);
+
+    const getIsLiked = () => {
+        const accessToken = localStorage.getItem('accessToken');
+        axios.get(`${process.env.REACT_APP_API_HOST}/user/playlist/${content.playlistId}/like/status`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        }).then((response) => {
+            if (response.data.likeStatus === "ON") {
+                setIsLiked(true);
+            } else {
+                setIsLiked(false);
+            }
+        })
+    }
+
+
+    useEffect(() => {
+        getIsLiked();
+    }, []);
+
 
     return (
         <div className={styles.container} onClick={navigateToPlaylist}>
@@ -18,33 +46,32 @@ const PlaylistPreview = () => {
                         loading="lazy"
                         alt="Author profile"
                     />
-                    <div>무중력지대</div>
+                    <div>유저이름가져오기</div>
                 </div>
-                <div className={styles.reviewDate}>2024. 4. 1.</div>
+                <div className={styles.reviewDate}>날짜가져오기</div>
             </div>
 
             <div className={styles.coverContainer}>
-                <img className={styles.cover} loading="lazy" alt="Cover" src="/rectangle-1513-5@2x.png"/>
-                <img className={styles.cover} alt="Cover" src="/rectangle-1478@2x.png"/>
-                <img className={styles.cover} alt="Cover" src="/rectangle-1477@2x.png"/>
-                <img className={styles.cover} alt="Cover" src="/rectangle-1477@2x.png"/>
-                <img className={styles.cover} alt="Cover" src="/rectangle-1479-1@2x.png"/>
-                <img className={styles.cover} alt="Cover" src="/rectangle-1513-4@2x.png"/>
+                {content?.songs?.map((song, index) => (
+                        <img loading="lazy" className={styles.cover} loading="lazy" alt="Cover" key={index}
+                             src={song?.albumImgUrl}/>
+                    )
+                )}
             </div>
 
             <div className={styles.playlistTitle}>
-                K-pop 여름 플레이리스트
+                {content?.title}
             </div>
             <div className={styles.reviewDesc}>
                 <span className={styles.reviewContainer}>
-                    <span className={styles.content}>{` 누군가 K-락의 미래를 묻거든 고개를 들어 `}</span>
+                    <span className={styles.content}>{content.content}</span>
                     <span className={styles.add}>....더보기</span>
                 </span>
             </div>
             <div className={styles.footerContainer}>
                 <div className={styles.likeContainer}>
-                    <img src="/heart-icon.svg" loading="lazy" alt="Like icon"/>
-                    <div>76</div>
+                    <img src={isLiked ? "/favoritefilled.svg" : "/heart-icon.svg"} loading="lazy" alt="Like icon"/>
+                    <div>??</div>
                 </div>
             </div>
         </div>

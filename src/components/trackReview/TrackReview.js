@@ -23,13 +23,12 @@ const TrackReview = (prop) => {
                 {content?.songComment?.comment}
             </div>
             <div className={styles.footerContainer}>
-                {/*<div className={styles.likeContainer}>
-                        <img
-                            src="/heart-icon.svg"
-                            loading="lazy"
-                        />
-                        <div>76</div>
-                    </div>*/}
+                <div className={styles.likeContainer}>
+                    <img
+                        src={content?.songComment?.isLiked ? "/favoritefilled.svg" : "/heart-icon.svg"}
+                        loading="lazy"
+                    />
+                </div>
                 <div className={styles.reviewDate}>{content?.songComment?.createdAt}</div>
             </div>
         </div>

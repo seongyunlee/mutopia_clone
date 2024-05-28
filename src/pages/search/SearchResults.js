@@ -42,7 +42,7 @@ const ResultItem = (props) => {
 
     return (
         <div className={styles.resultItem} onClick={onClick}>
-            <img src={result.coverImageUrl} className={styles.resultItemImg}/>
+            <img src={result.coverImageUrl} className={styles.resultItemImg} loading="lazy"/>
             <div>
                 <div className={styles.resultItemName}>{result.name}</div>
                 <div className={styles.resultItemArtist}>{result.artistName}</div>

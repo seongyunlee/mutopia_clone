@@ -191,7 +191,7 @@ const LikesPage = (props) => {
 
     const {user, setUser} = useContext(UserContext);
     // 자신의 프로필이라고 가정
-    const title = ["좋아요한 앨범 💘", "좋아요한 곡 ❣️", "내가 좋아요한 리뷰 💜", "찜한 플레이리스트 🎧"];
+    const title = ["좋아요한 앨범 💘", "좋아요한 곡 ❣️", "좋아요한 리뷰 💜", "찜한 플레이리스트 🎧", "좋아요한 한줄평 📝"];
 
     return (
         <div className={styles.TabSection}>
@@ -228,24 +228,52 @@ const LikesPage = (props) => {
                         }
                     </div>
                 }
-                <div className="verticalScroll">
-                    <TrackReview/>
-                    <TrackReview/>
-                    <TrackReview/>
-                    <TrackReview/>
-                    <TrackReview/>
-                    <TrackReview/>
-                    <TrackReview/>
-                    <TrackReview/>
-                    <TrackReview/>
-                    <TrackReview/>
+
+            </section>
+            <section className={styles.subSection}>
+                <div className={styles.sectionTitleContainer}>
+                    <div className={styles.sectionTitle}>{title[4]}</div>
                 </div>
+                {likeComments?.length === 0 ? <div>좋아요한 한줄평이 없습니다.</div> :
+                    <div className="verticalScroll">
+                        {
+                            likeComments.map((comment, index) => {
+                                    const content = {
+                                        writer: {
+                                            userId: comment.writerId,
+                                            username: comment.writerName,
+                                            profileImageUrl: comment.writerProfileImg,
+                                        },
+                                        songComment: {
+                                            isLiked: true,
+                                            songInfo: {
+                                                id: comment.songId,
+                                                title: comment.songTitle,
+                                            },
+                                            comment: comment.comment,
+                                            rating: comment.rating,
+                                            createdAt: comment.createdAt
+                                        }
+                                    }
+
+
+                                    return (<TrackReview content={content} key={index}/>)
+                                }
+                            )
+                        }
+                    </div>}
             </section>
             <section className={styles.subSection}>
                 <div className={styles.sectionTitleContainer}>
                     <div className={styles.sectionTitle}>{title[3]}</div>
                 </div>
-                <PlaylistPreview/>
+                {likePlaylists?.length === 0 ? <div>찜한 플레이리스트가 없습니다.</div> :
+                    <div className="verticalScroll">
+                        {
+                            likePlaylists.map((playlist, index) => (<PlaylistPreview content={playlist} key={index}/>))
+                        }
+                    </div>
+                }
             </section>
         </div>
     )
@@ -265,6 +293,8 @@ const Profile = (props) => {
     const [likeAlbums, setLikeAlbums] = useState([]);
     const [likeTracks, setLikeTracks] = useState([]);
     const [likeReviews, setLikeReviews] = useState([]);
+    const [likeComments, setLikeComments] = useState([])
+    const [likePlaylists, setLikePlaylists] = useState([]);
 
     const navigate = useNavigate();
 
@@ -365,6 +395,38 @@ const Profile = (props) => {
             )
     }
 
+    const getLikeComments = () => {
+        const accessToken = localStorage.getItem('accessToken');
+        axios.get(`${process.env.REACT_APP_API_HOST}/song/comment/like/${userId}`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            },
+            params: {
+                page: 0,
+            }
+        })
+            .then((response) => {
+                    setLikeComments(response.data);
+                }
+            )
+    }
+
+    const getLikePlaylists = () => {
+        const accessToken = localStorage.getItem('accessToken');
+        axios.get(`${process.env.REACT_APP_API_HOST}/user/${userId}/playlist/like`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            },
+            params: {
+                page: 0,
+            }
+        })
+            .then((response) => {
+                    setLikePlaylists(response.data);
+                }
+            )
+    }
+
 
     useEffect(() => {
         getProfileHeader();
@@ -375,6 +437,8 @@ const Profile = (props) => {
         getLikeAlbums();
         getLikeTracks();
         getLikeReviews();
+        getLikeComments();
+        getLikePlaylists();
     }, []);
 
 
@@ -407,7 +471,7 @@ const Profile = (props) => {
                 {tab === 'likes' &&
                     <LikesPage userInfo={userInfo} isMine={isMine} likeAlbums={likeAlbums} likeTracks={likeTracks}
                                likeReviews={likeReviews}
-                               likeComments={[]} likePlaylists={[]} likePlaylists={[]}/>}
+                               likeComments={likeComments} likePlaylists={likePlaylists}/>}
             </div>
         </div>
     );
