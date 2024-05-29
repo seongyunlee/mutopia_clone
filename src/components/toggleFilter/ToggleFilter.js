@@ -2,7 +2,7 @@ import {useState} from "react";
 import styles from "./ToggleFilter.module.css";
 
 const ToggleFilter = (props) => {
-    let {menu, onFocusChange} = props;
+    let {menu, onFocusChange, tabRef} = props;
 
     if (!menu) {
         menu = [];
@@ -14,9 +14,10 @@ const ToggleFilter = (props) => {
 
     const [focused, setFocused] = useState(0);
 
-    function onMenuClick(index) {
+    function onMenuClick(index, menu) {
         setFocused(index);
-        onFocusChange(index);
+        tabRef.current = menu;
+        onFocusChange();
     }
 
 
@@ -26,7 +27,7 @@ const ToggleFilter = (props) => {
                 <div
                     key={index}
                     className={`${styles.menu} ${focused === index ? styles.focus : ""}`}
-                    onClick={() => onMenuClick(index)}
+                    onClick={() => onMenuClick(index, menu)}
                 >
                     {menu}
                 </div>
