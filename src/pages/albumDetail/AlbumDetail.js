@@ -18,15 +18,12 @@ const MainPage = (props) => {
     };
 
     return (
-        <div className="mainPage">
-            <section className={styles.homeSection}>
-                <div className={styles.sectionTitle}>
-                    <h2>수록곡</h2>
-                    <div className={styles.toggleContainer}>
-                        <img loading="lazy" src="/arrow_down.svg" alt="arrow" className={styles.arrow}/>
-                    </div>
-                </div>
-                <div className={styles.trackListContainer}>
+        <>
+        <section className={styles.subSection}>
+            <div className={styles.sectionTitleContainer}>                    
+                <div className={styles.sectionTitle}>수록곡</div>
+            </div>
+            <div className={styles.trackListContainer}>
                     {
                         tracks.sort((a, b) => a.trackNumber - b.trackNumber).map((track, index) => {
                             return (
@@ -34,11 +31,14 @@ const MainPage = (props) => {
                             )
                         })
                     }
-                </div>
-                <div className={styles.sectionTitle}>
-                    <h2>앨범 리뷰</h2>
-                </div>
-                {reviews?.length > 0 ?
+            </div>
+        </section>
+
+        <section className={styles.subSection}>
+            <div className={styles.sectionTitleContainer}>                    
+                <div className={styles.sectionTitle}>앨범 리뷰</div>
+            </div>
+            {reviews?.length > 0 ?
                     <div className="verticalScroll">
                         {reviews?.map((review) => {
                             return (<ReviewPreview
@@ -47,27 +47,25 @@ const MainPage = (props) => {
                             />)
                         })
                         }
+                        <ReviewPreview/>
                     </div>
                     : <div> 아직 작성된 리뷰가 없습니다. 첫 리뷰를 남겨주세요</div>
                 }
                 <div className={styles.sectionTitle}>
                     <h2>곡 리뷰</h2>
                 </div>
-                {comments?.length > 0 ?
-                    <div className="verticalScroll">
-                        {comments?.map((comment) => {
-                            return (<TrackReview
-                                key={comment.id}
-                                content={comment}
-                            />)
-                        })}
-                    </div>
-                    : <div> 아직 작성된 리뷰가 없습니다. 첫 리뷰를 남겨주세요</div>
-                }
+                <div className="verticalScroll">
+                    <TrackReview/>
+                </div>
+
+                <div className={styles.sectionTitle}>
+                    <h2>별점</h2>
+                </div>
             </section>
         </div>
 
     );
+    
 };
 
 const ReviewPage = (props) => {

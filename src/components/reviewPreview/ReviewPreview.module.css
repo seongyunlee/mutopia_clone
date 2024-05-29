@@ -53,6 +53,7 @@
 
 .infoDetailContainer {
     margin-left: 19px;
+    width: 200px;
     display: flex;
     flex-direction: column;
     gap: 7px;
@@ -91,6 +92,9 @@
     font-family: Roboto;
     color: #383838;
     text-align: left;
+    white-space: nowrap; /* 텍스트가 줄 바꿈 없이 한 줄에 유지되도록 합니다 */
+    overflow: hidden; /* 넘치는 텍스트를 숨깁니다 */
+    text-overflow: ellipsis; /* 넘치는 텍스트를 생략 부호(...)로 표시합니다 */
 }
 
 .albumArtist {
