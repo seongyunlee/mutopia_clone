@@ -27,7 +27,8 @@ const PlaylistPreview = (prop) => {
             } else {
                 setIsLiked(false);
             }
-        })
+        }).catch((error) => {
+        });
     }
 
 

@@ -12,7 +12,7 @@ import {UserContext} from "../../context/UserContext";
 
 const MainPage = (props) => {
 
-    const {tracks, reviews} = props;
+    const {tracks, reviews, comments} = props;
 
     const onContainerClick = () => {
     };
@@ -53,20 +53,26 @@ const MainPage = (props) => {
                 <div className={styles.sectionTitle}>
                     <h2>곡 리뷰</h2>
                 </div>
-                <div className="verticalScroll">
-                    <TrackReview/>
-                </div>
-
-                <div className={styles.sectionTitle}>
-                    <h2>별점</h2>
-                </div>
+                {comments?.length > 0 ?
+                    <div className="verticalScroll">
+                        {comments?.map((comment) => {
+                            return (<TrackReview
+                                key={comment.id}
+                                content={comment}
+                            />)
+                        })}
+                    </div>
+                    : <div> 아직 작성된 리뷰가 없습니다. 첫 리뷰를 남겨주세요</div>
+                }
             </section>
         </div>
 
     );
 };
 
-const ReviewPage = () => {
+const ReviewPage = (props) => {
+
+    const {reviews, comments} = props;
 
     const onContainerClick = () => {
     };
@@ -79,21 +85,35 @@ const ReviewPage = () => {
                         <ToggleFilter menu={["최근", "인기"]}/>
                     </div>
                 </div>
-                <div className="verticalScroll">
-                    <ReviewPreview
-                    />
-                    <ReviewPreview/>
-                </div>
-
+                {reviews?.length > 0 ?
+                    <div className="verticalScroll">
+                        {reviews?.map((review) => {
+                            return (<ReviewPreview
+                                key={review.id}
+                                content={review}
+                            />)
+                        })}
+                    </div>
+                    : <div> 아직 작성된 리뷰가 없습니다. 첫 리뷰를 남겨주세요</div>
+                }
                 <div className={styles.sectionTitle}>
                     <h2>수록곡 리뷰</h2>
                     <div className={styles.toggleContainer}>
                         <ToggleFilter menu={["최근", "인기"]}/>
                     </div>
                 </div>
-                <div className="verticalScroll">
-                    <TrackReview/>
-                </div>
+                {comments?.length > 0 ?
+                    <div className="verticalScroll">
+                        {comments?.map((comment) => {
+                            return (<TrackReview
+                                key={comment.id}
+                                content={comment}
+                            />)
+                        })
+                        }
+                    </div>
+                    : <div> 아직 작성된 리뷰가 없습니다. 첫 리뷰를 남겨주세요</div>
+                }
             </section>
         </div>
     );
@@ -152,25 +172,42 @@ const TrackItem = (props) => {
 
 // 앨범 상세페이지 컴포넌트
 const AlbumDetailsPage = (props) => {
-    console.log(props.albumId)
 
     const {user, setUser} = useContext(UserContext);
 
     const [reviewWriteModalOpen, setReviewWriteModalOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(true); // 로딩 상태 추가
     const reviewWriteModalBackground = useRef();
-    const [albumInfo, setAlbumInfo] = useState(null);
+    const [albumInfo, setAlbumInfo] = useState({});
     const [myRating, setMyRating] = useState("-");
     const [myReviewId, setMyReviewId] = useState(null);
     const [isLiked, setIsLiked] = useState(false);
     const [likeCount, setLikeCount] = useState(0);
     const [reviewList, setReviewList] = useState([]);
+    const [commentList, setCommentList] = useState([]);
     const navigate = useNavigate();
 
     // 곡 추가 페이지로 이동 -> 탑스터로 수정 필요
     const navigateToPlaylistAdd = () => {
         navigate('/playlistadd');
     };
+
+
+    const addTopster = () => {
+        const accessToken = localStorage.getItem('accessToken');
+        axios.post(`${process.env.REACT_APP_API_HOST}/user/profile/topster/album`, {
+            albumIds: [props.albumId]
+        }, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            }
+        }).then((response) => {
+            alert('앨범이 탑스터에 추가되었습니다.');
+        }).catch((error) => {
+            alert('저장 가능한 탑스터 개수를 초과했습니다. 탑스터를 정리해주세요.')
+        });
+    }
 
 
     const getRecentReviews = () => {
@@ -206,6 +243,19 @@ const AlbumDetailsPage = (props) => {
         const dialog = document.getElementById("shareDialog");
         dialog.showModal();
 
+    }
+
+
+    const getComment = async () => {
+        const accessToken = localStorage.getItem('accessToken');
+        axios.get(`${process.env.REACT_APP_API_HOST}/album/${props.albumId}/song/comment/recent`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        }).then((response) => {
+            setCommentList(response.data);
+        }).catch((error) => {
+        });
     }
 
     const getMyReview = async () => {
@@ -315,7 +365,7 @@ const AlbumDetailsPage = (props) => {
     }
 
     const onTopsterAddClicked = () => {
-
+        addTopster();
     }
 
 
@@ -325,6 +375,7 @@ const AlbumDetailsPage = (props) => {
         getMyRating();
         getRecentReviews();
         getAlbumLiked();
+        getComment();
 
     }, [props.albumId]);
 
@@ -385,13 +436,13 @@ const AlbumDetailsPage = (props) => {
                          src="/add.svg"
                          alt="🌠"
                          className={styles.socialIcon}
-                         onClick={navigateToPlaylistAdd}
+                         onClick={onTopsterAddClicked}
                     />
                 </div>
             </div>
             <ShareDialog dialogId="shareDialog" linkUrl={location.href}/>
             <NavigationBar
-                data={{albumInfo, reviewList}}
+                data={{albumInfo, reviewList, commentList}}
             /> {/* This remains outside the new container */}
             {reviewWriteModalOpen &&
                 <AlbumReviewWrite albumId={props.albumId}
@@ -411,7 +462,7 @@ const NavigationBar = (props) => {
     //console.log(props.data, "fff")
 
     const {data} = props;
-    const {albumInfo, reviewList} = data;
+    const {albumInfo, reviewList, commentList} = data;
 
     return (
         <div>
@@ -431,8 +482,8 @@ const NavigationBar = (props) => {
             </div>
             <div>
                 {tab === 'main' &&
-                    <MainPage tracks={albumInfo?.albumTrackList} reviews={reviewList}/>}
-                {tab === 'review' && <ReviewPage/>}
+                    <MainPage tracks={albumInfo?.albumTrackList} reviews={reviewList} comments={commentList}/>}
+                {tab === 'review' && <ReviewPage reviews={reviewList} comments={commentList}/>}
                 {tab === 'list' && <ListPage/>}
             </div>
         </div>
@@ -445,7 +496,6 @@ const AlbumDetail = () => {
     return (
         <>
             <AlbumDetailsPage albumId={id}/>
-
         </>
     );
 }

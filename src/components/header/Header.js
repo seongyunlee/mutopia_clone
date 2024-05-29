@@ -58,7 +58,9 @@ const Header = (props) => {
         <div className={styles.headerWrapper}>
             <LoginModal/>
             <header className={styles.headerContainer}>
-                <img loading="lazy" className={styles.logo} src="/mutopia.svg" alt="MUTOPIA"></img>
+                <img loading="lazy" className={styles.logo} src="/mutopia.svg" alt="MUTOPIA"
+                     onClick={() => location.href = '/'}
+                ></img>
                 {user?.id ? (
                     <div className={styles.profileBtn} onClick={logout}>
                         <img loading="lazy" className={styles.profileImg} src={user.imageUrl}/>

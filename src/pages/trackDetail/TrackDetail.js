@@ -1,15 +1,11 @@
 import styles from "./TrackDetail.module.css";
 import {useContext, useEffect, useRef, useState} from "react";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 import TrackCommentWrite from "../../components/trackCommentModal/TrackCommentWrite";
-import ReviewPreview from "../../components/reviewPreview/ReviewPreview";
 import PlaylistPreview from "../../components/playlistPreview/PlaylistPreview";
-import ToggleFilter from "../../components/toggleFilter/ToggleFilter";
-import TrackReview from "../../components/trackReview/TrackReview";
 import ShareDialog from "./ShareDialog";
 import {UserContext} from "../../context/UserContext";
-import { useNavigate } from 'react-router-dom';
 
 const testJwt = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQiOjE3MTUwOTgwMzUsImV4cCI6MTc0NjYzNDA4NywiYXVkIjoid3d3LmV4YW1wbGUuY29tIiwic3ViIjoidGVzdHVzZXIiLCJSb2xlIjoiVVNFUiJ9.1_R8SRfmLEGy3YB5nVfHYU6om-g7tbifxyRmHAYV4D4"
 
@@ -31,8 +27,8 @@ const CommentPage = (props) => {
 
     return (
         <div className={styles.commentSection}>
-           {commentList.map((comment, index) => (
-                <TrackPreview key={index} comment={comment} />
+            {commentList.map((comment, index) => (
+                <TrackPreview key={index} comment={comment}/>
             ))}
         </div>
     );
@@ -42,7 +38,7 @@ const CommentPage = (props) => {
 const ListPage = (props) => {
 
     const {playList} = props.playList;
-    
+
     if (!playList || !Array.isArray(playList) || playList.length === 0) {
         return (
             <div className={styles.commentSection}>
@@ -55,8 +51,8 @@ const ListPage = (props) => {
 
     return (
         <div className={styles.commentSection}>
-           {commentList.map((comment, index) => (
-                <PlaylistPreview key={index} comment={comment} />
+            {commentList.map((comment, index) => (
+                <PlaylistPreview key={index} comment={comment}/>
             ))}
         </div>
     );
@@ -115,15 +111,15 @@ const TrackDetailPage = (props) => {
             if (response.data !== null) {
                 setTrackInfo(response.data);
                 setIsLoading(false); // 데이터를 불러온 후 로딩 상태를 false로 설정
-            } else{
+            } else {
                 console.error('Failed to fetch album information:', error);
                 alert('잘못된 접근입니다.');
                 history.back();
             }
         }).catch((error) => {
-                console.error('Failed to fetch album information:', error);
-                alert('잘못된 접근입니다.');
-                history.back();
+            console.error('Failed to fetch album information:', error);
+            alert('잘못된 접근입니다.');
+            history.back();
         });
     }
 
@@ -132,7 +128,7 @@ const TrackDetailPage = (props) => {
         dialog.showModal();
 
     }
-    
+
     const getTrackLiked = async () => {
         console.log(user.id);
         const jwt = localStorage.getItem("accessToken");
@@ -144,7 +140,7 @@ const TrackDetailPage = (props) => {
         }).then((response) => {
             if (response.data.isUserLoggedIn === "NO") {
                 setIsLiked(false);
-            }else{
+            } else {
                 response.data.likeStatus === "ON" ? setIsLiked(true) : setIsLiked(false)
             }
             setLikeCount(response.data.likeCount);
@@ -166,13 +162,13 @@ const TrackDetailPage = (props) => {
             }
         }).then((response) => {
             console.log(response.data, "mycomment")
-            if (response.data.length!==0) {
+            if (response.data.length !== 0) {
                 setMyComment(response.data);
                 setMyRating(response.data.rating);
-            }else{
-                
+            } else {
+
             }
-            
+
         }).catch((error) => {
             console.error('Failed to fetch my comment:', error);
         });
@@ -206,10 +202,10 @@ const TrackDetailPage = (props) => {
 
         const prevIsLiked = isLiked;
         setIsLiked((prev) => !prev);
-        if(prevIsLiked){
-            setLikeCount((prev) => (prev-1));
-        }else{
-            setLikeCount((prev) => (prev+1));
+        if (prevIsLiked) {
+            setLikeCount((prev) => (prev - 1));
+        } else {
+            setLikeCount((prev) => (prev + 1));
         }
 
         axios.post(`${process.env.REACT_APP_API_HOST}/song/${props.trackId}/like/toggle`, {}, {
@@ -220,12 +216,16 @@ const TrackDetailPage = (props) => {
             console.log(response.data);
         }).catch((error) => {
             setIsLiked(prevIsLiked);
-            if(prevIsLiked){
-                setLikeCount((prev) => (prev+1));
-            }else{
-                setLikeCount((prev) => (prev-1));
+            if (prevIsLiked) {
+                setLikeCount((prev) => (prev + 1));
+            } else {
+                setLikeCount((prev) => (prev - 1));
             }
         });
+    }
+
+    const moveToAlbumDetail = () => {
+        navigate(`/albumDetail/${trackInfo.albumId}`);
     }
 
 
@@ -246,7 +246,8 @@ const TrackDetailPage = (props) => {
         <div className={styles.albumPage}>
             <div className={styles.contentContainer}>
                 <div className={styles.albumArtContainer}>
-                    <img src={trackInfo.albumCoverUrl} alt="Album Art" className={styles.albumArt}/>
+                    <img src={trackInfo.albumCoverUrl} alt="Album Art" className={styles.albumArt}
+                         onClick={moveToAlbumDetail}/>
                 </div>
                 <div className={styles.albumInfo}>
                     <h1>{trackInfo.trackName}</h1>
@@ -261,12 +262,12 @@ const TrackDetailPage = (props) => {
                     </div>
                     <div className={styles.ratingItem}>
                         <div className={styles.value}>
-                            {trackInfo.averageRating ? trackInfo.averageRating.toFixed(1)/2 : 0} / 5.0
+                            {trackInfo.averageRating ? trackInfo.averageRating.toFixed(1) / 2 : 0} / 5.0
                         </div>
                         <div className={styles.label}>전체 평가</div>
                     </div>
                     <div className={styles.ratingItem}>
-                        <div className={styles.value}>{`${myRating/2 ? myRating/2 : '?' } / 5.0`} </div>
+                        <div className={styles.value}>{`${myRating / 2 ? myRating / 2 : '?'} / 5.0`} </div>
                         <div className={styles.label}>내 평가</div>
                     </div>
                 </div>
@@ -276,24 +277,24 @@ const TrackDetailPage = (props) => {
                 </button>
                 <div className={styles.socialButtons}>
                     <div className={styles.socialButton}>
-                        <img 
-                        src={isLiked ? "/favoritefilled.svg" : "/heart-icon.svg"} 
-                        alt="❤️" 
-                        className={styles.socialIcon} 
-                        onClick={toggleTrackLike}
+                        <img
+                            src={isLiked ? "/favoritefilled.svg" : "/heart-icon.svg"}
+                            alt="❤️"
+                            className={styles.socialIcon}
+                            onClick={toggleTrackLike}
                         />
                         <span className={styles.likeCount}>{likeCount}</span>
                     </div>
-                    <img 
-                        src="/share.svg" 
-                        alt="🔗" 
-                        className={styles.socialIcon} 
+                    <img
+                        src="/share.svg"
+                        alt="🔗"
+                        className={styles.socialIcon}
                         onClick={showShareDialog}
                     />
-                    <img 
-                        src="/add.svg" 
-                        alt="🌠" 
-                        className={styles.socialIcon} 
+                    <img
+                        src="/add.svg"
+                        alt="🌠"
+                        className={styles.socialIcon}
                         onClick={navigateToPlaylistAdd}
                     />
                 </div>
@@ -304,9 +305,9 @@ const TrackDetailPage = (props) => {
             /> {/* This remains outside the new container */}
             {commentWriteModalOpen &&
                 <TrackCommentWrite trackId={props.trackId}
-                                  commentWriteModalOpen={commentWriteModalOpen}
-                                  setCommentWriteModalOpen={setCommentWriteModalOpen}
-                                  commentWriteModalBackground={commentWriteModalBackground}
+                                   commentWriteModalOpen={commentWriteModalOpen}
+                                   setCommentWriteModalOpen={setCommentWriteModalOpen}
+                                   commentWriteModalBackground={commentWriteModalBackground}
                 />
                 //trackId, commentWriteModalOpen, setCommentWriteModalOpen, commentWriteModalBackground
             }
@@ -342,7 +343,6 @@ const NavigationBar = (props) => {
         </div>
     );
 };
-
 
 
 const TrackDetail = () => {
