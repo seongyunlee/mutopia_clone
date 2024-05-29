@@ -252,7 +252,8 @@ const LikesPage = (props) => {
                                             },
                                             comment: comment.comment,
                                             rating: comment.rating,
-                                            createdAt: comment.createdAt
+                                            createdAt: comment.createdAt,
+                                            likeCount: comment.likeCount
                                         }
                                     }
 
@@ -314,7 +315,13 @@ const Profile = (props) => {
     }, [user]);
 
     const getTopsterInfo = () => {
-        axios.get(`${process.env.REACT_APP_API_HOST}/user/${userId}/profile/topster`, {}).then((response) => {
+        const accessToken = localStorage.getItem('accessToken');
+
+        axios.get(`${process.env.REACT_APP_API_HOST}/user/${userId}/profile/topster`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        }).then((response) => {
             setTopsterInfo(response.data);
             setIsLoading(false);
         }).catch((error) => {
@@ -322,7 +329,13 @@ const Profile = (props) => {
     }
 
     const getAlbumReview = () => {
-        axios.get(`${process.env.REACT_APP_API_HOST}/user/${userId}/album/review/recent`, {}).then((response) => {
+        const accessToken = localStorage.getItem('accessToken');
+
+        axios.get(`${process.env.REACT_APP_API_HOST}/user/${userId}/album/review/recent`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        }).then((response) => {
             setAlbumReview(response.data);
             setIsLoading(false);
         }).catch((error) => {
@@ -340,9 +353,14 @@ const Profile = (props) => {
     }
 
     const getUserTrackReviews = () => {
+        const accessToken = localStorage.getItem('accessToken');
+
         axios.get(`${process.env.REACT_APP_API_HOST}/user/${userId}/song/comment/recent`, {
             params: {
                 offset: 0,
+            },
+            headers: {
+                Authorization: `Bearer ${accessToken}`
             }
         }).then((response) => {
             setTrackReviews(response.data);
@@ -352,16 +370,27 @@ const Profile = (props) => {
     }
 
     const getUserPlaylists = () => {
-        axios.get(`${process.env.REACT_APP_API_HOST}/user/${userId}/playlist?limit=10`, {}).then((response) => {
+        const accessToken = localStorage.getItem('accessToken');
+
+        axios.get(`${process.env.REACT_APP_API_HOST}/user/${userId}/playlist?limit=10`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        }).then((response) => {
             setPlaylists(response.data);
         }).catch((error) => {
             console.error('Failed to fetch playlists:', error);
         });
     }
     const getLikeAlbums = () => {
+        const accessToken = localStorage.getItem('accessToken');
+
         axios.get(`${process.env.REACT_APP_API_HOST}/album/like/${userId}`, {
             params: {
                 page: 0,
+            },
+            headers: {
+                Authorization: `Bearer ${accessToken}`
             }
         }).then((response) => {
             setLikeAlbums(response.data);
@@ -371,9 +400,15 @@ const Profile = (props) => {
     }
 
     const getLikeTracks = () => {
+
+        const accessToken = localStorage.getItem('accessToken');
+
         axios.get(`${process.env.REACT_APP_API_HOST}/song/like/${userId}`, {
             params: {
                 page: 0,
+            },
+            headers: {
+                Authorization: `Bearer ${accessToken}`
             }
         }).then((response) => {
             setLikeTracks(response.data);
@@ -384,9 +419,14 @@ const Profile = (props) => {
     }
 
     const getLikeReviews = () => {
+
+        const accessToken = localStorage.getItem('accessToken');
         axios.get(`${process.env.REACT_APP_API_HOST}/album/review/like/${userId}`, {
             params: {
                 offset: 0,
+            },
+            headers: {
+                Authorization: `Bearer ${accessToken}`
             }
         })
             .then((response) => {
