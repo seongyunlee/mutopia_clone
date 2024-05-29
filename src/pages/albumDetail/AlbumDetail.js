@@ -51,18 +51,8 @@ const MainPage = (props) => {
                     </div>
                     : <div> 아직 작성된 리뷰가 없습니다. 첫 리뷰를 남겨주세요</div>
                 }
-                <div className={styles.sectionTitle}>
-                    <h2>곡 리뷰</h2>
-                </div>
-                <div className="verticalScroll">
-                    <TrackReview/>
-                </div>
-
-                <div className={styles.sectionTitle}>
-                    <h2>별점</h2>
-                </div>
-            </section>
-        </div>
+        </section>
+    </>
 
     );
     
