@@ -17,7 +17,7 @@ const PlaylistPreview = (prop) => {
 
     const getIsLiked = () => {
         const accessToken = localStorage.getItem('accessToken');
-        axios.get(`${process.env.REACT_APP_API_HOST}/user/playlist/${content.playlistId}/like/status`, {
+        axios.get(`${process.env.REACT_APP_API_HOST}/user/playlist/${content?.playlistId}/like/status`, {
             headers: {
                 Authorization: `Bearer ${accessToken}`
             }
@@ -64,7 +64,7 @@ const PlaylistPreview = (prop) => {
             </div>
             <div className={styles.reviewDesc}>
                 <span className={styles.reviewContainer}>
-                    <span className={styles.content}>{content.content}</span>
+                    <span className={styles.content}>{content?.content}</span>
                     <span className={styles.add}>....더보기</span>
                 </span>
             </div>
