@@ -173,6 +173,56 @@
     box-sizing: border-box; /* 패딩과 테두리를 요소의 전체 너비와 높이에 포함시킴 */
 }
 
+.btnContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 550px; /* Optional: Set a max width for readability */
+    margin: 0 auto; /* Center the container */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+.btnEdit {
+    height: 51px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    border: none;
+    background: #7B61FF;
+    color: #FFF;
+    text-align: center;
+    font-family: Roboto;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    width: 40%;
+    max-width: 550px; /* 가독성을 위해 최대 너비 설정 */
+    margin: 30px auto; /* 버튼을 중앙에 배치하고 상단 마진 추가 */
+    box-sizing: border-box; /* 패딩과 테두리를 요소의 전체 너비와 높이에 포함시킴 */
+}
+
+.btnDelete {
+    height: 51px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    border: none;
+    background: #EADDFF;
+    color: #383838;
+    text-align: center;
+    font-family: Roboto;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    width: 40%; /* 필요에 따라 너비 조절 */
+    max-width: 550px; /* 가독성을 위해 최대 너비 설정 */
+    margin: 30px auto; /* 버튼을 중앙에 배치하고 상단 마진 추가 */
+    box-sizing: border-box; /* 패딩과 테두리를 요소의 전체 너비와 높이에 포함시킴 */
+}
+
+
+
 .sectionTitle{
     color: #808080;
     font-family: Roboto;

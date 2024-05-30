@@ -3,6 +3,7 @@ import styles from "./Home.module.css";
 import PlaylistPreview from "../../components/playlistPreview/PlaylistPreview";
 import ToggleFilter from "../../components/toggleFilter/ToggleFilter";
 import TrackReview from "../../components/trackReview/TrackReview";
+import TrackComment from "../../components/trackComment/TrackComment";
 import {useContext, useEffect, useState} from "react";
 import {UserContext} from "../../context/UserContext";
 import ReviewPreview from "../../components/reviewPreview/ReviewPreview";
@@ -264,9 +265,11 @@ const Home = () => {
                     <ToggleFilter menu={["최근", "인기"]}/>
                 </div>
                 <div className="verticalScroll">
+                    <TrackComment/>
                     <TrackReview/>
                     <TrackReview/>
                     <TrackReview/>
+
                 </div>
             </section>
 

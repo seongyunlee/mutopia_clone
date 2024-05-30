@@ -12,8 +12,14 @@ import ShareDialog from "./ShareDialog";
 const ReviewDetail = () => {
 
     const {id} = useParams();
-    const reviewId = 23;
-    //const reviewId = id; // 나중에 param으로 받아오기
+    const reviewId = id;
+
+    console.log(`Type of id: ${typeof id}`); // 데이터 형 출력
+    console.log(`Value of id: ${id}`); // 값 출력
+
+    console.log(`Type of reviewId: ${typeof reviewId}`); // 데이터 형 출력
+    console.log(`Value of reviewId: ${reviewId}`); // 값 출력
+
 
 
     const {user, setUser} = useContext(UserContext);
@@ -22,6 +28,7 @@ const ReviewDetail = () => {
     const [reviewInfo, setReviewInfo] = useState(null);
     const [myRating, setMyRating] = useState("-");
     const [myReviewId, setMyReviewId] = useState(null);
+    const [myReview, setMyReview] = useState(false);
     const [isLoading, setIsLoading] = useState(true); // 로딩 상태 추가
     const [reviewWriteModalOpen, setReviewWriteModalOpen] = useState(false);
     const [isLiked, setIsLiked] = useState(false); // 추가: 좋아요 상태 관리
@@ -65,7 +72,10 @@ const ReviewDetail = () => {
                     headers: {Authorization: `Bearer ${jwt}`}
                 });
                 if (response.data.userHasReviewed && response.data.albumReviewId !== null) {
-                    setMyReviewId(response.data.albumReviewId);
+                    setMyReviewId(response.data.albumReviewId); // 숫자
+                    if(myReviewId == reviewId){ // 숫자 vs 문자열
+                        setMyReview(true);
+                    }
                 }
             } catch (error) {
                 console.error('Failed to fetch my review:', error);
@@ -81,7 +91,36 @@ const ReviewDetail = () => {
             loginDialog.showModal();
             return;
         }
+        if (myReviewId) {
+            navigate(`/reviewDetail/${myReviewId}`);
+        } else {
+            setReviewWriteModalOpen(true);
+        }
+    };
 
+    const reviewEdit = () => {
+        // console.log(user?.id);
+        if (!user?.id) {
+            alert('로그인이 필요합니다.');
+            const loginDialog = document.getElementById("loginModal");
+            loginDialog.showModal();
+            return;
+        }
+        if (myReviewId) {
+            navigate(`/reviewDetail/${myReviewId}`);
+        } else {
+            setReviewWriteModalOpen(true);
+        }
+    };
+
+    const reviewDelete = () => {
+        // console.log(user?.id);
+        if (!user?.id) {
+            alert('로그인이 필요합니다.');
+            const loginDialog = document.getElementById("loginModal");
+            loginDialog.showModal();
+            return;
+        }
         if (myReviewId) {
             navigate(`/reviewDetail/${myReviewId}`);
         } else {
@@ -157,19 +196,6 @@ const ReviewDetail = () => {
         });
     }
 
-    const fetchWriterReviewPopular = async () => {
-        const jwt = localStorage.getItem("accessToken");
-        axios.get(`${process.env.REACT_APP_API_HOST}/user/${writerId}/album/review/popular`, {
-            headers: {
-                Authorization: `Bearer ${jwt}`
-            }
-        }).then((response) => {
-            setWriterReviewPopular(response.data);
-        }).catch((error) => {
-            console.error('Failed to fetch writer popular reviews:', error);
-        });
-    }
-
     const fetchAlbumReview = async () => {
 
         const query = albumReviewToggleRef.current === "최근" ? "recent" : "popular";
@@ -186,43 +212,14 @@ const ReviewDetail = () => {
         });
     }
 
-    const fetchAlbumReviewPopular = async () => {
-        const jwt = localStorage.getItem("accessToken");
-        axios.get(`${process.env.REACT_APP_API_HOST}/album/${albumId}/album/review/popular`, {
-            headers: {
-                Authorization: `Bearer ${jwt}`
-            }
-        }).then((response) => {
-            setAlbumReviewPopular(response.data);
-        }).catch((error) => {
-            console.error('Failed to fetch album popular reviews:', error);
-        });
-    }
-
-    const fetchAlbumReviews = async () => {
-        const jwt = localStorage.getItem("accessToken");
-        if (jwt && albumId) {
-            try {
-                const response = await axios.get(`${process.env.REACT_APP_API_HOST}/album/${albumId}/review/check`, {
-                    headers: {Authorization: `Bearer ${jwt}`}
-                });
-                if (response.data.userHasReviewed && response.data.albumReviewId !== null) {
-                    setMyReviewId(response.data.albumReviewId);
-                }
-            } catch (error) {
-                console.error('Failed to fetch my review:', error);
-            }
-        }
-    };
-
     useEffect(() => {
-        //setMyReviewId(id);
         fetchReviewInfo();
         getMyReview();
         getReviewLiked();
         fetchWriterReview();
         fetchAlbumReview();
-    }, [writerId]);
+        console.log(myReview, "my review");
+    }, []);
 
 
     if (isLoading) {
@@ -268,8 +265,22 @@ const ReviewDetail = () => {
                 </div>
                 <ShareDialog dialogId="shareDialog" linkUrl={location.href}/>
             </div>
-            <button className={styles.btnWrite}
-                    onClick={moveToMyReviewOrWrite}>{myReviewId && user ? "나의 리뷰 보기" : "이 앨범 리뷰하기"}</button>
+            <div>
+                {myReview ? (
+                    <div className={styles.btnContainer}>
+                        <button className={styles.btnEdit} onClick={reviewEdit}>수정하기</button>
+                        <button className={styles.btnDelete} onClick={reviewDelete}>삭제하기</button>
+                    </div>
+                   
+                ) : (
+                    <button
+                    className={styles.btnWrite}
+                    onClick={moveToMyReviewOrWrite}
+                    >
+                    {myReviewId && user ? "나의 리뷰 보기" : "이 앨범 리뷰하기"}
+                    </button>
+                )}
+            </div>
             <section className={styles.subSection}>
                 <div className={styles.sectionTitleContainer}>
                     <div className={styles.sectionTitle}>{reviewInfo.writer.username ? reviewInfo.writer.username : " "}의

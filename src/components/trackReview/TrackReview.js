@@ -1,4 +1,4 @@
-import styles from './TraceReview.module.css';
+import styles from './TrackReview.module.css';
 import StarRating from "../starRating/StarRating";
 import axios from "axios";
 import {useState} from "react";

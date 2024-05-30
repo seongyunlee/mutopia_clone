@@ -47,7 +47,6 @@ const MainPage = (props) => {
                             />)
                         })
                         }
-                        <ReviewPreview/>
                     </div>
                     : <div> 아직 작성된 리뷰가 없습니다. 첫 리뷰를 남겨주세요</div>
                 }
@@ -62,60 +61,58 @@ const ReviewPage = (props) => {
 
     const {reviews, comments} = props;
 
-    const onContainerClick = () => {
-    };
     return (
-        <div className="reviewPage">
-            <section className={styles.homeSection}>
-                <div className={styles.sectionTitle}>
-                    <h2>앨범리뷰</h2>
-                    <div className={styles.toggleContainer}>
-                        <ToggleFilter menu={["최근", "인기"]}/>
-                    </div>
-                </div>
-                {reviews?.length > 0 ?
+        <>
+        <section className={styles.subSection}>
+            <div className={styles.sectionTitleContainer}>                    
+                <div className={styles.sectionTitle}>앨범 리뷰</div>
+                <ToggleFilter menu={["최근", "인기"]}/>
+            </div>
+            {reviews?.length > 0 ?
                     <div className="verticalScroll">
                         {reviews?.map((review) => {
                             return (<ReviewPreview
                                 key={review.id}
                                 content={review}
                             />)
-                        })}
-                    </div>
-                    : <div> 아직 작성된 리뷰가 없습니다. 첫 리뷰를 남겨주세요</div>
-                }
-                <div className={styles.sectionTitle}>
-                    <h2>수록곡 리뷰</h2>
-                    <div className={styles.toggleContainer}>
-                        <ToggleFilter menu={["최근", "인기"]}/>
-                    </div>
-                </div>
-                {comments?.length > 0 ?
-                    <div className="verticalScroll">
-                        {comments?.map((comment) => {
-                            return (<TrackReview
-                                key={comment.id}
-                                content={comment}
-                            />)
                         })
                         }
                     </div>
                     : <div> 아직 작성된 리뷰가 없습니다. 첫 리뷰를 남겨주세요</div>
                 }
-            </section>
-        </div>
+        </section>
+
+        <section className={styles.subSection}>
+            <div className={styles.sectionTitleContainer}>                    
+                <div className={styles.sectionTitle}>한줄평</div>
+                <ToggleFilter menu={["최근", "인기"]}/>
+            </div>
+            {comments?.length > 0 ?
+                    <div className="verticalScroll">
+                        {comments?.map((comment, index) => {
+                            return (<TrackReview
+                                key={index}
+                                content={comment}
+                            />)
+                        })
+                        }
+                    </div>
+                    : <div> 아직 작성된 한줄평이 없습니다. 첫 한줄평을 남겨주세요</div>
+                }
+        </section>
+        
+        </>
+        
     );
 };
 
 
 const ListPage = () => {
     return (
-        <section className={styles.homeSection}>
-            <div className={styles.sectionTitle}>
-                <h2>플레이리스트</h2>
-                <div className={styles.toggleContainer}>
-                    <ToggleFilter menu={["최근", "인기"]}/>
-                </div>
+        <section className={styles.subSection}>
+            <div className={styles.sectionTitleContainer}>
+                <div className={styles.sectionTitle}>플레이리스트</div>
+                <ToggleFilter menu={["최근", "인기"]}/>
             </div>
             <div className="verticalScroll">
                 <PlaylistPreview
@@ -132,6 +129,7 @@ const ListPage = () => {
         </section>
     );
 };
+
 const TrackItem = (props) => {
 
     const {track} = props;
@@ -167,7 +165,7 @@ const AlbumDetailsPage = (props) => {
     const [isLoading, setIsLoading] = useState(true); // 로딩 상태 추가
     const reviewWriteModalBackground = useRef();
     const [albumInfo, setAlbumInfo] = useState({});
-    const [myRating, setMyRating] = useState("-");
+    const [myRating, setMyRating] = useState(null);
     const [myReviewId, setMyReviewId] = useState(null);
     const [isLiked, setIsLiked] = useState(false);
     const [likeCount, setLikeCount] = useState(0);
@@ -197,22 +195,6 @@ const AlbumDetailsPage = (props) => {
         });
     }
 
-
-    const getRecentReviews = () => {
-        const jwt = localStorage.getItem("accessToken");
-        const headers = {}
-        if (jwt !== null) {
-            headers.Authorization = `Bearer ${jwt}`;
-        }
-        axios.get(`${process.env.REACT_APP_API_HOST}/album/${props.albumId}/review/recent`, {
-            headers: headers
-        }).then((response) => {
-            setReviewList(response.data);
-        }).catch((error) => {
-        });
-    }
-
-
     const fetchAlbumInfo = async () => {
         try {
             setIsLoading(true); // 데이터를 불러오기 시작할 때 로딩 상태를 true로 설정
@@ -233,8 +215,22 @@ const AlbumDetailsPage = (props) => {
 
     }
 
+    const getTopReviews = () => {
+        const jwt = localStorage.getItem("accessToken");
+        const headers = {}
+        if (jwt !== null) {
+            headers.Authorization = `Bearer ${jwt}`;
+        }
+        axios.get(`${process.env.REACT_APP_API_HOST}/album/${props.albumId}/review/popular`, {
+            headers: headers
+        }).then((response) => {
+            setReviewList(response.data);
+        }).catch((error) => {
+        });
+    }
 
-    const getComment = async () => {
+
+    const getTopComments = async () => {
         const accessToken = localStorage.getItem('accessToken');
         axios.get(`${process.env.REACT_APP_API_HOST}/album/${props.albumId}/song/comment/recent`, {
             headers: {
@@ -257,25 +253,27 @@ const AlbumDetailsPage = (props) => {
             }
         }).then((response) => {
             if (response.data.userHasReviewed && response.data.albumReviewId !== null) {
-                setMyReviewId(response.data.albumReviewId)
+                setMyReviewId(response.data.albumReviewId);
+                getMyRating(response.data.albumReviewId);
             }
         }).catch((error) => {
             console.error('Failed to fetch my review:', error);
         });
     }
 
-    const getMyRating = async () => {
+    const getMyRating = async (reviewId) => {
         const jwt = localStorage.getItem("accessToken");
         if (jwt === null) {
             return;
         }
-        axios.get(`${process.env.REACT_APP_API_HOST}/album/${props.albumId}/rating`, {
+        axios.get(`${process.env.REACT_APP_API_HOST}/album/review/${reviewId}`, {
             headers: {
                 Authorization: `Bearer ${jwt}`
             }
         }).then((response) => {
             if (response.data.rating !== null) {
-                setMyRating(response.data.rating)
+                setMyRating(response.data.review.rating);
+                console.log(myRating, "my rating");
             }
         }).catch((error) => {
             console.error('Failed to fetch my review:', error);
@@ -291,7 +289,7 @@ const AlbumDetailsPage = (props) => {
             return;
         }
         if (myReviewId) {
-            window.location.href = `/album/review/${myReviewId}`;
+            window.location.href = `/reviewDetail/${myReviewId}`;
         } else {
             setReviewWriteModalOpen(true);
         }
@@ -360,10 +358,9 @@ const AlbumDetailsPage = (props) => {
     useEffect(() => {
         fetchAlbumInfo();
         getMyReview();
-        getMyRating();
-        getRecentReviews();
+        getTopReviews();
         getAlbumLiked();
-        getComment();
+        getTopComments();
 
     }, [props.albumId]);
 
@@ -391,12 +388,12 @@ const AlbumDetailsPage = (props) => {
                     </div>
                     <div className={styles.ratingItem}>
                         <div className={styles.value}>
-                            {albumInfo.averageRating ? albumInfo.averageRating.toFixed(1) : 0} / 5.0
+                            {albumInfo.averageRating ? (albumInfo.averageRating/2).toFixed(1) : 0} / 5.0
                         </div>
                         <div className={styles.label}>전체 평가</div>
                     </div>
                     <div className={styles.ratingItem}>
-                        <div className={styles.value}>{`${myRating} / 5.0`}</div>
+                        <div className={styles.value}>{myRating ? (myRating/2).toFixed(1) : "-"} / 5.0</div>
                         <div className={styles.label}>내 평가</div>
                     </div>
                 </div>

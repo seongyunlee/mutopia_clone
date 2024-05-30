@@ -8,7 +8,8 @@ const ReviewPreview = (props) => {
 
 
     const handleClick = () => {
-        navigate("/reviewDetail");
+        console.log(props.content.review.id, "reviewId");
+        window.location.href=`/reviewDetail/${props.content.review.id}`;
     };
 
 

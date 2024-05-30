@@ -1,62 +1,33 @@
 .container {
     width: 340px !important;
-    height: 309px;
+    height: 188px;
     flex-shrink: 0;
     flex-direction: column;
+    gap: 15px;
     text-align: left;
     font-size: 14px;
     border-radius: 10px;
     background-color: white;
     border: 1px solid #d9d9d9;
-    padding: 10px 10px;   
+    padding: 20px 20px;
+    box-sizing: border-box;
+    position: relative;   
 }
 
-.infoContainer {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-    width: 100%;
-    margin-right: 10px;
-    margin-left: 10px;
-    margin-top: 5px;
-}
-
-.reviewContainer{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    margin-right: 10px;
-    margin-left: 10px;
-    margin-top: 15px;
-    gap: 10px;
-}
-
-.footerContainer {
-    width: 100%;
+.headerContainer {
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
+    align-items: center;
     margin-bottom: 10px;
-    margin-right: 10px;
-    margin-left: 10px;
-    margin-top: 10px;   
 }
 
-.albumImg {
-    margin-top: 10px;
-    height: 100px;
-    width: 100px;
-    border-radius: 4px;
-    flex-shrink: 0;
-}
 
-.infoDetailContainer {
-    margin-left: 19px;
-    width: 200px;
+.writerContainer{
     display: flex;
     flex-direction: column;
-    gap: 7px;
+    gap: 10px;
+    align-items: right;
+    margin-bottom: 10px;
 }
 
 .authorContainer {
@@ -85,57 +56,48 @@
     border-radius: 50%;
 }
 
-.albumName {
-    font-size: 20px;
-    font-weight: 600;
-    position: relative;
-    font-family: Roboto;
-    color: #383838;
-    text-align: left;
-    white-space: nowrap; /* 텍스트가 줄 바꿈 없이 한 줄에 유지되도록 합니다 */
-    overflow: hidden; /* 넘치는 텍스트를 숨깁니다 */
-    text-overflow: ellipsis; /* 넘치는 텍스트를 생략 부호(...)로 표시합니다 */
+.songContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: left;
+    margin-bottom: 10px;
 }
 
-.albumArtist {
+.songTitle{
+    color: #383838;
+    font-family: Roboto;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.songArtist{
     color: #787878;
     font-family: Roboto;
-    font-size: 14px;
+    font-size: 12px;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
-    text-align: left;
 }
 
-.reviewContent{
-    min-height: 86px;
-    margin-right: 10px;
-}
-
-.reviewTitle {
-    color: #383838;
-    font-family: Roboto;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
-}
-
-.content {
+.reviewContainer {
+    width: 300px;
     color: #383838;
     font-family: Roboto;
     font-size: 16px;
     font-style: normal;
-    font-weight: 300;
-    line-height: 23px;
-}
-.add {
-    color: #C3C3C3;
-    font-family: Roboto;
-    font-size: 12px;
-    font-style: normal;
     font-weight: 400;
-    line-height: 23px;
+    line-height: normal;
+}
+
+.footerContainer {
+    width: 300px;
+    display: flex;
+    justify-content: space-between;
+    position: absolute; /* 추가된 부분 */
+    bottom: 20px; /* 추가된 부분 */ 
 }
 
 .likeContainer {
@@ -152,6 +114,11 @@
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+}
+
+.likeContainer > img {
+    width: 20px;
+    height: 20px;
 }
 
 .reviewDate {
