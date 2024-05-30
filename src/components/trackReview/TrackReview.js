@@ -9,14 +9,14 @@ const TrackReview = (prop) => {
 
     console.log(content);
 
-    const [isLiked, setIsLiked] = useState(content.songComment.isLiked);
+    const [isLiked, setIsLiked] = useState(content?.songComment?.isLiked);
 
 
     const toggleLike = () => {
         const accessToken = localStorage.getItem("accessToken");
 
         axios.post(
-            `${process.env.REACT_APP_API_HOST}/song/${content.songComment.songInfo.id}/comment/${content.writer.userId}/like/toggle`,
+            `${process.env.REACT_APP_API_HOST}/song/${content?.songComment?.songInfo?.id}/comment/${content?.writer?.userId}/like/toggle`,
             {},
             {
                 headers: {
