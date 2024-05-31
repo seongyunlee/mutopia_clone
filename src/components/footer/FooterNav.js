@@ -30,7 +30,7 @@ const FooterNav = ({}) => {
     }
 
     function navigateeditProfile() {
-        navigate("/addSong");
+        navigate("/makelist");
     }
 
     function navigateSearch() {

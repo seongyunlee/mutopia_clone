@@ -7,8 +7,6 @@ import PlaylistPreview from "../../components/playlistPreview/PlaylistPreview";
 import ShareDialog from "./ShareDialog";
 import {UserContext} from "../../context/UserContext";
 
-const testJwt = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQiOjE3MTUwOTgwMzUsImV4cCI6MTc0NjYzNDA4NywiYXVkIjoid3d3LmV4YW1wbGUuY29tIiwic3ViIjoidGVzdHVzZXIiLCJSb2xlIjoiVVNFUiJ9.1_R8SRfmLEGy3YB5nVfHYU6om-g7tbifxyRmHAYV4D4"
-
 const CommentPage = (props) => {
 
     const {commentList} = props.commentList;
@@ -59,7 +57,7 @@ const ListPage = (props) => {
 
 };
 
-// 앨범 상세페이지 컴포넌트
+// 곡 상세페이지 컴포넌트
 const TrackDetailPage = (props) => {
     console.log(props.trackId)
 
@@ -79,7 +77,14 @@ const TrackDetailPage = (props) => {
 
     // 곡 추가 페이지로 이동
     const navigateToPlaylistAdd = () => {
-        navigate('/playlistadd');
+        if (!user?.id) { //!user?.id
+            alert('로그인이 필요합니다.');
+            const loginDialog = document.getElementById("loginModal");
+            loginDialog.showModal();
+            return;
+        }else{
+            navigate(`/playlistadd/${user.id}/${props.trackId}`);
+        }
     };
 
 

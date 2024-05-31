@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import styles from './MakeList.module.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
 const MakeList = () => {
+  const {userId, songId} = useParams();
+
   const [playlistName, setPlaylistName] = useState('');
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(true);
@@ -16,14 +18,21 @@ const MakeList = () => {
   };
 
   const handleCreate = async () => {
-    if (!playlistName) {
+    if (playlistName.length === 0 || playlistName === '') {
       alert('Please enter a name for your playlist.');
       return;
     }
     try {
-      // Assuming you have a POST endpoint to create a playlist
-      const response = await axios.post('/api/playlists', { name: playlistName });
-      navigate(`/playlist/${response.data.id}`); // Navigate to the newly created playlist page
+      const response = await axios.post(`${process.env.REACT_APP_API_HOST}/user.playlist`, {
+        title: playlistName,
+        content: ""
+    }, {
+        headers: {
+            Authorization: `Bearer ${jwt}`
+        }
+    });
+      alert('플레이리스트가 생성되었습니다.'); // alert 말고 메시지로 바꾸기     
+      navigate(`/playlistadd/${userId}/${songId}`); // playlistadd로 이동
     } catch (error) {
       console.error('Failed to create playlist:', error);
       alert('Failed to create playlist. Please try again later.');

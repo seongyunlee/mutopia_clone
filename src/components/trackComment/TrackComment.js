@@ -19,6 +19,7 @@ const TrackComment = ( props ) => {
             songInfo: {
               id: "undefined",
               title: "undefined",
+              artistName: "undefined"
             },
             rating: 0,
             comment: "undefined",
@@ -87,7 +88,7 @@ const TrackComment = ( props ) => {
             <div className={styles.headerContainer}>
                 <div className={styles.songContainer}>
                     <div className={styles.songTitle}>{songComment.songInfo.title}</div>
-                    <div className={styles.songArtist}>{songComment.songInfo.id}</div>
+                    <div className={styles.songArtist}>{songComment.songInfo.artistName}</div>
                 </div>
                 <div className={styles.writerContainer}>
                     {isMine ? (
