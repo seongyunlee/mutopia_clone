@@ -7,6 +7,7 @@ import ReviewPreview from "../../components/reviewPreview/ReviewPreview";
 import PlaylistPreview from "../../components/playlistPreview/PlaylistPreview";
 import ToggleFilter from "../../components/toggleFilter/ToggleFilter";
 import TrackReview from "../../components/trackReview/TrackReview";
+import TrackComment from "../../components/trackComment/TrackComment";
 import ShareDialog from "./ShareDialog";
 import {UserContext} from "../../context/UserContext";
 
@@ -40,9 +41,9 @@ const MainPage = (props) => {
             </div>
             {reviews?.length > 0 ?
                     <div className="verticalScroll">
-                        {reviews?.map((review) => {
+                        {reviews?.map((review, index) => {
                             return (<ReviewPreview
-                                key={review.id}
+                                key={index}
                                 content={review}
                             />)
                         })
@@ -59,7 +60,26 @@ const MainPage = (props) => {
 
 const ReviewPage = (props) => {
 
-    const {reviews, comments} = props;
+    const {albumId, reviews, comments} = props;
+
+    const [commentList, setCommentList] = useState([]);
+
+
+    const getComments = async () => {
+        const accessToken = localStorage.getItem('accessToken');
+        axios.get(`${process.env.REACT_APP_API_HOST}/album/${props.albumId}/song/comment/recent`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        }).then((response) => {
+            setCommentList(response.data);
+        }).catch((error) => {
+        });
+    }
+
+    useEffect(() => {   
+        getComments();
+    }, []);
 
     return (
         <>
@@ -70,9 +90,9 @@ const ReviewPage = (props) => {
             </div>
             {reviews?.length > 0 ?
                     <div className="verticalScroll">
-                        {reviews?.map((review) => {
+                        {reviews?.map((review, index) => {
                             return (<ReviewPreview
-                                key={review.id}
+                                key={index}
                                 content={review}
                             />)
                         })
@@ -90,7 +110,7 @@ const ReviewPage = (props) => {
             {comments?.length > 0 ?
                     <div className="verticalScroll">
                         {comments?.map((comment, index) => {
-                            return (<TrackReview
+                            return (<TrackComment
                                 key={index}
                                 content={comment}
                             />)
@@ -159,6 +179,8 @@ const TrackItem = (props) => {
 // 앨범 상세페이지 컴포넌트
 const AlbumDetailsPage = (props) => {
 
+    console.log(props.albumId, "props.albumId");
+
     const {user, setUser} = useContext(UserContext);
 
     const [reviewWriteModalOpen, setReviewWriteModalOpen] = useState(false);
@@ -171,13 +193,6 @@ const AlbumDetailsPage = (props) => {
     const [likeCount, setLikeCount] = useState(0);
     const [reviewList, setReviewList] = useState([]);
     const [commentList, setCommentList] = useState([]);
-    const navigate = useNavigate();
-
-    // 곡 추가 페이지로 이동 -> 탑스터로 수정 필요
-    const navigateToPlaylistAdd = () => {
-        navigate('/playlistadd');
-    };
-
 
     const addTopster = () => {
         const accessToken = localStorage.getItem('accessToken');
@@ -468,7 +483,7 @@ const NavigationBar = (props) => {
             <div>
                 {tab === 'main' &&
                     <MainPage tracks={albumInfo?.albumTrackList} reviews={reviewList} comments={commentList}/>}
-                {tab === 'review' && <ReviewPage reviews={reviewList} comments={commentList}/>}
+                {tab === 'review' && <ReviewPage albumId={props.albumId} reviews={reviewList} comments={commentList}/>}
                 {tab === 'list' && <ListPage/>}
             </div>
         </div>
