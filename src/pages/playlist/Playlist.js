@@ -4,6 +4,7 @@ import PlaylistItem from "../../components/playlistItem/PlaylistItem";
 import { useNavigate } from 'react-router-dom';
 import AddSong from '../addSong/AddSong';
 import { useEffect, useState, useRef } from "react";
+import ReviseList from "./ReviseList.js"
 
 const Playlist = () => {
     const img = "/ive.png"; // 이미지 경로, 사용하지 않은 변수라면 제거 가능
@@ -17,14 +18,18 @@ const Playlist = () => {
     const [likes, setLikes] = useState(0);  // 초기 좋아요 수
     const toggleLike = () => setLikes(likes + 1);  // 좋아요 클릭 시 수 증가
 
-    // 이전 페이지로 돌아가는 함수
-    const handleBack = () => {
-        navigate(-1); // navigate 함수에 -1을 전달하여 이전 페이지로 이동
-    };
-
     // 곡 추가 페이지로 이동
     const navigateToAddSong = () => {
         navigate('/addsong');
+    };
+
+    const navigateToReviseList = () => {
+        navigate('/reviseList');
+      };
+
+    // 이전 페이지로 돌아가는 함수
+    const handleBack = () => {
+        navigate(-1); // navigate 함수에 -1을 전달하여 이전 페이지로 이동
     };
 
     return (
@@ -33,10 +38,13 @@ const Playlist = () => {
                 <img src="/arrow_right.svg" alt="Back" className={styles.backIcon} onClick={handleBack} />
                 <div className={styles.detailsContainer}>
                     <div className={styles.playlistTitle}>K-pop 여름 플레이리스트</div>
-                    <div className={styles.description}>다들 아시죠? 청량은 겨울이 제철입니다</div>
+                    <div className={styles.description}>
+                        <div>다들 아시죠? 청량은 겨울이 제철입니다</div>
+                    </div>
                     <div className={styles.authorContainer}>
                         <img src="/amusementpark-3@2x.png" className={styles.authorProfileImg} alt="Author profile" />
                         <div>무중력지대</div>
+
                     </div>  
 
                     <div className={styles.buttonContainer}>
@@ -48,6 +56,9 @@ const Playlist = () => {
                         <div className={styles.controlsContainer}>
                             <img src="/heart-icon.svg" alt="Like icon" className={styles.likeButton} onClick={toggleLike} />
                             <span>{likes} Likes</span>
+                        </div>
+                        <div>
+                            <img src="/pencil.png" className={styles.revise} alt="revise" onClick={navigateToReviseList}/>
                         </div>
                     </div>
                 </div>

@@ -43,15 +43,25 @@ const MakeList = () => {
     <div className={styles.modalOverlay} onClick={toggleModal}>
       <div className={styles.modal} onClick={e => e.stopPropagation()}>  
         <div className={styles.modalHeader}>
+          <span className={styles.modalTitle}>새로운 플레이리스트 만들기</span>
           <button className={styles.closeButton} onClick={toggleModal}>×</button>
         </div>
-        <p1 className={styles.heading}>새로운 플레이리스트 제목</p1>
+        <div className={styles.heading1}>새로운 플레이리스트 제목</div>
         <input
             className={styles.input}
             type="text"
-            placeholder="My playlist"
+            placeholder="나의 플레이리스트"
             value={playlistName}
             onChange={(e) => setPlaylistName(e.target.value)}
+        />
+        <div className={styles.heading2}>플레이리스트 설명</div>
+        <input
+            className={styles.input}
+            type="text"
+            placeholder="이 플레이리스트는 ..."
+            value={playlistName}
+            onChange={(e) => setPlaylistName(e.target.value)}
+            //content로 바꿔야
         />
         <button className={styles.button} onClick={handleCreate}>
             만들기

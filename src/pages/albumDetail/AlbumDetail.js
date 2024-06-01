@@ -195,6 +195,14 @@ const AlbumDetailsPage = (props) => {
     const [commentList, setCommentList] = useState([]);
 
     const addTopster = () => {
+        console.log(user.id);
+        if (!user?.id) {
+            alert('로그인이 필요합니다.');
+            const loginDialog = document.getElementById("loginModal");
+            loginDialog.showModal();
+            return;
+        }
+
         const accessToken = localStorage.getItem('accessToken');
         axios.post(`${process.env.REACT_APP_API_HOST}/user/profile/topster/album`, {
             albumIds: [props.albumId]
@@ -206,9 +214,11 @@ const AlbumDetailsPage = (props) => {
         }).then((response) => {
             alert('앨범이 탑스터에 추가되었습니다.');
         }).catch((error) => {
-            alert('저장 가능한 탑스터 개수를 초과했습니다. 탑스터를 정리해주세요.')
+            alert('저장 가능한 탑스터 개수를 초과했습니다. 탑스터를 정리해주세요.');
         });
+
     }
+    
 
     const fetchAlbumInfo = async () => {
         try {

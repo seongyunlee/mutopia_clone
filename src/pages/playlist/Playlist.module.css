@@ -29,16 +29,6 @@
     margin-bottom: 10px;
 }
 
-.description {
-    margin-bottom: 20px;
-}
-
-.authorAndControlsContainer {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-}
-
 .authorContainer {
     display: flex;
     align-items: center;
@@ -49,12 +39,6 @@
     width: 30px;
     height: 30px;
     border-radius: 50%;
-}
-
-.controlsContainer {
-    display: flex;
-    align-items: center;
-    gap: 20px;
 }
 
 .likeButton {
@@ -92,4 +76,28 @@
 
 .listContainer {
     margin-top: 20px;
+}
+
+.description {
+    margin-bottom: 20px;
+}
+
+.authorAndControlsContainer {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.controlsContainer {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-grow: 1;
+}
+
+.revise {
+    cursor: pointer;
+    width: 20px;
+    margin-left: auto;  /* 오른쪽 끝으로 보내기 위해 추가 */
+    margin-top:20px;
 }

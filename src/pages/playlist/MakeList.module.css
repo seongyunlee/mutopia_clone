@@ -25,11 +25,24 @@
   align-items: center; /* 모든 내용을 가로 방향으로 중앙 정렬 */
 }
 
-.heading {
+.heading1 {
   font-size: 30px;
   margin-top: 30px;
   margin-bottom: 30px;
   text-align: center; /* 텍스트 중앙 정렬 */
+  font-size: 20px;
+  font-family: Roboto;
+  font-weight: bold;
+}
+
+.heading2 {
+  font-size: 30px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  text-align: center; /* 텍스트 중앙 정렬 */
+  font-size: 20px;
+  font-family: Roboto;
+  font-weight: bold;
 }
 
 .input {
@@ -60,6 +73,7 @@
   background-color: #8863ff;
 }
 
+
 .modalHeader {
   width: 100%; /* 헤더의 전체 너비 사용 */
   display: flex;
@@ -67,6 +81,16 @@
   align-items: center; /* 세로 방향 중앙 정렬 */
   padding: 2rem;
   position: relative;
+
+}
+
+.modalTitle {
+  position: absolute;
+  font-size: 18px;
+  font-family: Roboto;
+  color: #000;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .closeButton {
@@ -80,3 +104,4 @@
   color: #333;
   margin-right: 20px;
 }
+
