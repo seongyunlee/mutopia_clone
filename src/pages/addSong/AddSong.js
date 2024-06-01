@@ -1,6 +1,6 @@
 import styles from './AddSong.module.css';
 import {useEffect, useRef, useState} from "react";
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import axios from "axios";
 import ItemAdd from "../../components/playlistItem/ItemAdd"
 
@@ -11,6 +11,9 @@ const AddSong = () => {
     const [searching, setSearching] = useState(false);
     const navigate = useNavigate();
     const inputRef = useRef();
+    const [recommendation, setRecommendation] = useState([])
+
+    const playlistId = useParams().id;
 
     const toggleModal = () => {
         setIsModalOpen(!isModalOpen);
@@ -19,11 +22,36 @@ const AddSong = () => {
         }
     };
 
+    const getRecommendation = () => {
+        const jwt = localStorage.getItem("accessToken");
+
+        axios.get(`${process.env.REACT_APP_API_HOST}/user/playlist/${playlistId}/recommendation`,
+            {
+                headers: {
+                    Authorization: `Bearer ${jwt}`
+                }
+            })
+            .then((response) => {
+                setRecommendation(response.data.tracks);
+            })
+            .catch((error) => {
+            });
+    }
+
+    useEffect(() => {
+        getRecommendation();
+    }, []);
+
     useEffect(() => {
         const fetchResults = async (query) => {
             if (!query) return [];
             try {
-                const response = await axios.get(`${process.env.REACT_APP_API_HOST}/album/search?keyword=${query}`, {});
+                const response = await axios.get(`${process.env.REACT_APP_API_HOST}/song/search`, {
+                    params: {
+                        offset: 0,
+                        keyword: query
+                    }
+                });
                 return response.data;
             } catch (error) {
                 console.error(error);
@@ -67,13 +95,11 @@ const AddSong = () => {
                 ) : (
                     <div className={styles.listContainer}>
                         <div className={styles.suggest}><h3>추천된 노래</h3></div>
-                        <ItemAdd/>
-                        <ItemAdd/>
-                        <ItemAdd/>
-                        <ItemAdd/>
-                        <ItemAdd/>
-                        <ItemAdd/>
-                        <ItemAdd/>
+                        {
+                            recommendation?.map((track) => (
+                                <ItemAdd key={track.id} track={track}/>
+                            ))
+                        }
                     </div>
                 )}
             </div>
@@ -82,6 +108,37 @@ const AddSong = () => {
 };
 
 const SearchResults = ({results, searching}) => {
+
+    const playlistId = useParams().id;
+
+    const getSongs = async () => {
+        const res = await axios.get(`${process.env.REACT_APP_API_HOST}/user/playlist/${playlistId}`)
+        return res?.data?.songs?.length;
+    }
+
+    const addSong = async (songId) => {
+        const jwt = localStorage.getItem("accessToken");
+
+        axios.post(`${process.env.REACT_APP_API_HOST}/user/playlist/${playlistId}/song`, {
+            songId: songId,
+            trackOrder: await getSongs()
+        }, {
+            headers: {
+                Authorization: `Bearer ${jwt}`
+            }
+        })
+            .then((response) => {
+                alert("플레이리스트에 곡이 추가되었습니다.");
+            })
+            .catch((error) => {
+                if (error.response.status === 401) {
+                    alert("권한이 없습니다.");
+                } else {
+                    alert("일시적인 오류가 발생했습니다.");
+                }
+            });
+    }
+
     return (
         <div className={styles.songListContainer}>
             <div className={styles.songList}>
@@ -89,8 +146,8 @@ const SearchResults = ({results, searching}) => {
                     "Loading..."
                 ) : (
                     results.map(result => (
-                        <div key={result.id} className={styles.songItem}>
-                            <img loading="lazy" src={result.coverImageUrl} alt="album cover"
+                        <div key={result.id} className={styles.songItem} onClick={() => addSong(result.id)}>
+                            <img loading="lazy" src={result.albumCoverUrl} alt="album cover"
                                  className={styles.songCover}/>
                             <div className={styles.songInfo}>
                                 <div className={styles.songTitle}>{result.name}</div>

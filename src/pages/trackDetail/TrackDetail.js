@@ -6,6 +6,7 @@ import TrackCommentWrite from "../../components/trackCommentModal/TrackCommentWr
 import PlaylistPreview from "../../components/playlistPreview/PlaylistPreview";
 import ShareDialog from "./ShareDialog";
 import {UserContext} from "../../context/UserContext";
+import PlaylistAddDialog from "../playlist/PlaylistAddDialog";
 
 const CommentPage = (props) => {
 
@@ -74,16 +75,16 @@ const TrackDetailPage = (props) => {
     const [commentList, setCommentList] = useState([]);
     const [playList, setPlayList] = useState([]);
     const navigate = useNavigate();
+    const playlistDialogRef = useRef();
 
     // 곡 추가 페이지로 이동
-    const navigateToPlaylistAdd = () => {
+    const addToPlaylist = () => {
         if (!user?.id) { //!user?.id
             alert('로그인이 필요합니다.');
             const loginDialog = document.getElementById("loginModal");
             loginDialog.showModal();
-            return;
-        }else{
-            navigate(`/playlistadd/${user.id}/${props.trackId}`);
+        } else {
+            playlistDialogRef.current?.showModal();
         }
     };
 
@@ -235,7 +236,6 @@ const TrackDetailPage = (props) => {
 
 
     useEffect(() => {
-        console.log("hello2");
         fetchTrackInfo();
         getMyCommentAndRating();
         getTrackLiked();
@@ -300,10 +300,11 @@ const TrackDetailPage = (props) => {
                         src="/add.svg"
                         alt="🌠"
                         className={styles.socialIcon}
-                        onClick={navigateToPlaylistAdd}
+                        onClick={addToPlaylist}
                     />
                 </div>
             </div>
+            <PlaylistAddDialog dialogRef={playlistDialogRef} songId={props.trackId}/>
             <ShareDialog dialogId="shareDialog" linkUrl={location.href}/>
             <NavigationBar
                 data={{commentList, playList}}
@@ -358,7 +359,6 @@ const TrackDetail = () => {
     return (
         <>
             <TrackDetailPage trackId={id}/>
-
         </>
     );
 }

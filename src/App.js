@@ -13,9 +13,7 @@ import TrackDetail from "./pages/trackDetail/TrackDetail";
 import ReviewDetail from "./pages/reviewDetail/ReviewDetail";
 import Playlist from "./pages/playlist/Playlist";
 import AddSong from "./pages/addSong/AddSong";
-import PlaylistAdd from "./pages/playlist/PlaylistAdd";
 import MakeList from "./pages/playlist/MakeList";
-import ReviseList from "./pages/playlist/ReviseList.js";
 
 function App() {
 
@@ -32,13 +30,11 @@ function App() {
                         <Route path="/albumDetail/:id" element={<AlbumDetail/>}/>
                         <Route path="/trackDetail/:id" element={<TrackDetail/>}/>
                         <Route path="/reviewDetail/:id" element={<ReviewDetail/>}/>
-                        <Route path="/playlist" element={<Playlist/>} />
-                        <Route path="/addSong" element={<AddSong/>} />
-                        <Route path="/playlistadd" element={<PlaylistAdd/>} />
-                        <Route path="/playlistadd/:userId/:songId" element={<PlaylistAdd/>} />
-                        <Route path="/makeList" element={<MakeList/>} />
-                        <Route path="/makeList/:userId/:songId" element={<MakeList/>} />
-                        <Route path="/profile/:id/followers" element={<FollowUser/>}/>                                                    
+                        <Route path="/playlist/:id" element={<Playlist/>}/>
+                        <Route path="/playlist/:id/addSong" element={<AddSong/>}/>
+                        <Route path="/makeList" element={<MakeList/>}/>
+                        <Route path="/makeList/:userId/:songId" element={<MakeList/>}/>
+                        <Route path="/profile/:id/followers" element={<FollowUser/>}/>
                     </Routes>
                 </div>
                 <FooterNav/>

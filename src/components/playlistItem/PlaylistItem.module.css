@@ -1,4 +1,4 @@
-.trackContainer{
+.trackContainer {
     flex-shrink: 0;
     display: flex;
     flex-direction: row;
@@ -8,8 +8,17 @@
     margin-bottom: 20px;
 }
 
+.trackInfoContainer {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    justify-content: space-between;
+}
 
-.coverImg{
+
+.coverImg {
     margin-left: 10px;
     width: 50px;
     height: 50px;
@@ -17,14 +26,14 @@
     border-radius: 10px;
 }
 
-.trackInfo{
+.trackInfo {
     display: flex;
     flex-direction: column;
     gap: 6px;
     flex-grow: 1;
 }
 
-.trackName{
+.trackName {
     color: #383838;
     font-family: Roboto;
     font-size: 16px;
@@ -33,7 +42,7 @@
     line-height: normal;
 }
 
-.albumArtist{
+.albumArtist {
     color: #A0A1A4;
     font-family: Roboto;
     font-size: 12px;
@@ -43,10 +52,10 @@
 }
 
 .etcContainer {
-    margin-left: auto; 
+    margin-left: auto;
     margin-right: 10px;
 }
 
-.etc{
+.etc {
     cursor: pointer;
 }

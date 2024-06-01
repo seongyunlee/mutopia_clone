@@ -1,4 +1,4 @@
-.playlist{
+.playlist {
     margin: 25px;
 }
 
@@ -10,7 +10,7 @@
 
 .backIcon {
     cursor: pointer;
-    width: 24px;  
+    width: 24px;
     height: 24px;
     align-self: flex-start;
 }
@@ -62,8 +62,8 @@
     border-radius: 10px;
     font-size: 16px;
     cursor: pointer;
-    width: 600px;
-    margin-top: 20px;
+    flex: 1;
+    justify-self: center;
     align-self: center;
 }
 
@@ -71,11 +71,15 @@
     display: flex;
     margin-top: 10px;
     margin-bottom: 20px;
+    justify-content: space-between;
+    align-items: center;
     gap: 60px;
 }
 
 .listContainer {
     margin-top: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 .description {
@@ -98,6 +102,4 @@
 .revise {
     cursor: pointer;
     width: 20px;
-    margin-left: auto;  /* 오른쪽 끝으로 보내기 위해 추가 */
-    margin-top:20px;
 }

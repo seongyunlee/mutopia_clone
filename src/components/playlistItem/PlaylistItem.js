@@ -1,31 +1,40 @@
 import styles from './PlaylistItem.module.css';
 import PlaylistModal from '../playlistModal/PlaylistModal';
-import { useState } from "react";
+import {useState} from "react";
+import {useNavigate} from "react-router-dom";
 
-const PlaylistItem = () => {
+const PlaylistItem = (props) => {
+
+    const {track} = props;
+
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const img = "/ive.png";
-    const albumCover = "/path/to/album/cover.jpg";  // 예시 경로
-    const trackName = "LOVE DIVE";
-    const artist = "아이브";
-    const album = "I've Mine";
+    const navigate = useNavigate();
 
-    const toggleModal = () => {
+    const moveToTrackDetail = () => {
+        console.log("move to track detail")
+        navigate(`/trackDetail/${track?.songId}`);
+    }
+
+    const toggleModal = (e) => {
         setIsModalOpen(!isModalOpen);
-    };
+        e.stopPropagation();
+    }
 
     return (
         <div className={styles.trackContainer}>
-            <img src={img} alt="album cover" className={styles.coverImg}/>
-            <div className={styles.trackInfo}>
-                <div className={styles.trackName}>{trackName}</div>
-                <div className={styles.albumArtist}>{album} · {artist}</div>
+            <div className={styles.trackInfoContainer} onClick={moveToTrackDetail}>
+                <img src={track?.albumImgUrl} alt="album cover" className={styles.coverImg}/>
+                <div className={styles.trackInfo}>
+                    <div className={styles.trackName}>{track?.title}</div>
+                    <div className={styles.albumArtist}>{track?.albumName} · {track?.artistName}</div>
+                </div>
             </div>
             <div className={styles.etcContainer} onClick={toggleModal}>
                 <img src="/etc.svg" alt="etc" className={styles.etc}/>
             </div>
-            {isModalOpen && <PlaylistModal isOpen={isModalOpen} onClose={toggleModal} track={{name: trackName, artist, album, albumCover}} />}
+            {isModalOpen && <PlaylistModal isOpen={isModalOpen} onClose={toggleModal}
+                                           track={track}/>}
         </div>
     );
 };
