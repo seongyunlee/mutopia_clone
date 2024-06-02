@@ -32,7 +32,6 @@ function App() {
                         <Route path="/reviewDetail/:id" element={<ReviewDetail/>}/>
                         <Route path="/playlist/:id" element={<Playlist/>}/>
                         <Route path="/playlist/:id/addSong" element={<AddSong/>}/>
-                        <Route path="/makeList" element={<MakeList/>}/>
                         <Route path="/makeList/:userId/:songId" element={<MakeList/>}/>
                         <Route path="/profile/:id/followers" element={<FollowUser/>}/>
                     </Routes>

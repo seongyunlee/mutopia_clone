@@ -1,9 +1,10 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import styles from './Playlist.module.css';
 import PlaylistItem from "../../components/playlistItem/PlaylistItem";
 import {useNavigate, useParams} from 'react-router-dom';
 import axios from "axios";
 import {UserContext} from "../../context/UserContext";
+import ReviseDialog from "./ReviseList";
 
 const Playlist = () => {
 
@@ -12,6 +13,8 @@ const Playlist = () => {
     const playlistId = useParams().id;
 
     const navigate = useNavigate();
+
+    const reviseDialogRef = useRef();
 
     // 좋아요 상태 관리
     const [likes, setLikes] = useState(0);  // 초기 좋아요 수
@@ -26,6 +29,28 @@ const Playlist = () => {
     const navigateToAddSong = () => {
         navigate(`/playlist/${playlistId}/addSong`);
     };
+
+    const getSpotifyExportUrl = () => {
+        const jwt = localStorage.getItem("accessToken");
+
+        axios.post(`${process.env.REACT_APP_API_HOST}/user/playlist/${playlistId}/export/spotify`,
+            {
+                playlist: {
+                    name: playlist.title,
+                    description: playlist.content,
+                },
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${jwt}`
+                }
+            })
+            .then((response) => {
+                window.open(response.data.url);
+            })
+            .catch((error) => {
+            });
+    }
 
     const toggleLike = () => {
         const jwt = localStorage.getItem('accessToken');
@@ -82,6 +107,10 @@ const Playlist = () => {
         });
     }
 
+    const openReviseDialog = () => {
+        reviseDialogRef.current?.showModal();
+    }
+
 
     useEffect(() => {
         getPlaylist();
@@ -89,6 +118,7 @@ const Playlist = () => {
 
     return (
         <div className={styles.playlist}>
+            <ReviseDialog dialogRef={reviseDialogRef}/>
             <div className={styles.header}>
                 <img src="/arrow_right.svg" alt="Back" className={styles.backIcon} onClick={handleBack}/>
                 <div className={styles.detailsContainer}>
@@ -111,7 +141,7 @@ const Playlist = () => {
                             <span>{likes}</span>
                         </div>
 
-                        <img src="/play.svg" alt="Play" className={styles.playButton}/>
+                        <img src="/play.svg" alt="Play" className={styles.playButton} onClick={getSpotifyExportUrl}/>
                     </div>
 
                     {playlist?.creatorId === user?.id && (
@@ -119,7 +149,7 @@ const Playlist = () => {
                             <button className={styles.addButton} onClick={navigateToAddSong}>곡 추가하기</button>
                             <div>
                                 <img src="/pencil.png" className={styles.revise} alt="revise"
-                                     onClick={navigateToReviseList}/>
+                                     onClick={openReviseDialog}/>
                             </div>
                         </div>)}
                 </div>
