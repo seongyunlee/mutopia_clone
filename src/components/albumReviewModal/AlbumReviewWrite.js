@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useRef, useState} from 'react';
 import styles from './AlbumReviewWrite.module.css';
 import {UserContext} from "../../context/UserContext";
 import axios from 'axios';
-import StarRating from '../starRating2/StarRating3';
+import StarRating from '../starRating2/StarRating2';
 import {useNavigate} from 'react-router-dom';
 
 const AlbumReviewWrite = ({albumId, reviewWriteModalOpen, setReviewWriteModalOpen, reviewWriteModalBackground}) => {

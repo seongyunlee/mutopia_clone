@@ -1,12 +1,10 @@
 import React, {useEffect, useRef, useState} from 'react';
 import styles from './TrackCommentWrite.module.css';
 import axios from 'axios';
-import StarRating from '../starRating2/StarRating3';
+import StarRating from '../starRating2/StarRating2';
 
 const TrackCommentWrite = ({trackId, commentWriteModalOpen, setCommentWriteModalOpen, commentWriteModalBackground}) => {
-    const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiIiLCJpYXQiOjE3MTUxNTgwNzksImV4cCI6MTc0NjY5NDA3OSwiYXVkIjoiIiwic3ViIjoidGVzdHVzZXIifQ._zVQhiluqkNvElvU45WPH2gaoPB7J_c_ZvTOU3zqvD0"
     const [trackInfo, setTrackInfo] = useState(null); // 곡 정보를 저장할 상태
-    const [songInfo, setSongInfo] = useState(null); // 곡 정보를 저장할 상태
     const [score, setScoreFixed] = useState(0);  // 별점 상태 추가
     const commentRef = useRef(null);
 
@@ -31,10 +29,11 @@ const TrackCommentWrite = ({trackId, commentWriteModalOpen, setCommentWriteModal
         };
 
         fetchTrackInfo();
-    }, [trackId]); // albumId가 변경될 때마다 함수 실행
+    }, []); // albumId가 변경될 때마다 함수 실행
 
     const handleSubmit = async (event) => {
         event.preventDefault();  // 폼 기본 제출 방지
+        const jwt = localStorage.getItem("accessToken");
         const scoreDouble = score * 2;
         // console.log(albumId, scoreDouble, reviewTitleRef.current.value, reviewContentRef.current.value)
         try {
@@ -43,18 +42,12 @@ const TrackCommentWrite = ({trackId, commentWriteModalOpen, setCommentWriteModal
                 comment: commentRef.current.value
             }, {
                 headers: {
-                    Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${jwt}`
                 }
             });
             console.log(response.data);
-            setReviewWriteModalOpen(false);
-            /*
-            setMessage('저장이 완료되었습니다');  // 메시지 설정
-            setTimeout(() => {
-                setReviewWriteModalOpen(false); // 2초 후 모달 닫기
-                setMessage('');  // 메시지 초기화
-            }, 2000);
-            */
+            setCommentWriteModalOpen(false);
+            window.location.replace(`/trackDetail/${trackId}`);
 
         } catch (error) {
             console.error(error);

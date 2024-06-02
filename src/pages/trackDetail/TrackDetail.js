@@ -2,21 +2,28 @@ import styles from "./TrackDetail.module.css";
 import {useContext, useEffect, useRef, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
+import TrackComment from "../../components/trackComment/TrackComment";
 import TrackCommentWrite from "../../components/trackCommentModal/TrackCommentWrite";
 import PlaylistPreview from "../../components/playlistPreview/PlaylistPreview";
 import ShareDialog from "./ShareDialog";
 import {UserContext} from "../../context/UserContext";
 import PlaylistAddDialog from "../playlist/PlaylistAddDialog";
+import ToggleFilter from "../../components/toggleFilter/ToggleFilter";
 
 const CommentPage = (props) => {
 
-    const {commentList} = props.commentList;
+    const {myComment, commentList} = props;
 
-    // console.log({commentList}, "fff");
+    console.log({myComment, commentList}, "comment page");
+    console.log({
+        myCommentType: typeof myComment,
+        commentListType: Array.isArray(commentList) ? 'array' : typeof commentList
+    }, "comment page");
 
-    if (!commentList || !Array.isArray(commentList) || commentList.length === 0) {
+    if (myComment === null || commentList.length === 0) {
+        console.log("한줄평 없음");
         return (
-            <div className={styles.commentSection}>
+            <div className={styles.subSection}>
                 <div className={styles.noComment}>
                     아직 작성된 한줄평이 없습니다. 첫 한줄평을 남겨주세요.
                 </div>
@@ -25,11 +32,39 @@ const CommentPage = (props) => {
     }
 
     return (
-        <div className={styles.commentSection}>
-            {commentList.map((comment, index) => (
-                <TrackPreview key={index} comment={comment}/>
-            ))}
-        </div>
+        <>
+        <section className={styles.subSection}>
+            <div className={styles.sectionTitleContainer}>                    
+                <div className={styles.sectionTitle}>내가 남긴 한줄평 ✍🏻</div>
+            </div>
+            {myComment ? 
+                    <div className="verticalScroll">
+                        <TrackComment content={myComment}/>
+                    </div>
+                    : <div> 아직 작성된 한줄평이 없습니다. 한줄평을 남겨주세요 👀</div>
+                }
+        </section>
+        
+        <section className={styles.subSection}>
+            <div className={styles.sectionTitleContainer}>                    
+                <div className={styles.sectionTitle}>뮤토피안들이 남긴 한줄평</div>
+                <ToggleFilter menu={["최근", "인기"]}/>
+            </div>
+            {commentList?.length > 0 ?
+                    <div className="verticalScroll">
+                        {commentList?.map((comment, index) => {
+                            return (<TrackComment
+                                key={index}
+                                content={comment}
+                            />)
+                        })
+                        }
+                    </div>
+                    : <div> 다른 뮤토피안들이 남긴 한줄평이 아직 없습니다 페이지를 공유해서 소통해보세요! </div>
+                }
+        </section>
+
+        </>
     );
 };
 
@@ -91,7 +126,6 @@ const TrackDetailPage = (props) => {
 
     const getRecentReviews = () => {
         const jwt = localStorage.getItem("accessToken");
-        //const jwt = testJwt;
         const headers = {}
         if (jwt !== null) {
             headers.Authorization = `Bearer ${jwt}`;
@@ -99,16 +133,18 @@ const TrackDetailPage = (props) => {
         axios.get(`${process.env.REACT_APP_API_HOST}/song/${props.trackId}/comment/recent`, {
             headers: headers
         }).then((response) => {
-            setCommentList(response.data);
+            const data = response.data;
+            const filteredData = data.filter(comment => comment.writer.userId !== user.id);        
+            setCommentList(filteredData);
         }).catch((error) => {
+            console.error('Failed to fetch recent comments', error);
+            alert('잘못된 접근입니다.');
         });
     }
 
 
     const fetchTrackInfo = async () => {
-        setIsLoading(true);
         const jwt = localStorage.getItem("accessToken");
-        //const jwt = testJwt;
         axios.get(`${process.env.REACT_APP_API_HOST}/song/info/${props.trackId}`, {
             headers: {
                 Authorization: `Bearer ${jwt}`
@@ -116,14 +152,13 @@ const TrackDetailPage = (props) => {
         }).then((response) => {
             if (response.data !== null) {
                 setTrackInfo(response.data);
-                setIsLoading(false); // 데이터를 불러온 후 로딩 상태를 false로 설정
             } else {
-                console.error('Failed to fetch album information:', error);
+                console.error('Failed to fetch track information:', error);
                 alert('잘못된 접근입니다.');
                 history.back();
             }
         }).catch((error) => {
-            console.error('Failed to fetch album information:', error);
+            console.error('Failed to fetch track information:', error);
             alert('잘못된 접근입니다.');
             history.back();
         });
@@ -138,7 +173,6 @@ const TrackDetailPage = (props) => {
     const getTrackLiked = async () => {
         console.log(user.id);
         const jwt = localStorage.getItem("accessToken");
-        //const jwt = testJwt;
         axios.get(`${process.env.REACT_APP_API_HOST}/song/${props.trackId}/like/status`, {
             headers: {
                 Authorization: `Bearer ${jwt}`
@@ -156,9 +190,10 @@ const TrackDetailPage = (props) => {
     }
 
     const getMyCommentAndRating = async () => {
-        console.log(user.id);
+        if (user === null) { // 나중에 삭제해야함
+            user.id === "testuser";
+        }
         const jwt = localStorage.getItem("accessToken");
-        //const jwt = testJwt;
         if (jwt === null) {
             return;
         }
@@ -167,10 +202,9 @@ const TrackDetailPage = (props) => {
                 Authorization: `Bearer ${jwt}`
             }
         }).then((response) => {
-            console.log(response.data, "mycomment")
             if (response.data.length !== 0) {
                 setMyComment(response.data);
-                setMyRating(response.data.rating);
+                setMyRating(response.data.songComment.rating);
             } else {
 
             }
@@ -189,7 +223,7 @@ const TrackDetailPage = (props) => {
             return;
         }
         if (myComment !== null) {
-            setCommentWriteModalOpen(true); // 수정 필요
+            return ;
         } else {
             setCommentWriteModalOpen(true);
         }
@@ -198,7 +232,6 @@ const TrackDetailPage = (props) => {
 
     const toggleTrackLike = () => {
         const jwt = localStorage.getItem("accessToken");
-        //const jwt = testJwt;
         if (jwt === null) {
             alert('로그인이 필요합니다.');
             const loginDialog = document.getElementById("loginModal");
@@ -236,12 +269,15 @@ const TrackDetailPage = (props) => {
 
 
     useEffect(() => {
+        setIsLoading(true);
         fetchTrackInfo();
         getMyCommentAndRating();
         getTrackLiked();
         getRecentReviews();
-
-    }, [props.trackId]);
+        setIsLoading(false); // 데이터를 불러온 후 로딩 상태를 false로 설정
+        console.log(myComment, "my comment");
+        console.log(commentList, "comment list");
+    }, []);
 
     if (isLoading) {
         return <div>Loading track information...</div>; // 로딩 상태일 때 로딩 메시지 표시
@@ -307,7 +343,7 @@ const TrackDetailPage = (props) => {
             <PlaylistAddDialog dialogRef={playlistDialogRef} songId={props.trackId}/>
             <ShareDialog dialogId="shareDialog" linkUrl={location.href}/>
             <NavigationBar
-                data={{commentList, playList}}
+                data={{myComment, commentList, playList}}
             /> {/* This remains outside the new container */}
             {commentWriteModalOpen &&
                 <TrackCommentWrite trackId={props.trackId}
@@ -315,7 +351,6 @@ const TrackDetailPage = (props) => {
                                    setCommentWriteModalOpen={setCommentWriteModalOpen}
                                    commentWriteModalBackground={commentWriteModalBackground}
                 />
-                //trackId, commentWriteModalOpen, setCommentWriteModalOpen, commentWriteModalBackground
             }
         </div>
     );
@@ -328,7 +363,9 @@ const NavigationBar = (props) => {
     console.log(props.data, "fff")
 
     const {data} = props;
-    const {commentList, playList} = data;
+    const {myComment, commentList, playList} = data;
+
+    console.log(myComment, commentList, playList, "nav bar")
 
     return (
         <div>
@@ -343,7 +380,7 @@ const NavigationBar = (props) => {
                 </div>
             </div>
             <div>
-                {tab === 'comment' && <CommentPage commentList={commentList}/>}
+                {tab === 'comment' && <CommentPage myComment={myComment} commentList={commentList}/>}
                 {tab === 'list' && <ListPage playList={playList}/>}
             </div>
         </div>
