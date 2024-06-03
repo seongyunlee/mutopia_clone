@@ -32,16 +32,16 @@ const CommentPage = (props) => {
         });
     }
 
-    if (myComment === null || commentList.length === 0) {
-        console.log("한줄평 없음");
-        return (
-            <div className={styles.subSection}>
-                <div className={styles.noComment}>
-                    아직 작성된 한줄평이 없습니다. 첫 한줄평을 남겨주세요.
+    /*    if (myComment === null || commentList.length === 0) {
+            console.log("한줄평 없음");
+            return (
+                <div className={styles.subSection}>
+                    <div className={styles.noComment}>
+                        아직 작성된 한줄평이 없습니다. 첫 한줄평을 남겨주세요.
+                    </div>
                 </div>
-            </div>
-        );
-    }
+            );
+        }*/
 
     useEffect(() => {
         fetchTrackComment();
@@ -49,25 +49,25 @@ const CommentPage = (props) => {
 
     return (
         <>
-        <section className={styles.subSection}>
-            <div className={styles.sectionTitleContainer}>                    
-                <div className={styles.sectionTitle}>내가 남긴 한줄평 ✍🏻</div>
-            </div>
-            {myComment ? 
+            <section className={styles.subSection}>
+                <div className={styles.sectionTitleContainer}>
+                    <div className={styles.sectionTitle}>내가 남긴 한줄평 ✍🏻</div>
+                </div>
+                {myComment ?
                     <div className="verticalScroll">
                         <TrackComment content={myComment}/>
                     </div>
                     : <div> 아직 작성된 한줄평이 없습니다. 한줄평을 남겨주세요 👀</div>
                 }
-        </section>
-        
-        <section className={styles.subSection}>
-            <div className={styles.sectionTitleContainer}>                    
-                <div className={styles.sectionTitle}>뮤토피안들이 남긴 한줄평</div>
-                <ToggleFilter menu={["최근", "인기"]} onFocusChange={fetchTrackComment}
+            </section>
+
+            <section className={styles.subSection}>
+                <div className={styles.sectionTitleContainer}>
+                    <div className={styles.sectionTitle}>뮤토피안들이 남긴 한줄평</div>
+                    <ToggleFilter menu={["최근", "인기"]} onFocusChange={fetchTrackComment}
                                   tabRef={trackCommentToggleRef}/>
-            </div>
-            {commentList?.length > 0 ?
+                </div>
+                {commentList?.length > 0 ?
                     <div className="verticalScroll">
                         {commentList?.map((comment, index) => {
                             return (<TrackComment
@@ -79,7 +79,7 @@ const CommentPage = (props) => {
                     </div>
                     : <div> 다른 뮤토피안들이 남긴 한줄평이 아직 없습니다 페이지를 공유해서 소통해보세요! </div>
                 }
-        </section>
+            </section>
 
         </>
     );
@@ -151,7 +151,7 @@ const TrackDetailPage = (props) => {
             headers: headers
         }).then((response) => {
             const data = response.data;
-            const filteredData = data.filter(comment => comment.writer.userId !== user.id);        
+            const filteredData = data.filter(comment => comment.writer.userId !== user.id);
             setCommentList(filteredData);
         }).catch((error) => {
             console.error('Failed to fetch recent comments', error);
@@ -241,7 +241,7 @@ const TrackDetailPage = (props) => {
             return;
         }
         if (myComment !== null) {
-            return ;
+
         } else {
             setCommentWriteModalOpen(true);
         }
@@ -300,31 +300,31 @@ const TrackDetailPage = (props) => {
         console.log(commentList, "comment list");
     }, [user]);
 
-    if (isLoading) {
-        return <div>Loading track information...</div>; // 로딩 상태일 때 로딩 메시지 표시
-    }
+    /*  if (isLoading) {
+          return <div>Loading track information...</div>; // 로딩 상태일 때 로딩 메시지 표시
+      }*/
 
     return (
         <div className={styles.albumPage}>
             <div className={styles.contentContainer}>
                 <div className={styles.albumArtContainer}>
-                    <img src={trackInfo.albumCoverUrl} alt="Album Art" className={styles.albumArt}
+                    <img src={trackInfo?.albumCoverUrl} alt="Album Art" className={styles.albumArt}
                          onClick={moveToAlbumDetail}/>
                 </div>
                 <div className={styles.albumInfo}>
-                    <h1>{trackInfo.trackName}</h1>
-                    <h2>{trackInfo.albumName}</h2>
-                    <h3>{trackInfo.artistName}</h3>
+                    <h1>{trackInfo?.trackName}</h1>
+                    <h2>{trackInfo?.albumName}</h2>
+                    <h3>{trackInfo?.artistName}</h3>
                 </div>
                 <div className={styles.ratingInfo}>
                     <div className={styles.ratingItem}>
                         <div className={styles.value}>
-                            {trackInfo.commentCount ? trackInfo.commentCount : 0}</div>
+                            {trackInfo?.commentCount ? trackInfo.commentCount : 0}</div>
                         <div className={styles.label}>총 한줄평</div>
                     </div>
                     <div className={styles.ratingItem}>
                         <div className={styles.value}>
-                            {trackInfo.averageRating ? trackInfo.averageRating.toFixed(1) / 2 : 0} / 5.0
+                            {trackInfo?.averageRating ? trackInfo?.averageRating.toFixed(1) / 2 : 0} / 5.0
                         </div>
                         <div className={styles.label}>전체 평가</div>
                     </div>
@@ -364,7 +364,7 @@ const TrackDetailPage = (props) => {
             <PlaylistAddDialog dialogRef={playlistDialogRef} songId={props.trackId}/>
             <ShareDialog dialogId="shareDialog" linkUrl={location.href}/>
             <NavigationBar
-                trackId={props.trackId} myComment={myComment} commentList={commentList} playList={playList} />
+                trackId={props.trackId} myComment={myComment} commentList={commentList} playList={playList}/>
             {/* This remains outside the new container */}
             {commentWriteModalOpen &&
                 <TrackCommentWrite trackId={props.trackId}
@@ -382,10 +382,10 @@ const NavigationBar = (props) => {
     const [tab, setTab] = useState('comment');
 
     console.log(props.data, "fff")
-    const {trackId} = props.trackId;
-    const {myComment} = props.myComment;
-    const {commentList} = props.commentList;
-    const {playList} = props.playList;
+    const trackId = props.trackId;
+    const myComment = props.myComment;
+    const commentList = props.commentList;
+    const playList = props.playList;
 
     console.log(myComment, "nav bar");
 
