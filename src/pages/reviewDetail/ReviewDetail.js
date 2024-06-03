@@ -34,9 +34,7 @@ const ReviewDetail = () => {
     const [isLiked, setIsLiked] = useState(false); // 추가: 좋아요 상태 관리
     const [likeCount, setLikeCount] = useState(0);
     const [writerReview, setWriterReview] = useState(null); // 추가: 작성자의 리뷰 목록
-    const [writerReviewPopular, setWriterReviewPopular] = useState(null); // 추가: 작성자의 리뷰 목록
     const [albumReview, setAlbumReview] = useState(null); // 추가: 앨범의 리뷰 목록
-    const [albumReviewPopular, setAlbumReviewPopular] = useState(null); // 추가: 앨범의 리뷰 목록
     const writerReviewToggleRef = useRef("최근");
     const albumReviewToggleRef = useRef("최근");
 

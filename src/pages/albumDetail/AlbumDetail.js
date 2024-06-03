@@ -15,8 +15,6 @@ const MainPage = (props) => {
 
     const {tracks, reviews, comments} = props;
 
-    const onContainerClick = () => {
-    };
 
     return (
         <>
@@ -62,35 +60,58 @@ const ReviewPage = (props) => {
 
     const {albumId, reviews, comments} = props;
 
-    const [commentList, setCommentList] = useState([]);
+    const [albumReview, setAlbumReview] = useState(null);
+    const [trackComment, setTrackComment] = useState(null);
+    const albumReviewToggleRef = useRef("최근");
+    const trackCommentToggleRef = useRef("최근");
 
+    const fetchAlbumReview = async () => {
+        const jwt = localStorage.getItem("accessToken");
 
-    const getComments = async () => {
-        const accessToken = localStorage.getItem('accessToken');
-        axios.get(`${process.env.REACT_APP_API_HOST}/album/${props.albumId}/song/comment/recent`, {
+        const query = albumReviewToggleRef.current === "최근" ? "recent" : "popular";
+        axios.get(`${process.env.REACT_APP_API_HOST}/album/${albumId}/review/${query}`, {
             headers: {
-                Authorization: `Bearer ${accessToken}`
+                Authorization: `Bearer ${jwt}`
             }
         }).then((response) => {
-            setCommentList(response.data);
+            setAlbumReview(response.data);
         }).catch((error) => {
+            console.error('Failed to fetch album reviews', error);
         });
     }
 
-    useEffect(() => {   
-        getComments();
+    const fetchTrackComment = async () => {
+        const jwt = localStorage.getItem("accessToken");
+
+        const query = trackCommentToggleRef.current === "최근" ? "recent" : "popular";
+        axios.get(`${process.env.REACT_APP_API_HOST}/album/${albumId}/song/comment/${query}`, {
+            headers: {
+                Authorization: `Bearer ${jwt}`
+            }
+        }).then((response) => {
+            setTrackComment(response.data);
+        }).catch((error) => {
+            console.error('Failed to fetch track comments', error);
+        });
+    }
+
+    useEffect(() => {
+        fetchAlbumReview();
+        fetchTrackComment();
     }, []);
+
 
     return (
         <>
         <section className={styles.subSection}>
             <div className={styles.sectionTitleContainer}>                    
                 <div className={styles.sectionTitle}>앨범 리뷰</div>
-                <ToggleFilter menu={["최근", "인기"]}/>
+                <ToggleFilter menu={["최근", "인기"]} onFocusChange={fetchAlbumReview}
+                                  tabRef={albumReviewToggleRef}/>
             </div>
-            {reviews?.length > 0 ?
+            {albumReview?.length > 0 ?
                     <div className="verticalScroll">
-                        {reviews?.map((review, index) => {
+                        {albumReview?.map((review, index) => {
                             return (<ReviewPreview
                                 key={index}
                                 content={review}
@@ -105,11 +126,12 @@ const ReviewPage = (props) => {
         <section className={styles.subSection}>
             <div className={styles.sectionTitleContainer}>                    
                 <div className={styles.sectionTitle}>한줄평</div>
-                <ToggleFilter menu={["최근", "인기"]}/>
+                <ToggleFilter menu={["최근", "인기"]} onFocusChange={fetchTrackComment}
+                                  tabRef={trackCommentToggleRef}/>
             </div>
-            {comments?.length > 0 ?
+            {trackComments?.length > 0 ?
                     <div className="verticalScroll">
-                        {comments?.map((comment, index) => {
+                        {trackComments?.map((comment, index) => {
                             return (<TrackComment
                                 key={index}
                                 content={comment}
@@ -238,7 +260,7 @@ const AlbumDetailsPage = (props) => {
         const dialog = document.getElementById("shareDialog");
         dialog.showModal();
 
-    }
+    };
 
     const getTopReviews = () => {
         const jwt = localStorage.getItem("accessToken");
@@ -251,19 +273,21 @@ const AlbumDetailsPage = (props) => {
         }).then((response) => {
             setReviewList(response.data);
         }).catch((error) => {
+            console.error('Failed to fetch popular album reviews', error);
         });
     }
 
 
     const getTopComments = async () => {
         const accessToken = localStorage.getItem('accessToken');
-        axios.get(`${process.env.REACT_APP_API_HOST}/album/${props.albumId}/song/comment/recent`, {
+        axios.get(`${process.env.REACT_APP_API_HOST}/album/${props.albumId}/song/comment/popular`, {
             headers: {
                 Authorization: `Bearer ${accessToken}`
             }
         }).then((response) => {
             setCommentList(response.data);
         }).catch((error) => {
+            console.error('Failed to fetch popular track comments', error);
         });
     }
 
@@ -322,7 +346,6 @@ const AlbumDetailsPage = (props) => {
     }
 
     const getAlbumLiked = async () => {
-        console.log(user.id);
         const jwt = localStorage.getItem("accessToken");
         axios.get(`${process.env.REACT_APP_API_HOST}/album/${props.albumId}/like/status`, {
             headers: {
@@ -382,12 +405,16 @@ const AlbumDetailsPage = (props) => {
 
     useEffect(() => {
         fetchAlbumInfo();
-        getMyReview();
+        //getMyReview();
         getTopReviews();
         getAlbumLiked();
         getTopComments();
 
     }, [props.albumId]);
+
+    useEffect(() => {
+        getMyReview();
+    }, [user]);
 
     if (isLoading) {
         return <div>Loading album information...</div>; // 로딩 상태일 때 로딩 메시지 표시
@@ -493,8 +520,8 @@ const NavigationBar = (props) => {
             <div>
                 {tab === 'main' &&
                     <MainPage tracks={albumInfo?.albumTrackList} reviews={reviewList} comments={commentList}/>}
-                {tab === 'review' && <ReviewPage albumId={props.albumId} reviews={reviewList} comments={commentList}/>}
-                {tab === 'list' && <ListPage/>}
+                {tab === 'review' && <ReviewPage albumId={props.albumId}/>}
+                {tab === 'list' && <ListPage albumId={props.albumId}/>}
             </div>
         </div>
     );

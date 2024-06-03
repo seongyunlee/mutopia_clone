@@ -12,13 +12,25 @@ import ToggleFilter from "../../components/toggleFilter/ToggleFilter";
 
 const CommentPage = (props) => {
 
-    const {myComment, commentList} = props;
+    const {trackId, myComment, commentList} = props;
 
-    console.log({myComment, commentList}, "comment page");
-    console.log({
-        myCommentType: typeof myComment,
-        commentListType: Array.isArray(commentList) ? 'array' : typeof commentList
-    }, "comment page");
+    const [trackComment, setTrackComment] = useState(null);
+    const trackCommentToggleRef = useRef("최근");
+
+    const fetchTrackComment = async () => {
+        const jwt = localStorage.getItem("accessToken");
+
+        const query = trackCommentToggleRef.current === "최근" ? "recent" : "popular";
+        axios.get(`${process.env.REACT_APP_API_HOST}/song/${trackId}/comment/${query}`, {
+            headers: {
+                Authorization: `Bearer ${jwt}`
+            }
+        }).then((response) => {
+            setTrackComment(response.data);
+        }).catch((error) => {
+            console.error('Failed to fetch track comments', error);
+        });
+    }
 
     if (myComment === null || commentList.length === 0) {
         console.log("한줄평 없음");
@@ -30,6 +42,10 @@ const CommentPage = (props) => {
             </div>
         );
     }
+
+    useEffect(() => {
+        fetchTrackComment();
+    }, []);
 
     return (
         <>
@@ -48,7 +64,8 @@ const CommentPage = (props) => {
         <section className={styles.subSection}>
             <div className={styles.sectionTitleContainer}>                    
                 <div className={styles.sectionTitle}>뮤토피안들이 남긴 한줄평</div>
-                <ToggleFilter menu={["최근", "인기"]}/>
+                <ToggleFilter menu={["최근", "인기"]} onFocusChange={fetchTrackComment}
+                                  tabRef={trackCommentToggleRef}/>
             </div>
             {commentList?.length > 0 ?
                     <div className="verticalScroll">
@@ -343,7 +360,7 @@ const TrackDetailPage = (props) => {
             <PlaylistAddDialog dialogRef={playlistDialogRef} songId={props.trackId}/>
             <ShareDialog dialogId="shareDialog" linkUrl={location.href}/>
             <NavigationBar
-                data={{myComment, commentList, playList}}
+                trackId={props.trackId} data={{ myComment, commentList, playList}}
             /> {/* This remains outside the new container */}
             {commentWriteModalOpen &&
                 <TrackCommentWrite trackId={props.trackId}
@@ -361,8 +378,8 @@ const NavigationBar = (props) => {
     const [tab, setTab] = useState('comment');
 
     console.log(props.data, "fff")
-
-    const {data} = props;
+    const {trackId} = props.trackId;
+    const {data} = props.data;
     const {myComment, commentList, playList} = data;
 
     console.log(myComment, commentList, playList, "nav bar")
@@ -380,7 +397,7 @@ const NavigationBar = (props) => {
                 </div>
             </div>
             <div>
-                {tab === 'comment' && <CommentPage myComment={myComment} commentList={commentList}/>}
+                {tab === 'comment' && <CommentPage trackId={trackId} myComment={myComment} commentList={commentList}/>}
                 {tab === 'list' && <ListPage playList={playList}/>}
             </div>
         </div>
