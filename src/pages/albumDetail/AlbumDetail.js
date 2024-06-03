@@ -189,7 +189,7 @@ const TrackItem = (props) => {
             <div className={styles.trackDuration}>{track.length}</div>
             <div className={styles.trackRating}>
                 <img loading="lazy" src="/YellowStar.svg" alt="⭐️" className={styles.starIcon}/>
-                {track.rating ? track.rating.toFixed(1) : "?"}
+                {track.rating ? (track.rating/2).toFixed(1) : "?"}
                 <div style={{marginLeft: "5px", color: "#A0A1A4", fontSize: "12px", fontWeight: "400"}}> / 5</div>
             </div>
         </div>

@@ -161,6 +161,7 @@ const TrackDetailPage = (props) => {
 
 
     const fetchTrackInfo = async () => {
+        setIsLoading(true);
         const jwt = localStorage.getItem("accessToken");
         axios.get(`${process.env.REACT_APP_API_HOST}/song/info/${props.trackId}`, {
             headers: {
@@ -169,6 +170,8 @@ const TrackDetailPage = (props) => {
         }).then((response) => {
             if (response.data !== null) {
                 setTrackInfo(response.data);
+                console.log(response.data, "track info");
+                setIsLoading(false);
             } else {
                 console.error('Failed to fetch track information:', error);
                 alert('잘못된 접근입니다.');
@@ -207,11 +210,9 @@ const TrackDetailPage = (props) => {
     }
 
     const getMyCommentAndRating = async () => {
-        if (user === null) { // 나중에 삭제해야함
-            user.id === "testuser";
-        }
+        console.log(user.id, "user id");
         const jwt = localStorage.getItem("accessToken");
-        if (jwt === null) {
+        if (jwt === null || !user?.id) {
             return;
         }
         axios.get(`${process.env.REACT_APP_API_HOST}/user/${user.id}/song/${props.trackId}/comment/recent`, {
@@ -244,7 +245,6 @@ const TrackDetailPage = (props) => {
         } else {
             setCommentWriteModalOpen(true);
         }
-
     }
 
     const toggleTrackLike = () => {
@@ -286,15 +286,19 @@ const TrackDetailPage = (props) => {
 
 
     useEffect(() => {
-        setIsLoading(true);
         fetchTrackInfo();
+        //getMyCommentAndRating();
+        //getTrackLiked();
+        getRecentReviews();
+    }, [props.trackId]);
+
+    useEffect(() => {
+        console.log(user.id, "user id");
         getMyCommentAndRating();
         getTrackLiked();
-        getRecentReviews();
-        setIsLoading(false); // 데이터를 불러온 후 로딩 상태를 false로 설정
         console.log(myComment, "my comment");
         console.log(commentList, "comment list");
-    }, []);
+    }, [user]);
 
     if (isLoading) {
         return <div>Loading track information...</div>; // 로딩 상태일 때 로딩 메시지 표시
@@ -360,8 +364,8 @@ const TrackDetailPage = (props) => {
             <PlaylistAddDialog dialogRef={playlistDialogRef} songId={props.trackId}/>
             <ShareDialog dialogId="shareDialog" linkUrl={location.href}/>
             <NavigationBar
-                trackId={props.trackId} data={{ myComment, commentList, playList}}
-            /> {/* This remains outside the new container */}
+                trackId={props.trackId} myComment={myComment} commentList={commentList} playList={playList} />
+            {/* This remains outside the new container */}
             {commentWriteModalOpen &&
                 <TrackCommentWrite trackId={props.trackId}
                                    commentWriteModalOpen={commentWriteModalOpen}
@@ -379,10 +383,11 @@ const NavigationBar = (props) => {
 
     console.log(props.data, "fff")
     const {trackId} = props.trackId;
-    const {data} = props.data;
-    const {myComment, commentList, playList} = data;
+    const {myComment} = props.myComment;
+    const {commentList} = props.commentList;
+    const {playList} = props.playList;
 
-    console.log(myComment, commentList, playList, "nav bar")
+    console.log(myComment, "nav bar");
 
     return (
         <div>
