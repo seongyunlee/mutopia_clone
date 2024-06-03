@@ -8,32 +8,28 @@ const PlaylistPreview = (prop) => {
     const {content} = prop;
 
     const navigate = useNavigate();  // Using useNavigate instead of useHistory
+    const [creatorProfileImg, setCreatorProfileImg] = useState("");
 
     const navigateToPlaylist = () => {
-        navigate('/playlist'); // Navigate to the Playlist page
+        navigate(`/playlist/${content?.playlistId}`); // Navigate to the Playlist page
     };
 
     const [isLiked, setIsLiked] = useState(false);
 
-    const getIsLiked = () => {
-        const accessToken = localStorage.getItem('accessToken');
-        axios.get(`${process.env.REACT_APP_API_HOST}/user/playlist/${content?.playlistId}/like/status`, {
+    const getUserProfileImg = (userId) => {
+        axios.get(`${process.env.REACT_APP_API_HOST}/user/${userId}/profile/aggregation`, {
             headers: {
-                Authorization: `Bearer ${accessToken}`
+                Authorization: `Bearer ${localStorage.getItem('accessToken')}`
             }
         }).then((response) => {
-            if (response.data.likeStatus === "ON") {
-                setIsLiked(true);
-            } else {
-                setIsLiked(false);
-            }
+            setCreatorProfileImg(response.data.profileImageUrl);
         }).catch((error) => {
         });
     }
 
 
     useEffect(() => {
-        getIsLiked();
+        getUserProfileImg(content?.creatorId)
     }, []);
 
 
@@ -42,18 +38,18 @@ const PlaylistPreview = (prop) => {
             <div className={styles.headerContainer}>
                 <div className={styles.authorContainer}>
                     <img
-                        src="/amusementpark-3@2x.png"
+                        src={creatorProfileImg ? creatorProfileImg : "/person.png"}
                         className={styles.authorProfileImg}
                         loading="lazy"
                         alt="Author profile"
                     />
-                    <div>유저이름가져오기</div>
+                    <div>{content?.creatorName}</div>
                 </div>
-                <div className={styles.reviewDate}>날짜가져오기</div>
+                <div className={styles.reviewDate}>{content?.createdAt}</div>
             </div>
 
             <div className={styles.coverContainer}>
-                {content?.songs?.map((song, index) => (
+                {content?.songs?.slice(0, 5).map((song, index) => (
                         <img loading="lazy" className={styles.cover} loading="lazy" alt="Cover" key={index}
                              src={song?.albumImgUrl}/>
                     )
@@ -71,8 +67,9 @@ const PlaylistPreview = (prop) => {
             </div>
             <div className={styles.footerContainer}>
                 <div className={styles.likeContainer}>
-                    <img src={isLiked ? "/favoritefilled.svg" : "/heart-icon.svg"} loading="lazy" alt="Like icon"/>
-                    <div>??</div>
+                    <img src={content?.isLiked ? "/favoritefilled.svg" : "/heart-icon.svg"} loading="lazy"
+                         alt="Like icon"/>
+                    <div>{content?.likeCount}</div>
                 </div>
             </div>
         </div>

@@ -8,7 +8,7 @@ const TrackItem = (prop) => {
     const navigate = useNavigate();
 
     const moveToDetail = () => {
-        navigate(`/trackDetail/${songId}`);
+        navigate(`/trackDetail/${track?.songId}`);
     }
 
     return (

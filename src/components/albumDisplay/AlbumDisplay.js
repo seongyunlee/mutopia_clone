@@ -2,12 +2,16 @@ import styles from "./AlbumDisplay.module.css";
 import {useNavigate} from "react-router-dom";
 
 const AlbumDisplay = (props) => {
-    const {id, coverImg, name, artist} = props;
+    const {id, coverImg, name, artist, isTrack} = props;
 
     const navigate = useNavigate(); // useNavigate 훅 사용
 
     const moveToDetail = () => {
-        navigate(`/albumDetail/${id}`);
+        if (isTrack) {
+            navigate(`/trackDetail/${id}`);
+        } else {
+            navigate(`/albumDetail/${id}`);
+        }
     }
 
     return (
