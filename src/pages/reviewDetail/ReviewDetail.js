@@ -14,19 +14,10 @@ const ReviewDetail = () => {
     const {id} = useParams();
     const reviewId = id;
 
-    console.log(`Type of id: ${typeof id}`); // 데이터 형 출력
-    console.log(`Value of id: ${id}`); // 값 출력
-
-    console.log(`Type of reviewId: ${typeof reviewId}`); // 데이터 형 출력
-    console.log(`Value of reviewId: ${reviewId}`); // 값 출력
-
-
-
     const {user, setUser} = useContext(UserContext);
     const [albumId, setAlbumId] = useState(null);
     const [writerId, setWriterId] = useState(null); // 추가: 작성자 id
     const [reviewInfo, setReviewInfo] = useState(null);
-    const [myRating, setMyRating] = useState("-");
     const [myReviewId, setMyReviewId] = useState(null);
     const [myReview, setMyReview] = useState(false);
     const [isLoading, setIsLoading] = useState(true); // 로딩 상태 추가
@@ -70,16 +61,17 @@ const ReviewDetail = () => {
                     headers: {Authorization: `Bearer ${jwt}`}
                 });
                 if (response.data.userHasReviewed && response.data.albumReviewId !== null) {
-                    setMyReviewId(response.data.albumReviewId); // 숫자
-                    if(myReviewId == reviewId){ // 숫자 vs 문자열
+                    setMyReviewId(response.data.albumReviewId);
+                    if(response.data.albumReviewId == reviewId){
                         setMyReview(true);
                     }
                 }
             } catch (error) {
-                console.error('Failed to fetch my review:', error);
+                console.error('Failed to fetch my review: ', error);
             }
         }
     };
+
 
     const moveToMyReviewOrWrite = () => {
         // console.log(user?.id);
@@ -195,11 +187,10 @@ const ReviewDetail = () => {
     }
 
     const fetchAlbumReview = async () => {
-
         const query = albumReviewToggleRef.current === "최근" ? "recent" : "popular";
 
         const jwt = localStorage.getItem("accessToken");
-        axios.get(`${process.env.REACT_APP_API_HOST}/album/${albumId}/album/review/${query}`, {
+        axios.get(`${process.env.REACT_APP_API_HOST}/album/${albumId}/review/${query}`, {
             headers: {
                 Authorization: `Bearer ${jwt}`
             }
@@ -210,14 +201,27 @@ const ReviewDetail = () => {
         });
     }
 
+    const moveToAlbumDetail = () => {
+        navigate(`/albumDetail/${albumId}`);
+    }
+
     useEffect(() => {
         fetchReviewInfo();
-        getMyReview();
+        //getMyReview();
         getReviewLiked();
-        fetchWriterReview();
+        //fetchWriterReview();
+        //fetchAlbumReview();
+    }, [reviewId]);
+
+    useEffect(() => { 
+        fetchWriterReview(); 
+    }, [writerId]);
+
+    useEffect(() => { 
         fetchAlbumReview();
-        console.log(myReview, "my review");
-    }, []);
+        getMyReview(); 
+        console.log(myReview, "myReview");
+    }, [albumId, reviewId]);
 
 
     if (isLoading) {
@@ -235,7 +239,7 @@ const ReviewDetail = () => {
                 </div>
                 <div className={styles.reviewCover}>
                     <img src={reviewInfo.album.coverImageUrl ? reviewInfo.album.coverImageUrl : "/albumDefault.jpg"}
-                         alt="Album Art" className={styles.albumArt}/>
+                         alt="Album Art" className={styles.albumArt} onClick={moveToAlbumDetail}/>
                     <div className={styles.reviewInfo}>
                         <div className={styles.albumTitle}>{reviewInfo.album.name ? reviewInfo.album.name : " "}</div>
                         <div
@@ -282,7 +286,7 @@ const ReviewDetail = () => {
             <section className={styles.subSection}>
                 <div className={styles.sectionTitleContainer}>
                     <div className={styles.sectionTitle}>{reviewInfo.writer.username ? reviewInfo.writer.username : " "}의
-                        인생앨범 엿보기 👀
+                        앨범리뷰 보기 👀
                     </div>
                     <ToggleFilter menu={["최근", "인기"]} onFocusChange={fetchWriterReview}
                                   tabRef={writerReviewToggleRef}/>
@@ -292,14 +296,16 @@ const ReviewDetail = () => {
                         writerReview.map((review, index) => (
                             <ReviewPreview key={index} content={review}/>
                         )) :
-                        " "}
+                        "작성자의 다른 리뷰가 없습니다. 🤔 "}
                 </div>
             </section>
 
             <section className={styles.subSection}>
                 <div className={styles.sectionTitleContainer}>
-                    <div className={styles.sectionTitle}>{reviewInfo.album.name ? reviewInfo.album.name : " "}의 다른 리뷰
-                        🔍
+                    <div className={styles.sectionTitle}>{reviewInfo.album.name ? 
+                        (reviewInfo.album.name.length > 25 ? 
+                            `${reviewInfo.album.name.slice(0, 25)}...` : 
+                            reviewInfo.album.name) : " "}의 다른 리뷰🔍
                     </div>
                     <ToggleFilter menu={["최근", "인기"]} tabRef={albumReviewToggleRef} onFocusChange={fetchAlbumReview}/>
                 </div>
@@ -308,7 +314,7 @@ const ReviewDetail = () => {
                         albumReview.map((review, index) => (
                             <ReviewPreview key={index} content={review}/>
                         )) :
-                        " "}
+                        "앨범의 다른 리뷰가 없습니다. 🤔"}
                 </div>
             </section>
         </>

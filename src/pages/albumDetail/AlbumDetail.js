@@ -58,7 +58,7 @@ const MainPage = (props) => {
 
 const ReviewPage = (props) => {
 
-    const {albumId, reviews, comments} = props;
+    const albumId = props.albumId;
 
     const [albumReview, setAlbumReview] = useState(null);
     const [trackComment, setTrackComment] = useState(null);
@@ -98,7 +98,7 @@ const ReviewPage = (props) => {
     useEffect(() => {
         fetchAlbumReview();
         fetchTrackComment();
-    }, []);
+    }, [albumId]);
 
 
     return (
@@ -129,9 +129,9 @@ const ReviewPage = (props) => {
                 <ToggleFilter menu={["최근", "인기"]} onFocusChange={fetchTrackComment}
                                   tabRef={trackCommentToggleRef}/>
             </div>
-            {trackComments?.length > 0 ?
+            {trackComment?.length > 0 ?
                     <div className="verticalScroll">
-                        {trackComments?.map((comment, index) => {
+                        {trackComment?.map((comment, index) => {
                             return (<TrackComment
                                 key={index}
                                 content={comment}
@@ -405,16 +405,17 @@ const AlbumDetailsPage = (props) => {
 
     useEffect(() => {
         fetchAlbumInfo();
-        //getMyReview();
+        getMyReview();
         getTopReviews();
         getAlbumLiked();
         getTopComments();
-
     }, [props.albumId]);
 
+    /*
     useEffect(() => {
         getMyReview();
     }, [user]);
+    */
 
     if (isLoading) {
         return <div>Loading album information...</div>; // 로딩 상태일 때 로딩 메시지 표시
@@ -479,7 +480,7 @@ const AlbumDetailsPage = (props) => {
             </div>
             <ShareDialog dialogId="shareDialog" linkUrl={location.href}/>
             <NavigationBar
-                data={{albumInfo, reviewList, commentList}}
+                albumId={props.albumId} data={{albumInfo, reviewList, commentList}}
             /> {/* This remains outside the new container */}
             {reviewWriteModalOpen &&
                 <AlbumReviewWrite albumId={props.albumId}
@@ -496,10 +497,7 @@ const AlbumDetailsPage = (props) => {
 const NavigationBar = (props) => {
     const [tab, setTab] = useState('main');
 
-    //console.log(props.data, "fff")
-
-    const {data} = props;
-    const {albumInfo, reviewList, commentList} = data;
+    const {albumInfo, reviewList, commentList} = props.data;
 
     return (
         <div>
