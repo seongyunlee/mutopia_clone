@@ -1,24 +1,43 @@
 import styles from './PlaylistItem.module.css';
 import PlaylistModal from '../playlistModal/PlaylistModal';
-import {useState} from "react";
+import {useState, useContext} from "react";
 import {useNavigate} from "react-router-dom";
+import axios from "axios";
+import {UserContext} from "../../context/UserContext";
 
 const PlaylistItem = (props) => {
-
-    const {track} = props;
+    const {track, playlistId, onRemoveTrack, creatorId} = props; // creatorId를 props로 받습니다.
+    const {user} = useContext(UserContext); // 현재 사용자 정보를 가져옵니다.
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const navigate = useNavigate();
 
     const moveToTrackDetail = () => {
-        console.log("move to track detail")
+        console.log("move to track detail");
         navigate(`/trackDetail/${track?.songId}`);
     }
 
     const toggleModal = (e) => {
         setIsModalOpen(!isModalOpen);
         e.stopPropagation();
+    }
+
+    const removeFromPlaylist = (e) => {
+        e.stopPropagation();
+        const jwt = localStorage.getItem("accessToken");
+        axios.delete(`${process.env.REACT_APP_API_HOST}/user/playlist/${playlistId}/song/${track?.songId}`, {
+            headers: {
+                Authorization: `Bearer ${jwt}`
+            }
+        })
+            .then((response) => {
+                alert("플레이리스트에서 곡이 삭제되었습니다.");
+                onRemoveTrack(track.songId); // 삭제된 곡을 상태에서 제거합니다.
+            })
+            .catch((error) => {
+                alert("일시적인 오류가 발생했습니다.");
+            });
     }
 
     return (
@@ -30,11 +49,12 @@ const PlaylistItem = (props) => {
                     <div className={styles.albumArtist}>{track?.albumName} · {track?.artistName}</div>
                 </div>
             </div>
-            <div className={styles.etcContainer} onClick={toggleModal}>
-                <img src="/etc.svg" alt="etc" className={styles.etc}/>
-            </div>
-            {isModalOpen && <PlaylistModal isOpen={isModalOpen} onClose={toggleModal}
-                                           track={track}/>}
+            {creatorId === user?.id && ( // 현재 사용자가 플레이리스트의 생성자인 경우에만 렌더링
+                <div className={styles.etcContainer} onClick={removeFromPlaylist}>
+                    <img src="/subtraction.svg" alt="subtraction" className={styles.subtraction}/>
+                </div>
+            )}
+            {isModalOpen && <PlaylistModal isOpen={isModalOpen} onClose={toggleModal} track={track}/>}
         </div>
     );
 };

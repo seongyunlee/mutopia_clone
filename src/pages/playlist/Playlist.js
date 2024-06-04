@@ -7,22 +7,15 @@ import {UserContext} from "../../context/UserContext";
 import ReviseDialog from "./ReviseList";
 
 const Playlist = () => {
-
     const {user, setUser} = useContext(UserContext);
-
     const playlistId = useParams().id;
-
     const navigate = useNavigate();
-
     const reviseDialogRef = useRef();
 
     // 좋아요 상태 관리
     const [likes, setLikes] = useState(0);  // 초기 좋아요 수
     const [isLiked, setIsLiked] = useState(false);  // 좋아요 상태 [true: 좋아요 클릭, false: 좋아요 취소]
-
-
     const [creatorProfileImg, setCreatorProfileImg] = useState("");
-
     const [playlist, setPlaylist] = useState([]);
 
     // 곡 추가 페이지로 이동
@@ -111,6 +104,12 @@ const Playlist = () => {
         reviseDialogRef.current?.showModal();
     }
 
+    const removeTrackFromState = (songId) => {
+        setPlaylist(prevPlaylist => ({
+            ...prevPlaylist,
+            songs: prevPlaylist.songs.filter(song => song.songId !== songId)
+        }));
+    }
 
     useEffect(() => {
         getPlaylist();
@@ -156,7 +155,7 @@ const Playlist = () => {
             </div>
             <div className={styles.listContainer}>
                 {playlist?.songs?.map((song, index) => (
-                    <PlaylistItem key={index} track={song} index={index}/>
+                    <PlaylistItem key={index} track={song} playlistId={playlistId} creatorId={playlist?.creatorId} onRemoveTrack={removeTrackFromState}/>
                 ))}
             </div>
         </div>
@@ -164,4 +163,3 @@ const Playlist = () => {
 };
 
 export default Playlist;
-

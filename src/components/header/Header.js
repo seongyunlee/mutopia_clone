@@ -54,6 +54,12 @@ const Header = (props) => {
         location.href = '/';
     }
 
+    const confirmLogout = () => {
+        if (window.confirm("정말 로그아웃 하실건가요?")) {
+            logout();
+        }
+    }
+
     return (
         <div className={styles.headerWrapper}>
             <LoginModal/>
@@ -62,7 +68,7 @@ const Header = (props) => {
                      onClick={() => location.href = '/'}
                 ></img>
                 {user?.id ? (
-                    <div className={styles.profileBtn} onClick={logout}>
+                    <div className={styles.profileBtn} onClick={confirmLogout}>
                         <img loading="lazy" className={styles.profileImg} src={user.imageUrl}/>
                     </div>) : (
                     <div onClick={showModal} className={styles.loginButton}>
