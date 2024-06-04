@@ -32,7 +32,6 @@ const ReviseList = ({dialogRef}) => {
         <dialog className={styles.modal} ref={dialogRef}>
             <div className={styles.modalContainer}>
                 <div className={styles.modalHeader}>
-                    <span className={styles.modalTitle}>플레이리스트 수정하기</span>
                     <button className={styles.closeButton} onClick={toggleModal}>×</button>
                 </div>
                 <div className={styles.heading1}>플레이리스트 제목</div>

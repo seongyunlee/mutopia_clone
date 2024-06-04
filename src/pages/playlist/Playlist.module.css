@@ -76,6 +76,12 @@
     gap: 60px;
 }
 
+.reviseContainer{
+    display: flex;
+    justify-content: space-between;
+
+}
+
 .listContainer {
     margin-top: 20px;
     display: flex;
@@ -95,8 +101,9 @@
 .controlsContainer {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 10px;
     flex-grow: 1;
+    margin-top: 30px;
 }
 
 .revise {

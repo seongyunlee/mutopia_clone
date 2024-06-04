@@ -33,35 +33,20 @@
     align-items: center; /* 모든 내용을 가로 방향으로 중앙 정렬 */
 }
 
-.heading1 {
-    font-size: 30px;
-    margin-top: 30px;
-    margin-bottom: 30px;
-    text-align: center; /* 텍스트 중앙 정렬 */
-    font-weight: bold;
-    font-size: 20px;
-}
 
-.heading2 {
-    margin-top: 30px;
-    margin-bottom: 30px;
-    text-align: center; /* 텍스트 중앙 정렬 */
-    font-size: 20px;
-    font-weight: bold;
-}
-
-.input {
+.button1 {
     width: 80%;
-    padding: 12px;
-    font-size: 16px;
-    background: transparent;
+    padding: 15px 20px;
+    font-size: 18px;
+    margin-top: 30px;
+    background-color: #7B61FF;
     border: none;
-    outline: none;
-    border-bottom: 2px solid #7B61FF;
-    text-align: center; /* 입력 필드 텍스트 중앙 정렬 */
+    border-radius: 15px;
+    cursor: pointer;
+    color: white;
 }
 
-.button {
+.button2 {
     width: 80%;
     padding: 15px 20px;
     font-size: 18px;
@@ -73,7 +58,6 @@
     cursor: pointer;
     color: white;
 }
-
 .button:hover {
     background-color: #8863ff;
 }

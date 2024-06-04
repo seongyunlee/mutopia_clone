@@ -5,12 +5,14 @@ import {useNavigate, useParams} from 'react-router-dom';
 import axios from "axios";
 import {UserContext} from "../../context/UserContext";
 import ReviseDialog from "./ReviseList";
+import EtcDialog from "./Etc";
 
 const Playlist = () => {
     const {user, setUser} = useContext(UserContext);
     const playlistId = useParams().id;
     const navigate = useNavigate();
     const reviseDialogRef = useRef();
+    const etcDialogRef = useRef();
 
     // 좋아요 상태 관리
     const [likes, setLikes] = useState(0);  // 초기 좋아요 수
@@ -104,6 +106,11 @@ const Playlist = () => {
         reviseDialogRef.current?.showModal();
     }
 
+    const openEtcDialog = () => {
+        etcDialogRef.current?.showModal();
+    }
+
+
     const removeTrackFromState = (songId) => {
         setPlaylist(prevPlaylist => ({
             ...prevPlaylist,
@@ -117,11 +124,17 @@ const Playlist = () => {
 
     return (
         <div className={styles.playlist}>
-            <ReviseDialog dialogRef={reviseDialogRef}/>
+            <EtcDialog dialogRef={etcDialogRef}/>
             <div className={styles.header}>
                 <img src="/arrow_right.svg" alt="Back" className={styles.backIcon} onClick={handleBack}/>
                 <div className={styles.detailsContainer}>
-                    <div className={styles.playlistTitle}>{playlist?.title}</div>
+                    <div className={styles.reviseContainer}>
+                        <div className={styles.playlistTitle}>{playlist?.title}</div>
+                        {playlist?.creatorId === user?.id && (
+                            <div>
+                                <img src="/more_grey.svg" className={styles.revise} alt="revise" onClick={openEtcDialog}/>
+                            </div>)}
+                    </div>
                     <div className={styles.description}>
                         <div>{playlist?.content}</div>
                     </div>
@@ -146,10 +159,6 @@ const Playlist = () => {
                     {playlist?.creatorId === user?.id && (
                         <div className={styles.buttonContainer}>
                             <button className={styles.addButton} onClick={navigateToAddSong}>곡 추가하기</button>
-                            <div>
-                                <img src="/pencil.png" className={styles.revise} alt="revise"
-                                     onClick={openReviseDialog}/>
-                            </div>
                         </div>)}
                 </div>
             </div>
