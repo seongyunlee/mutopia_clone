@@ -191,7 +191,7 @@ const Home = () => {
             <section className={styles.homeSection}>
                 <div className={styles.sectionTitleContainer}>
                     <div className={styles.sectionTitle}>뮤토피안들의 인생앨범 엿보기 👀</div>
-                    <ToggleFilter menu={["최근", "인기"]} tabRef={reviewTabRef}/>
+                    <ToggleFilter menu={["최근", "인기"]} tabRef={reviewTabRef} onFocusChange={fetchReviews}/>
                 </div>
                 {reviews?.length !== 0 &&
                     <div className="verticalScroll">
@@ -205,7 +205,7 @@ const Home = () => {
             <section className={styles.homeSection}>
                 <div className={styles.sectionTitleContainer}>
                     <div className={styles.sectionTitle}>뮤토피안들의 인생곡 엿듣기 🎠</div>
-                    <ToggleFilter menu={["최근", "인기"]} tabRef={commentTabRef}/>
+                    <ToggleFilter menu={["최근", "인기"]} tabRef={commentTabRef} onFocusChange={fetchComments}/>
                 </div>
                 {comments?.length !== 0 &&
                     <div className="verticalScroll">
@@ -220,7 +220,7 @@ const Home = () => {
             <section className={styles.homeSection}>
                 <div className={styles.sectionTitleContainer}>
                     <div className={styles.sectionTitle}>뮤토피안이 사랑한 플레이리스트 💘</div>
-                    <ToggleFilter menu={["최근", "인기"]} tabRef={playlistTabRef}/>
+                    <ToggleFilter menu={["최근", "인기"]} tabRef={playlistTabRef} onFocusChange={fetchPlaylists}/>
                 </div>
                 {playlists?.length !== 0 &&
                     <div className="verticalScroll">
