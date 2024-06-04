@@ -12,7 +12,7 @@ import ToggleFilter from "../../components/toggleFilter/ToggleFilter";
 
 const CommentPage = (props) => {
 
-    const {trackId, myComment, commentList} = props;
+    const {trackId, myComment} = props;
 
     const [trackComment, setTrackComment] = useState(null);
     const trackCommentToggleRef = useRef("최근");
@@ -31,17 +31,6 @@ const CommentPage = (props) => {
             console.error('Failed to fetch track comments', error);
         });
     }
-
-    /*    if (myComment === null || commentList.length === 0) {
-            console.log("한줄평 없음");
-            return (
-                <div className={styles.subSection}>
-                    <div className={styles.noComment}>
-                        아직 작성된 한줄평이 없습니다. 첫 한줄평을 남겨주세요.
-                    </div>
-                </div>
-            );
-        }*/
 
     useEffect(() => {
         fetchTrackComment();
@@ -67,9 +56,9 @@ const CommentPage = (props) => {
                     <ToggleFilter menu={["최근", "인기"]} onFocusChange={fetchTrackComment}
                                   tabRef={trackCommentToggleRef}/>
                 </div>
-                {commentList?.length > 0 ?
+                {trackComment?.length > 0 ?
                     <div className="verticalScroll">
-                        {commentList?.map((comment, index) => {
+                        {trackComment?.map((comment, index) => {
                             return (<TrackComment
                                 key={index}
                                 content={comment}
@@ -88,7 +77,8 @@ const CommentPage = (props) => {
 
 const ListPage = (props) => {
 
-    const {playList} = props.playList;
+    const trackId = props.trackId;
+    const playList = props.playList;
 
     if (!playList || !Array.isArray(playList) || playList.length === 0) {
         return (
@@ -150,9 +140,9 @@ const TrackDetailPage = (props) => {
         axios.get(`${process.env.REACT_APP_API_HOST}/song/${props.trackId}/comment/recent`, {
             headers: headers
         }).then((response) => {
-            const data = response.data;
-            const filteredData = data.filter(comment => comment.writer.userId !== user.id);
-            setCommentList(filteredData);
+            //const data = response.data;
+            //const filteredData = data.filter(comment => comment.writer.userId !== user.id);
+            setCommentList(response.data);
         }).catch((error) => {
             console.error('Failed to fetch recent comments', error);
             alert('잘못된 접근입니다.');
@@ -333,10 +323,14 @@ const TrackDetailPage = (props) => {
                         <div className={styles.label}>내 평가</div>
                     </div>
                 </div>
+                {myComment ? 
+                    <button className={styles.reviewCompeleteButton}>
+                        한줄평 작성 완료
+                    </button> :
+                    <button className={styles.reviewButton} onClick={() => moveToMyReviewOrWrite()}>
+                        한줄평 작성하기
+                    </button> }
 
-                <button className={styles.reviewButton} onClick={() => moveToMyReviewOrWrite()}>
-                    {myComment ? "나의 한줄평 보기" : "한줄평 작성하기"}
-                </button>
                 <div className={styles.socialButtons}>
                     <div className={styles.socialButton}>
                         <img
@@ -402,8 +396,8 @@ const NavigationBar = (props) => {
                 </div>
             </div>
             <div>
-                {tab === 'comment' && <CommentPage trackId={trackId} myComment={myComment} commentList={commentList}/>}
-                {tab === 'list' && <ListPage playList={playList}/>}
+                {tab === 'comment' && <CommentPage trackId={trackId} myComment={myComment}/>}
+                {tab === 'list' && <ListPage trackId={trackId} playList={playList}/>}
             </div>
         </div>
     );
