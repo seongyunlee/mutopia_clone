@@ -35,7 +35,7 @@ const MainPage = (props) => {
 
         <section className={styles.subSection}>
             <div className={styles.sectionTitleContainer}>                    
-                <div className={styles.sectionTitle}>앨범 리뷰</div>
+                <div className={styles.sectionTitle}>탑 리뷰</div>
             </div>
             {reviews?.length > 0 ?
                     <div className="verticalScroll">
@@ -48,6 +48,24 @@ const MainPage = (props) => {
                         }
                     </div>
                     : <div> 아직 작성된 리뷰가 없습니다. 첫 리뷰를 남겨주세요</div>
+                }
+        </section>
+
+        <section className={styles.subSection}>
+            <div className={styles.sectionTitleContainer}>                    
+                <div className={styles.sectionTitle}>탑 코멘트</div>
+            </div>
+            {comments?.length > 0 ?
+                    <div className="verticalScroll">
+                        {comments?.map((comment, index) => {
+                            return (<TrackComment
+                                key={index}
+                                content={comment}
+                            />)
+                        })
+                        }
+                    </div>
+                    : <div> 아직 작성된 한줄평이 없습니다. 첫 한줄평을 남겨주세요</div>
                 }
         </section>
     </>
@@ -149,25 +167,48 @@ const ReviewPage = (props) => {
 };
 
 
-const ListPage = () => {
+const ListPage = (props) => {
+
+    const albumId = props.albumId;
+
+    const [playList, setPlayList] = useState(null);
+    const playListToggleRef = useRef("최근");
+
+    const fetchPlayList = async () => {
+        const jwt = localStorage.getItem("accessToken");
+
+        const query = playListToggleRef.current === "최근" ? "recent" : "popular";
+        axios.get(`${process.env.REACT_APP_API_HOST}/user/playlist/album/${albumId}/${query}`, {
+            headers: {
+                Authorization: `Bearer ${jwt}`
+            }
+        }).then((response) => {
+            setPlayList(response.data);
+        }).catch((error) => {
+            console.error('Failed to fetch album playlist: ', error);
+        });
+    }
+
+    useEffect(() => {
+        fetchPlayList();
+    }, [albumId]);
+
     return (
         <section className={styles.subSection}>
             <div className={styles.sectionTitleContainer}>
                 <div className={styles.sectionTitle}>플레이리스트</div>
-                <ToggleFilter menu={["최근", "인기"]}/>
+                <ToggleFilter menu={["최근", "인기"]} onFocusChange={fetchPlayList}
+                                  tabRef={playListToggleRef}/>
             </div>
-            <div className="verticalScroll">
-                <PlaylistPreview
-                    ellipse85="/ellipse-85@2x.png"
-                    rectangle1480="/rectangle-1480-2@2x.png"
-                    rectangle1479="/rectangle-1479@2x.png"
-                    rectangle1478="/rectangle-1478@2x.png"
-                    rectangle1477="/rectangle-1477@2x.png"
-                    rectangle14781="/rectangle-1478-1@2x.png"
-                    rectangle14791="/rectangle-1479-1@2x.png"
-                    vector="/vector-15.svg"
-                />
-            </div>
+            {playList?.length > 0 ?
+                    <div className="verticalScroll">
+                        {playList?.map((playlist, index) => {
+                            return (<PlaylistPreview key={index} content={playlist}/>)
+                        })
+                        }
+                    </div>
+                    : <div> 아직 등록된 한줄평이 없습니다. 플레이리스트에 추가해주세요.</div>
+                }
         </section>
     );
 };

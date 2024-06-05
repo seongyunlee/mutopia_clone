@@ -23,9 +23,9 @@ const AlbumDisplay = (props) => {
                  src={coverImg}
             />
             <div className={styles.ditto}>
-                {name}
+                {name.length > 12 ? `${name.substring(0, 12)}...` : name}
             </div>
-            <div className={styles.div}>{artist}</div>
+            <div className={styles.div}>{artist.length > 20 ? `${artist.substring(0, 20)}...`: artist}</div>
         </div>
     );
 };

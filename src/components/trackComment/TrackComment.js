@@ -87,7 +87,7 @@ const TrackComment = ( props ) => {
         <div className={styles.container}>
             <div className={styles.headerContainer}>
                 <div className={styles.songContainer}>
-                    <div className={styles.songTitle}>{songComment.songInfo.title}</div>
+                    <div className={styles.songTitle}>{songComment.songInfo.title.length > 12 ? `${songComment.songInfo.title.substring(0, 12)}...` : songComment.songInfo.title}</div>
                     <div className={styles.songArtist}>{songComment.songInfo.artistName}</div>
                 </div>
                 <div className={styles.writerContainer}>

@@ -78,24 +78,47 @@ const CommentPage = (props) => {
 const ListPage = (props) => {
 
     const trackId = props.trackId;
-    const playList = props.playList;
 
-    if (!playList || !Array.isArray(playList) || playList.length === 0) {
-        return (
-            <div className={styles.commentSection}>
-                <div className={styles.noComment}>
-                    아직 등록된 플레이리스트가 없습니다. 첫 플레이리스트를 등록해보세요.
-                </div>
-            </div>
-        );
+    const [playList, setPlayList] = useState(null);
+    const playListToggleRef = useRef("최근");
+
+    const fetchPlayList = async () => {
+        const jwt = localStorage.getItem("accessToken");
+
+        const query = playListToggleRef.current === "최근" ? "recent" : "popular";
+        axios.get(`${process.env.REACT_APP_API_HOST}/user/playlist/song/${trackId}/${query}`, {
+            headers: {
+                Authorization: `Bearer ${jwt}`
+            }
+        }).then((response) => {
+            setPlayList(response.data);
+        }).catch((error) => {
+            console.error('Failed to fetch track playlist: ', error);
+        });
     }
 
+    useEffect(() => {
+        fetchPlayList();
+    }, [trackId]);
+    
+
     return (
-        <div className={styles.commentSection}>
-            {commentList.map((comment, index) => (
-                <PlaylistPreview key={index} comment={comment}/>
-            ))}
-        </div>
+        <section className={styles.subSection}>
+            <div className={styles.sectionTitleContainer}>
+                <div className={styles.sectionTitle}>플레이리스트</div>
+                <ToggleFilter menu={["최근", "인기"]} onFocusChange={fetchPlayList}
+                                  tabRef={playListToggleRef}/>
+            </div>
+            {playList?.length > 0 ?
+                    <div className="verticalScroll">
+                        {playList?.map((playlist, index) => {
+                            return (<PlaylistPreview key={index} content={playlist}/>)
+                        })
+                        }
+                    </div>
+                    : <div> 아직 등록된 한줄평이 없습니다. 플레이리스트에 추가해주세요.</div>
+                }
+        </section>
     );
 
 };
@@ -277,17 +300,12 @@ const TrackDetailPage = (props) => {
 
     useEffect(() => {
         fetchTrackInfo();
-        //getMyCommentAndRating();
-        //getTrackLiked();
         getRecentReviews();
     }, [props.trackId]);
 
     useEffect(() => {
-        console.log(user.id, "user id");
         getMyCommentAndRating();
-        getTrackLiked();
-        console.log(myComment, "my comment");
-        console.log(commentList, "comment list");
+        getTrackLiked();       
     }, [user]);
 
     /*  if (isLoading) {

@@ -2,6 +2,7 @@ import AlbumWall from "../../components/albumWall/AlbumWall";
 import styles from "./Home.module.css";
 import ToggleFilter from "../../components/toggleFilter/ToggleFilter";
 import TrackComment from "../../components/trackComment/TrackComment";
+import AlbumDisplay from "../../components/albumDisplay/AlbumDisplay";
 import {useContext, useEffect, useRef, useState} from "react";
 import {UserContext} from "../../context/UserContext";
 import ReviewPreview from "../../components/reviewPreview/ReviewPreview";
@@ -186,7 +187,6 @@ const Home = () => {
                 </div>
                 <AlbumWall albums={recommendations}/>
             </section>
-
 
             <section className={styles.homeSection}>
                 <div className={styles.sectionTitleContainer}>
