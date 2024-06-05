@@ -93,7 +93,7 @@
 }
 
 .footerContainer {
-    width: 300px;
+    width: 310px;
     display: flex;
     justify-content: space-between;
     position: absolute; /* 추가된 부분 */

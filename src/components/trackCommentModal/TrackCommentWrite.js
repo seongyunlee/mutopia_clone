@@ -11,7 +11,7 @@ const TrackCommentWrite = ({trackId, commentWriteModalOpen, setCommentWriteModal
     const [inputValue, setInputValue] = useState('');
 
     const handleMaxLen = (e) => {
-        if (e.target.value.length <= 30) {
+        if (e.target.value.length <= 20) {
             setInputValue(e.target.value);
         }
     };
@@ -29,13 +29,12 @@ const TrackCommentWrite = ({trackId, commentWriteModalOpen, setCommentWriteModal
         };
 
         fetchTrackInfo();
-    }, []); // albumId가 변경될 때마다 함수 실행
+    }, [trackId]); // albumId가 변경될 때마다 함수 실행
 
     const handleSubmit = async (event) => {
         event.preventDefault();  // 폼 기본 제출 방지
         const jwt = localStorage.getItem("accessToken");
         const scoreDouble = score * 2;
-        // console.log(albumId, scoreDouble, reviewTitleRef.current.value, reviewContentRef.current.value)
         try {
             const response = await axios.post(`${process.env.REACT_APP_API_HOST}/song/${trackId}/comment`, {
                 rating: scoreDouble,
@@ -70,7 +69,7 @@ const TrackCommentWrite = ({trackId, commentWriteModalOpen, setCommentWriteModal
             <div className={styles.modalContent} onClick={e => e.stopPropagation()}>
                 <form onSubmit={handleSubmit}>
                     <div className={styles.modalHeader}>
-                        <div className={styles.modalName}>곡 한줄평 작성하기</div>
+                        <div className={styles.modalName}>한줄평 작성하기 ✍🏻</div>
                         <input type="button" className={styles.modalCloseBtn}
                                onClick={() => setCommentWriteModalOpen(false)}></input>
                     </div>
@@ -82,7 +81,7 @@ const TrackCommentWrite = ({trackId, commentWriteModalOpen, setCommentWriteModal
                         <div className={styles.albumInfo}>
                             <div
                                 className={styles.albumName}>{trackInfo.trackName.length < 12 ? trackInfo.trackName : trackInfo.trackName.slice(0, 12) + '...'}</div>
-                            <div className={styles.albumArtist}>{trackInfo.albumName} · {trackInfo.artistName}</div>
+                            <div className={styles.albumArtist}>{trackInfo.albumName.length < 10 ? trackInfo.albumName : trackInfo.albumName.slice(0, 10) + '...'} · {trackInfo.artistName.length < 10 ? trackInfo.artistName : trackInfo.artistName.slice(0, 10) + '...'}</div>
                         </div>
                     </div>
                     <div className={styles.starRating}>
@@ -92,7 +91,7 @@ const TrackCommentWrite = ({trackId, commentWriteModalOpen, setCommentWriteModal
                     <div className={styles.review}>
                         <div className={styles.reviewName}>한줄평</div>
                         <div className={styles.reviewForm}>
-                            <input className={styles.reviewTitle} type="text" placeholder="20자이내로 입력하세요"
+                            <input className={styles.reviewTitle} type="text" placeholder="20자이내로 작성해주세요"
                                    ref={commentRef} value={inputValue} onChange={handleMaxLen}></input>
                             <input className={styles.submitBtn} type="submit" value="저장하기"></input>
                         </div>

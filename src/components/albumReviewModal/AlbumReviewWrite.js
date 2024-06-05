@@ -46,18 +46,9 @@ const AlbumReviewWrite = ({albumId, reviewWriteModalOpen, setReviewWriteModalOpe
                     Authorization: `Bearer ${jwt}`
                 }
             });
-            //console.log(response.data);
             setReviewWriteModalOpen(false);
-            //useNavigate(`/reviewDetail/${myReviewId}`);
             window.location.href = `/reviewDetail/${response.data.albumReviewId}`;
 
-            /*
-            setMessage('저장이 완료되었습니다');  // 메시지 설정
-            setTimeout(() => {
-                setReviewWriteModalOpen(false); // 2초 후 모달 닫기
-                setMessage('');  // 메시지 초기화
-            }, 2000);
-            */
         } catch (error) {
             console.error(error);
         }
@@ -78,7 +69,7 @@ const AlbumReviewWrite = ({albumId, reviewWriteModalOpen, setReviewWriteModalOpe
             <div className={styles.modalContent} onClick={e => e.stopPropagation()}>
                 <form onSubmit={handleSubmit}>
                     <div className={styles.modalHeader}>
-                        <div className={styles.modalName}>앨범 리뷰 작성하기</div>
+                        <div className={styles.modalName}>앨범 리뷰 작성하기 ✍🏻</div>
                         <input type="button" className={styles.modalCloseBtn}
                                onClick={() => setReviewWriteModalOpen(false)}></input>
                     </div>
@@ -90,7 +81,7 @@ const AlbumReviewWrite = ({albumId, reviewWriteModalOpen, setReviewWriteModalOpe
                         <div className={styles.albumInfo}>
                             <div
                                 className={styles.albumName}>{albumInfo.albumName.length < 12 ? albumInfo.albumName : albumInfo.albumName.slice(0, 12) + '...'}</div>
-                            <div className={styles.albumArtist}>{albumInfo.artistName}</div>
+                            <div className={styles.albumArtist}>{albumInfo.artistName.length < 20 ? albumInfo.artistName : albumInfo.artistName.slice(0, 20) + '...' }</div>
                         </div>
                     </div>
                     <div className={styles.starRating}>

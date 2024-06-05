@@ -1,5 +1,6 @@
 .container {
     min-width: 340px !important;
+    height: 287px;
     flex-direction: column;
     padding: 16px 20px;
     text-align: left;
@@ -8,6 +9,7 @@
     background-color: white;
     border: 1px solid #d9d9d9;
     box-sizing: border-box;
+    position: relative;
 }
 
 .playlistDesc {
@@ -88,12 +90,11 @@
 }
 
 .footerContainer {
-    width: 100%;
+    width: 310px;
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
-    margin-bottom: 10px;
-    margin-top: 18px;
+    position: absolute; /* 추가된 부분 */
+    bottom: 15px; 
 }
 
 .reviewContent {

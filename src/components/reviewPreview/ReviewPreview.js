@@ -4,16 +4,9 @@ import StarRating from "../starRating/StarRating";
 
 const ReviewPreview = (props) => {
 
-    const navigate = useNavigate();
-
-
     const handleClick = () => {
-        console.log(props.content.review.id, "reviewId");
         window.location.href=`/reviewDetail/${props.content.review.id}`;
     };
-
-
-    console.log(props)
 
     const defaultData = {
         review: {
@@ -65,18 +58,18 @@ const ReviewPreview = (props) => {
                     </div>
                     <div
                         className={styles.albumName}>{album?.name.length > 20 ? `${album?.name.substring(0, 20)}...` : album?.name}</div>
-                    <div className={styles.albumArtist}>{album?.artistName}</div>
+                    <div className={styles.albumArtist}>{album?.artistName.length > 30 ? `${album?.artistName.substring(0, 30)}...` : album?.artistName }</div>
                     <StarRating score={review?.rating}/>
                 </div>
             </div>
 
             <div className={styles.reviewContainer}>
                 <div className={styles.reviewTitle}>
-                    {review?.title}
+                    {review?.title.length > 20 ? `${review?.title.substring(0, 20)}...` : review?.title}
                 </div>
                 <div className={styles.reviewContent}>        
                     <span
-                        className={styles.content}>{review.content.length > 75 ? review.content.substring(0, 75) : review.content}</span>
+                        className={styles.content}>{review.content.length > 60 ? review.content.substring(0, 60) : review.content}</span>
                     <span className={styles.add}>....더보기</span>
                 </div>
             </div>
