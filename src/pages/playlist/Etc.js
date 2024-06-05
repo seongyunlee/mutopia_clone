@@ -1,39 +1,49 @@
-import React, {useContext, useEffect, useRef, useState} from 'react';
+import React, { useRef, useState } from 'react';
 import styles from './Etc.module.css';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
 import ReviseDialog from "./ReviseList";
 
-const Etc = ({dialogRef}) => {
-    const [playlistName, setPlaylistName] = useState('');
-    const [playlistDescription, setPlaylistDescription] = useState('');
+const Etc = ({ dialogRef }) => {
     const reviseDialogRef = useRef();
-
     const navigate = useNavigate();
-    const [isModalOpen, setIsModalOpen] = useState(true);
+    const { playlistId } = useParams();
 
-    const toggleModal = () => {
-        setIsModalOpen(!isModalOpen);
-        if (!isModalOpen) {
-            navigate(-1); // Navigate back on close
-        }
+    const handleClose = () => {
+        dialogRef.current.close();
     };
 
     const openReviseDialog = () => {
         reviseDialogRef.current?.showModal();
-    }
+    };
 
+    const deletePlaylist = async () => {
+        const jwt = localStorage.getItem('accessToken');
+
+        try {
+            await axios.delete(`${process.env.REACT_APP_API_HOST}/user/playlist/${playlistId}`, {
+                headers: {
+                    Authorization: `Bearer ${jwt}`
+                }
+            });
+            handleClose(); // Close the modal and navigate back
+        } catch (error) {
+            console.error("Failed to delete playlist:", error);
+            alert("플레이리스트 삭제에 실패했습니다.");
+        }
+    };
 
     return (
         <dialog className={styles.modal} ref={dialogRef}>
-            <ReviseDialog dialogRef={reviseDialogRef}/>
+            <ReviseDialog dialogRef={reviseDialogRef} />
             <div className={styles.modalContainer}>
                 <div className={styles.modalHeader}>
-                    <button className={styles.closeButton} onClick={toggleModal}>×</button>
+                    <button className={styles.closeButton} onClick={handleClose}>×</button>
                 </div>
                 <button className={styles.button1} onClick={openReviseDialog}>
                     플레이리스트 수정하기
                 </button>
-                <button className={styles.button2}>
+                <button className={styles.button2} onClick={deletePlaylist}>
                     플레이리스트 삭제하기
                 </button>
             </div>

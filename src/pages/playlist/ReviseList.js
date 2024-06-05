@@ -9,16 +9,9 @@ const ReviseList = ({dialogRef}) => {
     const navigate = useNavigate();
     const [isModalOpen, setIsModalOpen] = useState(true);
 
-    const toggleModal = () => {
-        setIsModalOpen(!isModalOpen);
-        if (!isModalOpen) {
-            navigate(-1); // Navigate back on close
-        }
+    const handleClose = () => {
+        dialogRef.current.close();
     };
-
-    const editPlaylist = () => {
-        // Edit playlist
-    }
 
     const navigateToReviseList = () => {
         navigate('/reviseList');
@@ -32,7 +25,7 @@ const ReviseList = ({dialogRef}) => {
         <dialog className={styles.modal} ref={dialogRef}>
             <div className={styles.modalContainer}>
                 <div className={styles.modalHeader}>
-                    <button className={styles.closeButton} onClick={toggleModal}>×</button>
+                    <button className={styles.closeButton} onClick={handleClose}>×</button>
                 </div>
                 <div className={styles.heading1}>플레이리스트 제목</div>
                 <input
