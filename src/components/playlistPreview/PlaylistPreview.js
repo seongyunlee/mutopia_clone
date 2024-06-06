@@ -27,7 +27,7 @@ const PlaylistPreview = (prop) => {
 
     useEffect(() => {
         getUserProfileImg(content?.creatorId)
-    }, []);
+    }, [content]);
 
 
     return (
@@ -35,7 +35,7 @@ const PlaylistPreview = (prop) => {
             <div className={styles.headerContainer}>
                 <div className={styles.authorContainer}>
                     <img
-                        src={creatorProfileImg ? creatorProfileImg : "/person.png"}
+                        src={creatorProfileImg ? creatorProfileImg : "/person.svg"}
                         className={styles.authorProfileImg}
                         loading="lazy"
                         alt="Author profile"
