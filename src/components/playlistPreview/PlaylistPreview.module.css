@@ -1,8 +1,8 @@
 .container {
-    min-width: 340px !important;
+    width: 340px !important;
     height: 287px;
     flex-direction: column;
-    padding: 16px 20px;
+    padding: 20px 16px;
     text-align: left;
     font-size: 14px;
     border-radius: 10px;
@@ -126,37 +126,38 @@
 }
 
 .coverContainer > .cover:nth-child(2) {
-    left: 45px;
+    left: 43px;
     z-index: 9;
 }
 
 .coverContainer > .cover:nth-child(3) {
-    left: 90px;
+    left: 86px;
     z-index: 8;
 }
 
 .coverContainer > .cover:nth-child(4) {
-    left: 135px;
+    left: 129px;
     z-index: 7;
 }
 
 .coverContainer > .cover:nth-child(5) {
-    left: 180px;
+    left: 172px;
     z-index: 6;
 }
 
 .coverContainer > .cover:nth-child(6) {
-    left: 225px;
+    left: 215px;
     z-index: 5;
 }
 
 
 .coverContainer {
+    width: 305px;
     height: 90px;
     flex: 1;
     position: relative;
     margin-bottom: 20px;
-
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 }
 
 .content {
