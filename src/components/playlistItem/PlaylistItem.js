@@ -45,8 +45,8 @@ const PlaylistItem = (props) => {
             <div className={styles.trackInfoContainer} onClick={moveToTrackDetail}>
                 <img src={track?.albumImgUrl} alt="album cover" className={styles.coverImg}/>
                 <div className={styles.trackInfo}>
-                    <div className={styles.trackName}>{track?.title}</div>
-                    <div className={styles.albumArtist}>{track?.albumName} · {track?.artistName}</div>
+                    <div className={styles.trackName}>{track?.title.length > 20 ? `${track?.title.substring(0, 20)}...` : track?.title}</div>
+                    <div className={styles.albumArtist}>{track?.albumName.length > 20 ? `${track?.albumName.substring(0, 20)}...` : track?.albumName} · {track?.artistName.length > 30 ? `${track?.artistName.substring(0, 30)}...` : track?.artistName } </div>
                 </div>
             </div>
             {creatorId === user?.id && ( // 현재 사용자가 플레이리스트의 생성자인 경우에만 렌더링

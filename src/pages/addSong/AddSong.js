@@ -33,7 +33,8 @@ const AddSong = () => {
                 }
             })
             .then((response) => {
-                setRecommendation(response.data.tracks);
+                setRecommendation(response.data.songs);
+                console.log(response.data);
             })
             .catch((error) => {
             });
@@ -41,7 +42,7 @@ const AddSong = () => {
 
     useEffect(() => {
         getRecommendation();
-    }, []);
+    }, [playlistId]);
 
     useEffect(() => {
         const fetchResults = async (query) => {
@@ -97,8 +98,8 @@ const AddSong = () => {
                     <div className={styles.listContainer}>
                         <div className={styles.suggest}><h3>추천된 노래</h3></div>
                         {
-                            recommendation?.map((track) => (
-                                <ItemAdd key={track.id} track={track}/>
+                            recommendation?.map((track, index) => (
+                                <ItemAdd key={index} track={track}/>
                             ))
                         }
                     </div>

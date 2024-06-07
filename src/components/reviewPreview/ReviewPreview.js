@@ -53,7 +53,7 @@ const ReviewPreview = (props) => {
                 <div className={styles.infoDetailContainer}>
                     <div className={styles.authorContainer}>
                         <div
-                            className={styles.authorName}>{writer?.username > 12 ? `${writer?.username.substring(0, 12)}...` : writer?.username}</div>
+                            className={styles.authorName}>{writer?.username.length > 12 ? `${writer?.username.substring(0, 12)}...` : writer?.username}</div>
                         <img loading="lazy" className={styles.authorProfileImg} alt="" src={writer?.profileImageUrl}/>
                     </div>
                     <div
