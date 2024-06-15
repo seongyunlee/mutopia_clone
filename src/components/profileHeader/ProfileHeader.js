@@ -103,7 +103,7 @@ const ProfileHeader = (props) => {
                                  color: isMine || !isFollowing ? "#FFFFFF" : "#000000"
                              }}
                              onClick={() => handleButtonClick()}>
-                            {isMine ? "수정" : isFollowing ? "팔로잉" : "팔로우"}
+                            {isMine ? "설정" : isFollowing ? "팔로잉" : "팔로우"}
                         </div>
                     </div>
                     <div className={styles.profileContainerFirst}>

@@ -1,12 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import styles from "./EditProfile.module.css";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 const EditProfile = () => {
     const [image, setImage] = useState('/defaultProfile.svg'); // 초기 이미지 경로
     const [name, setName] = useState(''); // 이름 상태
     const [bio, setBio] = useState(''); // 소개 상태
     const [oldName, setOldName] = useState(''); // 이전 이름 상태
+
+    const navigate = useNavigate();
 
     const handleImageChange = (event) => {
         const file = event.target.files[0];
@@ -20,6 +23,23 @@ const EditProfile = () => {
             alert('이미지 파일만 업로드 가능합니다.');
         }
     };
+
+    const withdraw = () => {
+        if (window.confirm("정말 탈퇴하시겠습니까?")) {
+            const token = localStorage.getItem('accessToken');
+            axios.post(`${process.env.REACT_APP_API_HOST}/user/withdraw`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }).then((response) => {
+                localStorage.removeItem('accessToken');
+                navigate('/');
+            }).catch((error) => {
+                alert("회원 탈퇴 중 오류가 발생했습니다.");
+                location.reload();
+            });
+        }
+    }
 
     const getUserInfo = () => {
         const token = localStorage.getItem('accessToken');
@@ -59,7 +79,7 @@ const EditProfile = () => {
                 Authorization: `Bearer ${token}`
             }
         }).then((response) => {
-            location.href = '/';
+            navigate(-1);
         }).catch((error) => {
             alert("프로필 저장 중 오류가 발생했습니다.");
             location.reload();
@@ -70,7 +90,8 @@ const EditProfile = () => {
         if (localStorage.getItem('accessToken')) {
             getUserInfo();
         } else {
-            location.href = '/';
+            alert("잘못된 접근입니다.")
+            navigate(-1);
         }
     }, []);
 
@@ -114,6 +135,9 @@ const EditProfile = () => {
             </div>
             <button title="editProfile" className={styles.btnProfileEdit} onClick={saveProfile}>
                 저장
+            </button>
+            <button title="editProfile" className={styles.btnProfileEdit} onClick={withdraw}>
+                회원 탈퇴
             </button>
         </div>
     );

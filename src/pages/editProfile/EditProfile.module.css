@@ -90,7 +90,7 @@
     line-height: normal;
 
     display: flex;
-    width: 64px;
+    min-width: 64px;
     padding: 5px 15px;
     justify-content: center;
     align-items: center;
