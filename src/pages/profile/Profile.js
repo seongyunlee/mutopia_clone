@@ -12,8 +12,6 @@ import axios from "axios";
 import {useNavigate, useParams} from "react-router-dom";
 import TrackComment from "../../components/trackComment/TrackComment";
 
-const testJwt = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQiOjE3MTUwOTgwMzUsImV4cCI6MTc0NjYzNDA4NywiYXVkIjoid3d3LmV4YW1wbGUuY29tIiwic3ViIjoidGVzdHVzZXIiLCJSb2xlIjoiVVNFUiJ9.1_R8SRfmLEGy3YB5nVfHYU6om-g7tbifxyRmHAYV4D4"
-
 const MainPage = (props) => {
     const {userInfo, isMine, albumReview, topsterInfo, trackReview, refreshTopster} = props;
 
@@ -21,8 +19,8 @@ const MainPage = (props) => {
     const {user} = useContext(UserContext);
 
     const [isTopsterEraseMode, setIsTopsterEraseMode] = useState(false);
-    const titleMine = ["내 뮤직보드 🎵", "내가 리뷰한 앨범 💿", "내가 남긴 한줄평 ✍🏻"];
-    const titleOthers = ["의 뮤직보드 🎵", "의 인생 앨범 💿", "의 인생곡 ✍🏻"];
+    const titleMine = ["나의 뮤직보드 🎵", "인기 많은 리뷰 🌟", "사랑받은 한줄평 💜"];
+    const titleOthers = ["의 뮤직보드 🎵", "인기 많은 리뷰 🌟", "사랑받은 한줄평 💜"];
 
 
     return (
@@ -44,10 +42,10 @@ const MainPage = (props) => {
             <section className={styles.subSection}>
                 <div className={styles.sectionTitleContainer}>
                     <div
-                        className={styles.sectionTitle}>{isMine ? titleMine[1] : userInfo.username + titleOthers[1]}</div>
+                        className={styles.sectionTitle}>{isMine ? titleMine[1] : titleOthers[1]}</div>
                 </div>
                 {
-                    albumReview?.length === 0 ? <div>리뷰가 없습니다.</div> :
+                    albumReview?.length === 0 ? <div>아직 작성된 리뷰가 없습니다. 첫 리뷰를 남겨주세요 🤗</div> :
                         <div className="verticalScroll">
                             {
                                 albumReview.map((review, index) => (<ReviewPreview content={review} key={index}/>))
@@ -58,13 +56,13 @@ const MainPage = (props) => {
             <section className={styles.subSection}>
                 <div className={styles.sectionTitleContainer}>
                     <div
-                        className={styles.sectionTitle}>{isMine ? titleMine[2] : userInfo.username + titleOthers[2]}</div>
+                        className={styles.sectionTitle}>{isMine ? titleMine[2] : titleOthers[2]}</div>
                 </div>
                 {
-                    trackReview?.length === 0 ? <div>한줄평이 없습니다.</div> :
+                    trackReview?.length === 0 ? <div>아직 작성된 한줄평이 없습니다. 첫 한줄평을 남겨주세요 🤗</div> :
                         <div className="verticalScroll">
                             {
-                                trackReview.map((review, index) => (<TrackReview content={review} key={index}/>))
+                                trackReview.map((review, index) => (<TrackComment content={review} key={index}/>))
                             }
                         </div>
                 }
@@ -90,7 +88,7 @@ const ReviewPage = (props) => {
                     <div
                         className={styles.sectionTitle}>{isMine ? titleMine[0] : userInfo.username + titleOthers[0]}</div>
                 </div>
-                {albumReview?.length === 0 ? <div>리뷰가 없습니다.</div> :
+                {albumReview?.length === 0 ? <div>아직 작성된 리뷰가 없습니다. 첫 리뷰를 남겨주세요 🤗</div> :
                     <div className="verticalScroll">
                         {
                             albumReview.map((review, index) => (<ReviewPreview content={review} key={index}/>))
@@ -104,10 +102,10 @@ const ReviewPage = (props) => {
                     <div
                         className={styles.sectionTitle}>{isMine ? titleMine[1] : userInfo.username + titleOthers[1]}</div>
                 </div>
-                {!trackReviews?.length > 0 ? <div>한줄평이 없습니다.</div> :
+                {!trackReviews?.length > 0 ? <div>아직 작성된 한줄평이 없습니다. 첫 한줄평을 남겨주세요 🤗</div> :
                     <div className="verticalScroll">
                         {
-                            trackReviews.map((review, index) => (<TrackReview content={review} key={index}/>))
+                            trackReviews.map((review, index) => (<TrackComment content={review} key={index}/>))
                         }
                     </div>
                 }
@@ -118,7 +116,7 @@ const ReviewPage = (props) => {
                         className={styles.sectionTitle}>{isMine ? titleMine[2] : userInfo.username + titleOthers[2]}</div>
                 </div>
                 {
-                    !playList?.length > 0 ? <div>플레이리스트가 없습니다.</div> :
+                    !playList?.length > 0 ? <div>아직 등록된 플레이리스트가 없습니다. 첫 플레이리스트를 만들어주세요 🤗.</div> :
                         <div className="verticalScroll">
                             {
                                 playList.map((playlist, index) => (<PlaylistPreview content={playlist} key={index}/>))
@@ -210,6 +208,8 @@ const LikesPage = (props) => {
 const Profile = (props) => {
     const {user, setUser} = useContext(UserContext);
     const [albumReview, setAlbumReview] = useState([]);
+    const [popularReview, setPopularReview] = useState([]);
+    const [popularComment, setPopularComment] = useState([]);
     const [tab, setTab] = useState('main');
     const [isMine, setIsMine] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
@@ -268,6 +268,22 @@ const Profile = (props) => {
         });
     }
 
+    const getPopularReview = () => {
+        const accessToken = localStorage.getItem('accessToken');
+
+        axios.get(`${process.env.REACT_APP_API_HOST}/user/${userId}/album/review/popular`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        }).then((response) => {
+            setPopularReview(response.data);
+            setIsLoading(false);
+        }).catch((error) => {
+        });
+    }
+
+
+
     const getProfileHeader = () => {
         axios.get(`${process.env.REACT_APP_API_HOST}/user/${userId}/profile/aggregation`, {}).then((response) => {
             setUserInfo({...response.data, userId: userId});
@@ -290,6 +306,23 @@ const Profile = (props) => {
             }
         }).then((response) => {
             setTrackReviews(response.data);
+        }).catch((error) => {
+            console.error('Failed to fetch comments:', error);
+        });
+    }
+
+    const getUserPopularComment = () => {
+        const accessToken = localStorage.getItem('accessToken');
+
+        axios.get(`${process.env.REACT_APP_API_HOST}/user/${userId}/song/comment/popular`, {
+            params: {
+                offset: 0,
+            },
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        }).then((response) => {
+            setPopularComment(response.data);
         }).catch((error) => {
             console.error('Failed to fetch comments:', error);
         });
@@ -398,7 +431,9 @@ const Profile = (props) => {
         getProfileHeader();
         getTopsterInfo()
         getAlbumReview();
+        getPopularReview();
         getUserTrackReviews();
+        getUserPopularComment();
         getUserPlaylists();
         getLikeAlbums();
         getLikeTracks();
@@ -427,8 +462,8 @@ const Profile = (props) => {
             </div>
             <div>
                 {tab === 'main' &&
-                    <MainPage userInfo={userInfo} isMine={isMine} albumReview={albumReview} topsterInfo={topsterInfo}
-                              trackReview={trackReviews} refreshTopster={getTopsterInfo}
+                    <MainPage userInfo={userInfo} isMine={isMine} albumReview={popularReview} topsterInfo={topsterInfo}
+                              trackReview={popularComment} refreshTopster={getTopsterInfo}
                     />}
                 {tab === 'review' &&
                     <ReviewPage userInfo={userInfo} isMine={isMine} albumReview={albumReview}

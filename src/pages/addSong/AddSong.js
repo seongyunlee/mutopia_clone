@@ -99,7 +99,7 @@ const AddSong = () => {
                         <div className={styles.suggest}><h3>추천된 노래</h3></div>
                         {
                             recommendation?.map((track, index) => (
-                                <ItemAdd key={index} track={track}/>
+                                <ItemAdd key={index} track={track} playlistId={playlistId}/>
                             ))
                         }
                     </div>

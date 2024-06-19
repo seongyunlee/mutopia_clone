@@ -103,20 +103,33 @@ const ReviewDetail = () => {
         }
     };
 
-    const reviewDelete = () => {
-        // console.log(user?.id);
+
+    const reviewDelete = async () => {
         if (!user?.id) {
             alert('로그인이 필요합니다.');
             const loginDialog = document.getElementById("loginModal");
             loginDialog.showModal();
             return;
         }
-        if (myReviewId) {
-            navigate(`/reviewDetail/${myReviewId}`);
-        } else {
-            setReviewWriteModalOpen(true);
+
+        if (myReviewId){
+            const jwt = localStorage.getItem("accessToken");
+            axios.delete(`${process.env.REACT_APP_API_HOST}/album/review/${reviewId}`, {
+                headers: {
+                    Authorization: `Bearer ${jwt}`
+                }
+            }).then((response) => {
+                alert("리뷰가 삭제되었습니다.");
+                window.location.href = `/albumDetail/${albumId}`
+            }).catch((error) => {
+                console.error('Failed to fetch liked status:', error);
+            });
+
+        }else {
+            alert("삭제 중에 오류가 발생했습니다. 나중에 다시 시도해주세요.")
         }
-    };
+
+    }
 
     const getReviewLiked = async () => {
         console.log(user.id);
@@ -223,6 +236,10 @@ const ReviewDetail = () => {
         console.log(myReview, "myReview");
     }, [albumId, reviewId]);
 
+    const navigateUser = () => {
+        window.location.href = `/profile/${reviewInfo?.writer.id}`;
+    }
+
 
     if (isLoading) {
         return <div>Loading album information...</div>; // 로딩 상태일 때 로딩 메시지 표시
@@ -235,7 +252,7 @@ const ReviewDetail = () => {
                     <span
                         className={styles.writerName}>{reviewInfo.writer.username ? reviewInfo.writer.username : " "}</span>
                     <img className={styles.writerPhoto}
-                         src={reviewInfo.writer.profileImageUrl ? reviewInfo.writer.profileImageUrl : "/defaultProfile.svg"}/>
+                         src={reviewInfo.writer.profileImageUrl ? reviewInfo.writer.profileImageUrl : "/defaultProfile.svg"} onClick={navigateUser}/>
                 </div>
                 <div className={styles.reviewCover}>
                     <img src={reviewInfo.album.coverImageUrl ? reviewInfo.album.coverImageUrl : "/albumDefault.jpg"}
@@ -270,7 +287,6 @@ const ReviewDetail = () => {
             <div>
                 {myReview ? (
                     <div className={styles.btnContainer}>
-                        <button className={styles.btnEdit} onClick={reviewEdit}>수정하기</button>
                         <button className={styles.btnDelete} onClick={reviewDelete}>삭제하기</button>
                     </div>
                    
@@ -285,7 +301,11 @@ const ReviewDetail = () => {
             </div>
             <section className={styles.subSection}>
                 <div className={styles.sectionTitleContainer}>
-                    <div className={styles.sectionTitle}>{reviewInfo.writer.username ? reviewInfo.writer.username : " "}의
+                    <div className={styles.sectionTitle}>{reviewInfo.writer.username ? (
+                        reviewInfo.writer.username.length > 7 ? 
+                            `${reviewInfo.writer.username.slice(0, 7)}...` : 
+                            reviewInfo.writer.username
+                    ): " "}의
                         앨범리뷰 보기 👀
                     </div>
                     <ToggleFilter menu={["최근", "인기"]} onFocusChange={fetchWriterReview}
@@ -303,8 +323,8 @@ const ReviewDetail = () => {
             <section className={styles.subSection}>
                 <div className={styles.sectionTitleContainer}>
                     <div className={styles.sectionTitle}>{reviewInfo.album.name ? 
-                        (reviewInfo.album.name.length > 25 ? 
-                            `${reviewInfo.album.name.slice(0, 25)}...` : 
+                        (reviewInfo.album.name.length > 18 ? 
+                            `${reviewInfo.album.name.slice(0, 18)}...` : 
                             reviewInfo.album.name) : " "}의 다른 리뷰🔍
                     </div>
                     <ToggleFilter menu={["최근", "인기"]} tabRef={albumReviewToggleRef} onFocusChange={fetchAlbumReview}/>

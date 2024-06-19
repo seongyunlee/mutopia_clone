@@ -57,7 +57,7 @@ const ReviewPreview = (props) => {
                         <img loading="lazy" className={styles.authorProfileImg} alt="" src={writer?.profileImageUrl}/>
                     </div>
                     <div
-                        className={styles.albumName}>{album?.name.length > 20 ? `${album?.name.substring(0, 20)}...` : album?.name}</div>
+                        className={styles.albumName}>{album?.name.length > 12 ? `${album?.name.substring(0, 12)}...` : album?.name}</div>
                     <div className={styles.albumArtist}>{album?.artistName.length > 30 ? `${album?.artistName.substring(0, 30)}...` : album?.artistName }</div>
                     <StarRating score={review?.rating}/>
                 </div>

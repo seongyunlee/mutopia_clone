@@ -4,9 +4,9 @@ import {useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 import AlbumReviewWrite from "../../components/albumReviewModal/AlbumReviewWrite";
 import ReviewPreview from "../../components/reviewPreview/ReviewPreview";
+import ReviewPreviewShort from "../../components/reviewPreviewShort/ReviewPreviewShort";
 import PlaylistPreview from "../../components/playlistPreview/PlaylistPreview";
 import ToggleFilter from "../../components/toggleFilter/ToggleFilter";
-import TrackReview from "../../components/trackReview/TrackReview";
 import TrackComment from "../../components/trackComment/TrackComment";
 import ShareDialog from "./ShareDialog";
 import {UserContext} from "../../context/UserContext";
@@ -35,25 +35,25 @@ const MainPage = (props) => {
 
         <section className={styles.subSection}>
             <div className={styles.sectionTitleContainer}>                    
-                <div className={styles.sectionTitle}>탑 리뷰</div>
+                <div className={styles.sectionTitle}>인기 많은 리뷰 🌟 </div>
             </div>
             {reviews?.length > 0 ?
                     <div className="verticalScroll">
                         {reviews?.map((review, index) => {
-                            return (<ReviewPreview
+                            return (<ReviewPreviewShort
                                 key={index}
                                 content={review}
                             />)
                         })
                         }
                     </div>
-                    : <div> 아직 작성된 리뷰가 없습니다. 첫 리뷰를 남겨주세요</div>
+                    : <div> 아직 작성된 리뷰가 없습니다. 첫 리뷰를 남겨주세요 🤗 </div>
                 }
         </section>
 
         <section className={styles.subSection}>
             <div className={styles.sectionTitleContainer}>                    
-                <div className={styles.sectionTitle}>탑 코멘트</div>
+                <div className={styles.sectionTitle}>사랑 받은 한줄평 💜 </div>
             </div>
             {comments?.length > 0 ?
                     <div className="verticalScroll">
@@ -65,7 +65,7 @@ const MainPage = (props) => {
                         })
                         }
                     </div>
-                    : <div> 아직 작성된 한줄평이 없습니다. 첫 한줄평을 남겨주세요</div>
+                    : <div> 아직 작성된 한줄평이 없습니다. 첫 한줄평을 남겨주세요 🤗</div>
                 }
         </section>
     </>
@@ -123,7 +123,7 @@ const ReviewPage = (props) => {
         <>
         <section className={styles.subSection}>
             <div className={styles.sectionTitleContainer}>                    
-                <div className={styles.sectionTitle}>앨범 리뷰</div>
+                <div className={styles.sectionTitle}>뮤토피안들이 작성한 앨범 리뷰</div>
                 <ToggleFilter menu={["최근", "인기"]} onFocusChange={fetchAlbumReview}
                                   tabRef={albumReviewToggleRef}/>
             </div>
@@ -137,13 +137,13 @@ const ReviewPage = (props) => {
                         })
                         }
                     </div>
-                    : <div> 아직 작성된 리뷰가 없습니다. 첫 리뷰를 남겨주세요</div>
+                    : <div> 아직 작성된 리뷰가 없습니다. 첫 리뷰를 남겨주세요 🤗</div>
                 }
         </section>
 
         <section className={styles.subSection}>
             <div className={styles.sectionTitleContainer}>                    
-                <div className={styles.sectionTitle}>한줄평</div>
+                <div className={styles.sectionTitle}>뮤토피안들이 남긴 한줄평</div>
                 <ToggleFilter menu={["최근", "인기"]} onFocusChange={fetchTrackComment}
                                   tabRef={trackCommentToggleRef}/>
             </div>
@@ -157,7 +157,7 @@ const ReviewPage = (props) => {
                         })
                         }
                     </div>
-                    : <div> 아직 작성된 한줄평이 없습니다. 첫 한줄평을 남겨주세요</div>
+                    : <div> 아직 작성된 한줄평이 없습니다. 첫 한줄평을 남겨주세요 🤗</div>
                 }
         </section>
         
@@ -196,7 +196,7 @@ const ListPage = (props) => {
     return (
         <section className={styles.subSection}>
             <div className={styles.sectionTitleContainer}>
-                <div className={styles.sectionTitle}>플레이리스트</div>
+                <div className={styles.sectionTitle}>뮤토피안들의 플레이리스트</div>
                 <ToggleFilter menu={["최근", "인기"]} onFocusChange={fetchPlayList}
                                   tabRef={playListToggleRef}/>
             </div>
@@ -207,7 +207,7 @@ const ListPage = (props) => {
                         })
                         }
                     </div>
-                    : <div> 아직 등록된 한줄평이 없습니다. 플레이리스트에 추가해주세요.</div>
+                    : <div> 아직 등록된 플레이리스트가 없습니다. 플레이리스트에 추가해주세요 🤗</div>
                 }
         </section>
     );

@@ -19,6 +19,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
+    box-sizing: border-box; 
     width: 100%;
 }
 
@@ -83,7 +84,6 @@
 .albumName {
     font-size: 20px;
     font-weight: 600;
-    position: relative;
     font-family: Roboto;
     color: #383838;
     text-align: left;

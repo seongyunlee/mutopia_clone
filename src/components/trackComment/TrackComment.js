@@ -79,6 +79,31 @@ const TrackComment = ( props ) => {
         });
     }
 
+    const commentDelete = async () => {
+        if (isMine) {
+            const confirmDelete = confirm("정말로 삭제하시겠습니까?");
+            if (confirmDelete) {
+                const jwt = localStorage.getItem("accessToken");
+                axios.delete(`${process.env.REACT_APP_API_HOST}/song/${songComment?.songInfo?.id}/comment`, {
+                    headers: {
+                        Authorization: `Bearer ${jwt}`
+                    }
+                }).then((response) => {
+                    alert("한줄평이 삭제되었습니다.");
+                    window.location.reload();
+                }).catch((error) => {
+                    console.error('Failed to fetch liked status:', error);
+                });
+            }
+        } else {
+            alert("삭제 중에 오류가 발생했습니다. 나중에 다시 시도해주세요.")
+        }
+    }
+
+    const navigateUser = () => {
+        window.location.href = `/profile/${writer?.userId}`;
+    }
+
     useEffect(() => {
         checkMine();
     }, []);
@@ -87,7 +112,7 @@ const TrackComment = ( props ) => {
         <div className={styles.container}>
             <div className={styles.headerContainer}>
                 <div className={styles.songContainer}>
-                    <div className={styles.songTitle}>{songComment.songInfo.title.length > 12 ? `${songComment.songInfo.title.substring(0, 12)}...` : songComment.songInfo.title}</div>
+                    <div className={styles.songTitle}>{songComment.songInfo.title.length > 8 ? `${songComment.songInfo.title.substring(0, 8)}...` : songComment.songInfo.title}</div>
                     <div className={styles.songArtist}>{songComment.songInfo.artistName}</div>
                 </div>
                 <div className={styles.writerContainer}>
@@ -95,14 +120,14 @@ const TrackComment = ( props ) => {
                     <div className={styles.authorContainer}>
                         <div
                             className={styles.authorName}>나의 한줄평</div>
-                        <img loading="lazy" className={styles.authorProfileImg} alt="" src="/pending_grey_small.svg"/>
+                        <img loading="lazy" className={styles.authorProfileImg} alt="" src="/pending_grey_small.svg" onClick={commentDelete}/>
                     </div>
 
                     ) : (
                         <div className={styles.authorContainer}>
                             <div
                                 className={styles.authorName}>{writer?.username > 12 ? `${writer?.username.substring(0, 12)}...` : writer?.username}</div>
-                            <img loading="lazy" className={styles.authorProfileImg} alt="" src={writer?.profileImageUrl}/>
+                            <img loading="lazy" className={styles.authorProfileImg} alt="" src={writer?.profileImageUrl} onClick={navigateUser}/>
                         </div>
                     
                     )}

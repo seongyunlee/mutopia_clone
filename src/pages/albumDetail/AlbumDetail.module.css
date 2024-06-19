@@ -124,7 +124,7 @@ font-size: 16px; /* 좋아요 수 글씨 크기 조절 */
     padding: 10px 0;
     box-shadow: 0px 3px 6px #00000029;
     border-radius: 10px;
-    gap: 20px;
+    gap: 40px;
 }
 
 .tab {
