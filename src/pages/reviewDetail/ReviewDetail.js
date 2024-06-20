@@ -7,6 +7,7 @@ import ReviewPreview from "../../components/reviewPreview/ReviewPreview";
 import {useNavigate, useParams} from "react-router-dom";
 import {UserContext} from "../../context/UserContext";
 import ShareDialog from "./ShareDialog";
+import AlbumReviewWrite from "../../components/albumReviewModal/AlbumReviewWrite";
 
 
 const ReviewDetail = () => {
@@ -20,6 +21,7 @@ const ReviewDetail = () => {
     const [reviewInfo, setReviewInfo] = useState(null);
     const [myReviewId, setMyReviewId] = useState(null);
     const [myReview, setMyReview] = useState(false);
+    const reviewWriteModalBackground = useRef();
     const [isLoading, setIsLoading] = useState(true); // 로딩 상태 추가
     const [reviewWriteModalOpen, setReviewWriteModalOpen] = useState(false);
     const [isLiked, setIsLiked] = useState(false); // 추가: 좋아요 상태 관리
@@ -62,7 +64,7 @@ const ReviewDetail = () => {
                 });
                 if (response.data.userHasReviewed && response.data.albumReviewId !== null) {
                     setMyReviewId(response.data.albumReviewId);
-                    if(response.data.albumReviewId == reviewId){
+                    if (response.data.albumReviewId == reviewId) {
                         setMyReview(true);
                     }
                 }
@@ -84,6 +86,7 @@ const ReviewDetail = () => {
         if (myReviewId) {
             navigate(`/reviewDetail/${myReviewId}`);
         } else {
+            console.log("move to write");
             setReviewWriteModalOpen(true);
         }
     };
@@ -112,7 +115,7 @@ const ReviewDetail = () => {
             return;
         }
 
-        if (myReviewId){
+        if (myReviewId) {
             const jwt = localStorage.getItem("accessToken");
             axios.delete(`${process.env.REACT_APP_API_HOST}/album/review/${reviewId}`, {
                 headers: {
@@ -125,7 +128,7 @@ const ReviewDetail = () => {
                 console.error('Failed to fetch liked status:', error);
             });
 
-        }else {
+        } else {
             alert("삭제 중에 오류가 발생했습니다. 나중에 다시 시도해주세요.")
         }
 
@@ -226,13 +229,13 @@ const ReviewDetail = () => {
         //fetchAlbumReview();
     }, [reviewId]);
 
-    useEffect(() => { 
-        fetchWriterReview(); 
+    useEffect(() => {
+        fetchWriterReview();
     }, [writerId]);
 
-    useEffect(() => { 
+    useEffect(() => {
         fetchAlbumReview();
-        getMyReview(); 
+        getMyReview();
         console.log(myReview, "myReview");
     }, [albumId, reviewId]);
 
@@ -252,7 +255,8 @@ const ReviewDetail = () => {
                     <span
                         className={styles.writerName}>{reviewInfo.writer.username ? reviewInfo.writer.username : " "}</span>
                     <img className={styles.writerPhoto}
-                         src={reviewInfo.writer.profileImageUrl ? reviewInfo.writer.profileImageUrl : "/defaultProfile.svg"} onClick={navigateUser}/>
+                         src={reviewInfo.writer.profileImageUrl ? reviewInfo.writer.profileImageUrl : "/defaultProfile.svg"}
+                         onClick={navigateUser}/>
                 </div>
                 <div className={styles.reviewCover}>
                     <img src={reviewInfo.album.coverImageUrl ? reviewInfo.album.coverImageUrl : "/albumDefault.jpg"}
@@ -289,23 +293,23 @@ const ReviewDetail = () => {
                     <div className={styles.btnContainer}>
                         <button className={styles.btnDelete} onClick={reviewDelete}>삭제하기</button>
                     </div>
-                   
+
                 ) : (
                     <button
-                    className={styles.btnWrite}
-                    onClick={moveToMyReviewOrWrite}
+                        className={styles.btnWrite}
+                        onClick={moveToMyReviewOrWrite}
                     >
-                    {myReviewId && user ? "나의 리뷰 보기" : "이 앨범 리뷰하기"}
+                        {myReviewId && user ? "나의 리뷰 보기" : "이 앨범 리뷰하기"}
                     </button>
                 )}
             </div>
             <section className={styles.subSection}>
                 <div className={styles.sectionTitleContainer}>
                     <div className={styles.sectionTitle}>{reviewInfo.writer.username ? (
-                        reviewInfo.writer.username.length > 7 ? 
-                            `${reviewInfo.writer.username.slice(0, 7)}...` : 
+                        reviewInfo.writer.username.length > 7 ?
+                            `${reviewInfo.writer.username.slice(0, 7)}...` :
                             reviewInfo.writer.username
-                    ): " "}의
+                    ) : " "}의
                         앨범리뷰 보기 👀
                     </div>
                     <ToggleFilter menu={["최근", "인기"]} onFocusChange={fetchWriterReview}
@@ -322,9 +326,9 @@ const ReviewDetail = () => {
 
             <section className={styles.subSection}>
                 <div className={styles.sectionTitleContainer}>
-                    <div className={styles.sectionTitle}>{reviewInfo.album.name ? 
-                        (reviewInfo.album.name.length > 18 ? 
-                            `${reviewInfo.album.name.slice(0, 18)}...` : 
+                    <div className={styles.sectionTitle}>{reviewInfo.album.name ?
+                        (reviewInfo.album.name.length > 18 ?
+                            `${reviewInfo.album.name.slice(0, 18)}...` :
                             reviewInfo.album.name) : " "}의 다른 리뷰🔍
                     </div>
                     <ToggleFilter menu={["최근", "인기"]} tabRef={albumReviewToggleRef} onFocusChange={fetchAlbumReview}/>
@@ -337,6 +341,13 @@ const ReviewDetail = () => {
                         "앨범의 다른 리뷰가 없습니다. 🤔"}
                 </div>
             </section>
+            {reviewWriteModalOpen &&
+                <AlbumReviewWrite albumId={albumId}
+                                  reviewWriteModalOpen={reviewWriteModalOpen}
+                                  setReviewWriteModalOpen={setReviewWriteModalOpen}
+                                  reviewWriteModalBackground={reviewWriteModalBackground}
+                />
+            }
         </>
     );
 }
