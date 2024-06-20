@@ -90,6 +90,10 @@ const Playlist = () => {
         });
     }
 
+    const moveToUserPage = () => {
+        navigate(`/profile/${playlist?.creatorId}`);
+    }
+
     const getUserProfileImg = (userId) => {
         axios.get(`${process.env.REACT_APP_API_HOST}/user/${userId}/profile/aggregation`, {
             headers: {
@@ -138,7 +142,7 @@ const Playlist = () => {
                     <div className={styles.description}>
                         <div>{playlist?.content}</div>
                     </div>
-                    <div className={styles.authorContainer}>
+                    <div className={styles.authorContainer} onClick={moveToUserPage}>
                         <img src={creatorProfileImg} className={styles.authorProfileImg} alt="Author profile"/>
                         <div>{playlist?.creatorName}</div>
                     </div>
