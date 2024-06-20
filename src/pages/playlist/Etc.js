@@ -1,13 +1,13 @@
-import React, { useRef, useState } from 'react';
+import React, {useRef} from 'react';
 import styles from './Etc.module.css';
-import { useNavigate, useParams } from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import axios from 'axios';
 import ReviseDialog from "./ReviseList";
 
-const Etc = ({ dialogRef }) => {
+const Etc = ({dialogRef}) => {
     const reviseDialogRef = useRef();
     const navigate = useNavigate();
-    const { playlistId } = useParams();
+    const playlistId = useParams().id;
 
     const handleClose = () => {
         dialogRef.current.close();
@@ -35,7 +35,7 @@ const Etc = ({ dialogRef }) => {
 
     return (
         <dialog className={styles.modal} ref={dialogRef}>
-            <ReviseDialog dialogRef={reviseDialogRef} />
+            <ReviseDialog dialogRef={reviseDialogRef} playlistId={playlistId}/>
             <div className={styles.modalContainer}>
                 <div className={styles.modalHeader}>
                     <button className={styles.closeButton} onClick={handleClose}>×</button>

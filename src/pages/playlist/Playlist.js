@@ -4,7 +4,6 @@ import PlaylistItem from "../../components/playlistItem/PlaylistItem";
 import {useNavigate, useParams} from 'react-router-dom';
 import axios from "axios";
 import {UserContext} from "../../context/UserContext";
-import ReviseDialog from "./ReviseList";
 import EtcDialog from "./Etc";
 
 const Playlist = () => {
@@ -124,7 +123,7 @@ const Playlist = () => {
 
     return (
         <div className={styles.playlist}>
-            <EtcDialog dialogRef={etcDialogRef}/>
+            <EtcDialog dialogRef={etcDialogRef} playlistId={playlistId}/>
             <div className={styles.header}>
                 <img src="/arrow_right.svg" alt="Back" className={styles.backIcon} onClick={handleBack}/>
                 <div className={styles.detailsContainer}>
@@ -132,7 +131,8 @@ const Playlist = () => {
                         <div className={styles.playlistTitle}>{playlist?.title}</div>
                         {playlist?.creatorId === user?.id && (
                             <div>
-                                <img src="/more_grey.svg" className={styles.revise} alt="revise" onClick={openEtcDialog}/>
+                                <img src="/more_grey.svg" className={styles.revise} alt="revise"
+                                     onClick={openEtcDialog}/>
                             </div>)}
                     </div>
                     <div className={styles.description}>
@@ -164,7 +164,8 @@ const Playlist = () => {
             </div>
             <div className={styles.listContainer}>
                 {playlist?.songs?.map((song, index) => (
-                    <PlaylistItem key={index} track={song} playlistId={playlistId} creatorId={playlist?.creatorId} onRemoveTrack={removeTrackFromState}/>
+                    <PlaylistItem key={index} track={song} playlistId={playlistId} creatorId={playlist?.creatorId}
+                                  onRemoveTrack={removeTrackFromState}/>
                 ))}
             </div>
         </div>

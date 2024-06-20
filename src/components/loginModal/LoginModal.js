@@ -27,7 +27,7 @@ const LoginModal = () => {
         <div>
             <dialog id="loginModal" className={styles.loginModal} ref={modal}>
                 <div className={styles.loginHeader}>
-                    로그인하기
+                    Mutopia에 로그인
                 </div>
                 <div className={styles.loginItemContainer}>
                     <div className={styles.loginItem} onClick={moveToKakaoLogin}>
