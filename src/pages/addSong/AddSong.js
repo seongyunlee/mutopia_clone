@@ -142,8 +142,8 @@ const SearchResults = ({results, searching}) => {
     }
 
     return (
-        <div className={styles.songListContainer}>
-            <div className={styles.songList}>
+        <div className={styles.listContainer}>
+            <div className={styles.suggest}>
                 {searching ? (
                     "Loading..."
                 ) : (
